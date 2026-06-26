@@ -1,9 +1,9 @@
 #!/usr/bin/env bash
-# dbx-snowflake-fabric :: one-step skills installer
+# open-skills :: one-step skills installer
 # Databricks · Microsoft Fabric · Snowflake agent skills for Claude Code, Codex, and pi.
 #
 #   Install everything (Claude Code):
-#     curl -fsSL https://raw.githubusercontent.com/slysik/dbx-snowflake-fabric/main/install.sh | bash
+#     curl -fsSL https://raw.githubusercontent.com/slysik/open-skills/main/install.sh | bash
 #
 #   Install one platform:
 #     curl -fsSL .../install.sh | bash -s -- --platform snowflake
@@ -16,7 +16,7 @@
 #
 set -euo pipefail
 
-REPO="slysik/dbx-snowflake-fabric"
+REPO="slysik/open-skills"
 BRANCH="${DSF_BRANCH:-main}"
 RAW="https://raw.githubusercontent.com/${REPO}/${BRANCH}"
 TARBALL="https://github.com/${REPO}/archive/refs/heads/${BRANCH}.tar.gz"
@@ -72,7 +72,7 @@ need curl; need tar
 TMP="$(mktemp -d)"; trap 'rm -rf "$TMP"' EXIT
 printf "${D}downloading %s …${X}\n" "$REPO"
 curl -fsSL "$TARBALL" | tar -xz -C "$TMP" || die "download/extract failed"
-ROOT="$(find "$TMP" -maxdepth 1 -type d -name 'dbx-snowflake-fabric-*' | head -1)"
+ROOT="$(find "$TMP" -maxdepth 1 -type d -name 'open-skills-*' | head -1)"
 [ -d "$ROOT/skills" ] || die "skills/ not found in download"
 
 # ---- list mode -----------------------------------------------------------

@@ -170,7 +170,7 @@ footer .wrap{display:flex;flex-wrap:wrap;gap:16px;align-items:center;justify-con
     <a class="hideSm" href="#optimized">Optimized</a>
     <a class="hideSm" href="#harness">Harnesses</a>
     <a href="#catalog">Catalog</a>
-    <a class="btn" href="https://github.com/slysik/dbx-snowflake-fabric" target="_blank" rel="noopener">GitHub ↗</a>
+    <a class="btn" href="https://github.com/slysik/open-skills" target="_blank" rel="noopener">GitHub ↗</a>
   </div>
 </div></nav>
 
@@ -183,7 +183,7 @@ footer .wrap{display:flex;flex-wrap:wrap;gap:16px;align-items:center;justify-con
   <div class="install">
     <p class="lab">▸ Install everything in one step</p>
     <div class="cmd">
-      <code id="cmd"><span class="p">curl -fsSL</span> https://raw.githubusercontent.com/slysik/dbx-snowflake-fabric/main/install.sh <span class="p">|</span> <span class="g2">bash</span></code>
+      <code id="cmd"><span class="p">curl -fsSL</span> https://raw.githubusercontent.com/slysik/open-skills/main/install.sh <span class="p">|</span> <span class="g2">bash</span></code>
       <button class="copy" id="copy">Copy</button>
     </div>
     <p class="hint">Want a subset? <code>… | bash -s -- --platform snowflake</code> &nbsp;·&nbsp; <code>… -- databricks-genie</code> &nbsp;·&nbsp; <code>… --list</code></p>
@@ -289,7 +289,7 @@ curl -fsSL .../install.sh | <span class="g2">bash</span> -s -- --platform snowfl
 
 <footer><div class="wrap">
   <div>MIT licensed · Built for agents that build data platforms.</div>
-  <div><a href="https://github.com/slysik/dbx-snowflake-fabric" target="_blank" rel="noopener">github.com/slysik/dbx-snowflake-fabric ↗</a></div>
+  <div><a href="https://github.com/slysik/open-skills" target="_blank" rel="noopener">github.com/slysik/open-skills ↗</a></div>
 </div></footer>
 
 </div>
@@ -298,7 +298,7 @@ curl -fsSL .../install.sh | <span class="g2">bash</span> -s -- --platform snowfl
 (function(){
   var DATA = window.SKILLS || {platforms:{},meta:{}};
   var P = DATA.platforms||{}, M = DATA.meta||{};
-  var REPO="https://github.com/slysik/dbx-snowflake-fabric/tree/main/skills/";
+  var REPO="https://github.com/slysik/open-skills/tree/main/skills/";
 
   // build flat list
   var all=[];
@@ -353,7 +353,7 @@ curl -fsSL .../install.sh | <span class="g2">bash</span> -s -- --platform snowfl
   // copy
   var copyBtn=document.getElementById("copy");
   copyBtn.addEventListener("click",function(){
-    var txt="curl -fsSL https://raw.githubusercontent.com/slysik/dbx-snowflake-fabric/main/install.sh | bash";
+    var txt="curl -fsSL https://raw.githubusercontent.com/slysik/open-skills/main/install.sh | bash";
     navigator.clipboard.writeText(txt).then(function(){
       copyBtn.textContent="Copied ✓"; copyBtn.classList.add("ok");
       setTimeout(function(){copyBtn.textContent="Copy";copyBtn.classList.remove("ok");},1800);

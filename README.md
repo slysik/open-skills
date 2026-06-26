@@ -10,9 +10,9 @@ Build everything on **Databricks, Snowflake, and Microsoft Fabric** through CLIs
 [![Avg router](https://img.shields.io/badge/avg_router-71.0_lines-29B5E8)](#-how-these-skills-are-optimized)
 [![Harness](https://img.shields.io/badge/harness-Claude_Code_·_Codex_·_pi-11A37F)](#-works-with-your-agent)
 [![Architecture](https://img.shields.io/badge/architecture-CLI_+_REST,_no_MCP-555)](#-design-principles)
-[![Landing](https://img.shields.io/badge/landing-GitHub_Pages-8b5cf6)](https://slysik.github.io/dbx-snowflake-fabric/)
+[![Landing](https://img.shields.io/badge/landing-GitHub_Pages-8b5cf6)](https://slysik.github.io/open-skills/)
 
-### → [**Open the landing page**](https://slysik.github.io/dbx-snowflake-fabric/) ←
+### → [**Open the landing page**](https://slysik.github.io/open-skills/) ←
 
 </div>
 
@@ -23,23 +23,23 @@ Build everything on **Databricks, Snowflake, and Microsoft Fabric** through CLIs
 Installs **all 77 skills** into Claude Code:
 
 ```bash
-curl -fsSL https://raw.githubusercontent.com/slysik/dbx-snowflake-fabric/main/install.sh | bash
+curl -fsSL https://raw.githubusercontent.com/slysik/open-skills/main/install.sh | bash
 ```
 
 ### Pick exactly what you want
 
 ```bash
 # one platform
-curl -fsSL https://raw.githubusercontent.com/slysik/dbx-snowflake-fabric/main/install.sh | bash -s -- --platform snowflake
+curl -fsSL https://raw.githubusercontent.com/slysik/open-skills/main/install.sh | bash -s -- --platform snowflake
 
 # a single skill
-curl -fsSL https://raw.githubusercontent.com/slysik/dbx-snowflake-fabric/main/install.sh | bash -s -- databricks-genie
+curl -fsSL https://raw.githubusercontent.com/slysik/open-skills/main/install.sh | bash -s -- databricks-genie
 
 # into Codex or pi instead of Claude Code
-curl -fsSL https://raw.githubusercontent.com/slysik/dbx-snowflake-fabric/main/install.sh | bash -s -- --harness codex --platform fabric
+curl -fsSL https://raw.githubusercontent.com/slysik/open-skills/main/install.sh | bash -s -- --harness codex --platform fabric
 
 # just list everything first
-curl -fsSL https://raw.githubusercontent.com/slysik/dbx-snowflake-fabric/main/install.sh | bash -s -- --list
+curl -fsSL https://raw.githubusercontent.com/slysik/open-skills/main/install.sh | bash -s -- --list
 ```
 
 | Flag | Effect |

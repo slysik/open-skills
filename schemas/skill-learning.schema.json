@@ -1,6 +1,6 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "https://github.com/slysik/dbx-snowflake-fabric/schemas/skill-learning.schema.json",
+  "$id": "https://github.com/slysik/open-skills/schemas/skill-learning.schema.json",
   "title": "Skill learning event",
   "type": "object",
   "required": ["schema_version", "id", "timestamp_utc", "skill", "event", "severity", "summary", "status"],

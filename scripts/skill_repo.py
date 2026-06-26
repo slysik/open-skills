@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Shared helpers for dbx-snowflake-fabric skill maintenance scripts."""
+"""Shared helpers for open-skills skill maintenance scripts."""
 
 from __future__ import annotations
 

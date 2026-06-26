@@ -12,7 +12,7 @@ from datetime import datetime, timezone
 from pathlib import Path
 
 
-DEFAULT_LOG = Path.home() / ".local" / "state" / "dbx-snowflake-fabric" / "skill-learnings.jsonl"
+DEFAULT_LOG = Path.home() / ".local" / "state" / "open-skills" / "skill-learnings.jsonl"
 SCHEMA_VERSION = "1.0"
 
 SECRET_PATTERNS = [
