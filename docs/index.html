@@ -14,7 +14,8 @@
 :root{
   --bg:#070a12; --bg2:#0b101c; --panel:#0f1626; --panel2:#131c30;
   --ink:#eef2fb; --muted:#9aa6c2; --faint:#6b7796; --line:#1e2a44;
-  --dbx:#ff5a3c; --fab:#22c39a; --snow:#3fc6f5;
+  --dbx:#ff5a3c; --fab:#22c39a; --snow:#3fc6f5; --fdy:#8b6dff;
+  --fdy-grad:linear-gradient(120deg,#6d5cff 0%,#2ea0ff 60%,#ff7a45 130%);
   --grad:linear-gradient(120deg,#ff5a3c 0%,#b95cf0 45%,#3fc6f5 100%);
 }
 *{box-sizing:border-box}
@@ -69,7 +70,10 @@ h1 .g{background:var(--grad);-webkit-background-clip:text;background-clip:text;c
 .chip{display:flex;align-items:baseline;gap:8px;background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:12px 18px}
 .chip .n{font-size:24px;font-weight:800;letter-spacing:-.02em}
 .chip .l{font-size:12.5px;color:var(--muted)}
-.chip.dbx .n{color:var(--dbx)} .chip.fab .n{color:var(--fab)} .chip.snow .n{color:var(--snow)}
+.chip.dbx .n{color:var(--dbx)} .chip.fab .n{color:var(--fab)} .chip.snow .n{color:var(--snow)} .chip.fdy .n{color:var(--fdy)}
+.chip.fdy{border-color:#3a2f6e;box-shadow:0 0 0 1px rgba(139,109,255,.25),0 14px 40px -22px rgba(139,109,255,.7)}
+.newbar{display:inline-block;margin:20px auto 0;font-size:13.5px;color:var(--muted);background:linear-gradient(180deg,#15182e,#0e1020);border:1px solid #2f2860;border-radius:999px;padding:9px 18px;box-shadow:0 0 0 1px rgba(139,109,255,.18)}
+.newbar b{color:var(--ink)} .newbar code{color:#a99dff} .newbar a{color:#8b6dff;font-weight:600;white-space:nowrap}
 
 section{padding:64px 0;position:relative}
 .eyebrow{font-size:12.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--faint);margin-bottom:12px}
@@ -77,15 +81,19 @@ h2{font-size:clamp(26px,3.4vw,38px);letter-spacing:-.02em;margin:0 0 14px;font-w
 .lead{color:var(--muted);max-width:680px;font-size:16.5px}
 
 /* platforms */
-.pgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin-top:34px}
-@media(max-width:840px){.pgrid{grid-template-columns:1fr}}
+.pgrid{display:grid;grid-template-columns:repeat(2,1fr);gap:18px;margin-top:34px}
+@media(min-width:1000px){.pgrid{grid-template-columns:repeat(4,1fr)}}
+@media(max-width:560px){.pgrid{grid-template-columns:1fr}}
 .pcard{position:relative;background:linear-gradient(180deg,var(--panel),var(--bg2));border:1px solid var(--line);border-radius:18px;padding:24px;overflow:hidden;transition:.2s}
 .pcard:hover{transform:translateY(-3px);border-color:#2c3b5e}
 .pcard .bar{position:absolute;left:0;top:0;height:100%;width:4px}
-.pcard.dbx .bar{background:var(--dbx)} .pcard.fab .bar{background:var(--fab)} .pcard.snow .bar{background:var(--snow)}
+.pcard.dbx .bar{background:var(--dbx)} .pcard.fab .bar{background:var(--fab)} .pcard.snow .bar{background:var(--snow)} .pcard.fdy .bar{background:var(--fdy-grad)}
+.pcard.fdy{border-color:#372c66;background:linear-gradient(180deg,#171a32,#0c0e1c);box-shadow:0 0 0 1px rgba(139,109,255,.22),0 30px 70px -38px rgba(109,92,255,.8)}
+.pcard.fdy::after{content:"";position:absolute;inset:-1px;border-radius:18px;padding:1px;background:var(--fdy-grad);-webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);-webkit-mask-composite:xor;mask-composite:exclude;opacity:.5;pointer-events:none}
+.badge-new{font-size:10px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;color:#0a0a12;background:var(--fdy-grad);padding:3px 8px;border-radius:999px;margin-left:8px;vertical-align:middle}
 .pcard h3{margin:0 0 4px;font-size:22px;font-weight:800;display:flex;align-items:center;gap:10px}
 .pcard .cnt{font-size:13px;font-weight:700;padding:3px 9px;border-radius:999px;background:var(--panel2);color:var(--muted)}
-.pcard.dbx .cnt{color:var(--dbx)} .pcard.fab .cnt{color:var(--fab)} .pcard.snow .cnt{color:var(--snow)}
+.pcard.dbx .cnt{color:var(--dbx)} .pcard.fab .cnt{color:var(--fab)} .pcard.snow .cnt{color:var(--snow)} .pcard.fdy .cnt{color:var(--fdy)}
 .pcard .tag{color:var(--muted);font-size:13.5px;margin:10px 0 16px}
 .pcard .ex{font-size:13px;color:var(--faint);line-height:1.7}
 .pcard .ex b{color:var(--ink);font-weight:600}
@@ -127,6 +135,7 @@ h2{font-size:clamp(26px,3.4vw,38px);letter-spacing:-.02em;margin:0 0 14px;font-w
 .pill.on[data-p="databricks"]{background:var(--dbx)}
 .pill.on[data-p="fabric"]{background:var(--fab)}
 .pill.on[data-p="snowflake"]{background:var(--snow)}
+.pill.on[data-p="foundry"]{background:var(--fdy)}
 .sgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
 @media(max-width:900px){.sgrid{grid-template-columns:repeat(2,1fr)}}
 @media(max-width:600px){.sgrid{grid-template-columns:1fr}}
@@ -137,7 +146,7 @@ h2{font-size:clamp(26px,3.4vw,38px);letter-spacing:-.02em;margin:0 0 14px;font-w
 .scard .rl{flex:none;font-size:11px;font-weight:700;color:var(--faint);border:1px solid var(--line);border-radius:999px;padding:2px 8px;white-space:nowrap}
 .scard .sm{font-size:13px;color:var(--muted);line-height:1.5;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden}
 .scard .pl{display:inline-block;width:8px;height:8px;border-radius:2px;margin-right:7px;vertical-align:middle}
-.pl.databricks{background:var(--dbx)} .pl.fabric{background:var(--fab)} .pl.snowflake{background:var(--snow)}
+.pl.databricks{background:var(--dbx)} .pl.fabric{background:var(--fab)} .pl.snowflake{background:var(--snow)} .pl.foundry{background:var(--fdy)}
 .count{color:var(--faint);font-size:13px;margin-left:auto}
 
 /* variants code block */
@@ -155,7 +164,7 @@ footer .wrap{display:flex;flex-wrap:wrap;gap:16px;align-items:center;justify-con
 <div class="content">
 
 <nav><div class="wrap">
-  <a class="brand" href="#top"><span class="dot"></span> dbx · fabric · snowflake</a>
+  <a class="brand" href="#top"><span class="dot"></span> dbx · fabric · snowflake · foundry</a>
   <div class="links">
     <a class="hideSm" href="#platforms">Platforms</a>
     <a class="hideSm" href="#optimized">Optimized</a>
@@ -167,8 +176,9 @@ footer .wrap{display:flex;flex-wrap:wrap;gap:16px;align-items:center;justify-con
 
 <header class="hero" id="top"><div class="wrap">
   <div class="kicker">Applied AI · <b>CLI + REST, no MCP, no UI</b></div>
-  <h1>Build everything on<br><span class="g">Databricks, Snowflake &amp; Fabric</span></h1>
-  <p class="sub"><b id="hcount">64</b> production agent skills that turn <b>Claude Code</b>, <b>Codex</b>, or <b>pi</b> into a data-platform engineer — lakehouses, pipelines, warehouses, AI functions, dashboards, all driven through the terminal.</p>
+  <h1>Build everything on<br><span class="g">Databricks, Snowflake, Fabric &amp; Foundry</span></h1>
+  <p class="sub"><b id="hcount">77</b> production agent skills that turn <b>Claude Code</b>, <b>Codex</b>, or <b>pi</b> into a data &amp; AI platform engineer — lakehouses, pipelines, warehouses, AI functions, dashboards, and <b>Microsoft Foundry agents</b>, all driven through the terminal.</p>
+  <p class="newbar">✨ <b>New:</b> Microsoft Foundry — <b>13 agent skills</b> · build, run &amp; ground Foundry agents via <code>az&nbsp;rest</code>, every payload live-verified. <a href="#platforms">See Foundry →</a></p>
 
   <div class="install">
     <p class="lab">▸ Install everything in one step</p>
@@ -183,12 +193,13 @@ footer .wrap{display:flex;flex-wrap:wrap;gap:16px;align-items:center;justify-con
     <div class="chip dbx"><span class="n" data-p="databricks">29</span><span class="l">Databricks skills</span></div>
     <div class="chip fab"><span class="n" data-p="fabric">32</span><span class="l">Fabric skills</span></div>
     <div class="chip snow"><span class="n" data-p="snowflake">3</span><span class="l">Snowflake skills</span></div>
-    <div class="chip"><span class="n" id="avg">76</span><span class="l">avg router lines</span></div>
+    <div class="chip fdy"><span class="n" data-p="foundry">13</span><span class="l">Foundry skills</span></div>
+    <div class="chip"><span class="n" id="avg">71</span><span class="l">avg router lines</span></div>
   </div>
 </div></header>
 
 <section id="platforms"><div class="wrap">
-  <div class="eyebrow">Three platforms · one toolbox</div>
+  <div class="eyebrow">Four platforms · one toolbox</div>
   <h2>Everything you build, the agent can build</h2>
   <p class="lead">Each skill is a focused playbook the agent loads on demand. Pick one platform or take the whole set.</p>
   <div class="pgrid">
@@ -206,6 +217,11 @@ footer .wrap{display:flex;flex-wrap:wrap;gap:16px;align-items:center;justify-con
       <h3>Snowflake <span class="cnt" data-p="snowflake">3</span></h3>
       <div class="tag">Cortex AI · Snowpark · Kafka · Dynamic Tables</div>
       <div class="ex"><b>Cortex AI (Analyst, Search, LLM functions) · objects, RBAC &amp; dynamic tables · Kafka → Snowpipe Streaming</b> — the in-database agentic surface, key-pair auth ready.</div>
+    </div>
+    <div class="pcard fdy"><div class="bar"></div>
+      <h3>Microsoft Foundry <span class="cnt" data-p="foundry">13</span><span class="badge-new">New</span></h3>
+      <div class="tag">Azure AI Foundry · Agents · Models · RAG · Eval · Safety</div>
+      <div class="ex"><b>Prompt &amp; hosted agents · Responses API · tools (code · file_search · functions) · model deploy · connections · vector-store RAG · evals &amp; AI judges · content safety · tracing · fine-tuning · azd/Bicep provisioning</b> — built over <b>az&nbsp;rest</b>, no MCP. <b>Every payload live-verified</b> against a real Foundry project.</div>
     </div>
   </div>
 </div></section>
@@ -244,7 +260,7 @@ footer .wrap{display:flex;flex-wrap:wrap;gap:16px;align-items:center;justify-con
     <div class="hcard"><h4>pi</h4><span class="path">~/.agents/skills/</span><p>Loaded automatically on the next run. Nothing else to configure.</p></div>
   </div>
   <div class="codeblock"><pre><span class="c"># one platform group</span>
-curl -fsSL .../install.sh | <span class="g2">bash</span> -s -- --platform fabric
+curl -fsSL .../install.sh | <span class="g2">bash</span> -s -- --platform foundry
 
 <span class="c"># a single skill, into Codex</span>
 curl -fsSL .../install.sh | <span class="g2">bash</span> -s -- --harness codex databricks-genie
@@ -265,6 +281,7 @@ curl -fsSL .../install.sh | <span class="g2">bash</span> -s -- --platform snowfl
       <button class="pill" data-p="databricks">Databricks</button>
       <button class="pill" data-p="fabric">Fabric</button>
       <button class="pill" data-p="snowflake">Snowflake</button>
+      <button class="pill" data-p="foundry">Foundry</button>
     </div>
   </div>
   <div class="sgrid" id="grid"></div>
@@ -285,7 +302,7 @@ curl -fsSL .../install.sh | <span class="g2">bash</span> -s -- --platform snowfl
 
   // build flat list
   var all=[];
-  ["databricks","fabric","snowflake"].forEach(function(pl){
+  ["databricks","fabric","snowflake","foundry"].forEach(function(pl){
     (P[pl]||[]).forEach(function(s){ all.push({pl:pl,nm:s.dir,sm:s.summary||"",rl:s.router_lines}); });
   });
 
