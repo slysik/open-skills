@@ -1,0 +1,469 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Snowflake Kafka Connector — Cheat Sheet</title>
+
+  <!-- Syntax highlighting (graceful degradation if offline) -->
+  <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github.min.css">
+  <script defer src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+  <script defer>document.addEventListener('DOMContentLoaded', () => hljs.highlightAll());</script>
+
+  <style>
+    :root {
+      --ink:        #1a2233;
+      --muted:      #5a6a82;
+      --rule:       #e3e8ef;
+      --accent:     #1781cb;          /* snowflake-ish blue */
+      --accent-2:   #0d4a7a;
+      --code-bg:    #f7f9fc;
+      --warn-bg:    #fff5e6;
+      --warn-bd:    #f0a020;
+      --warn-fg:    #8a4b00;
+      --tip-bg:     #ecfaf3;
+      --tip-bd:     #1aa66a;
+      --tip-fg:     #0a6b41;
+      --note-bg:    #eef4ff;
+      --note-bd:    #4f7fc4;
+      --note-fg:    #1d3f78;
+    }
+
+    * { box-sizing: border-box; }
+    html, body { margin: 0; padding: 0; }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Inter",
+                   Roboto, "Helvetica Neue", Arial, sans-serif;
+      color: var(--ink);
+      background: #fff;
+      line-height: 1.45;
+      font-size: 13.5px;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    .page {
+      max-width: 880px;
+      margin: 28px auto 60px;
+      padding: 0 24px;
+    }
+
+    /* HEADER */
+    h1 {
+      font-size: 26px;
+      margin: 0 0 4px;
+      letter-spacing: -0.01em;
+      color: var(--accent-2);
+    }
+    .sub {
+      color: var(--muted);
+      font-size: 13px;
+      margin: 0 0 16px;
+    }
+    hr.rule { border: 0; border-top: 2px solid var(--accent); margin: 8px 0 18px; }
+
+    /* SECTIONS */
+    h2 {
+      font-size: 16px;
+      margin: 22px 0 8px;
+      padding-bottom: 4px;
+      border-bottom: 1px solid var(--rule);
+      color: var(--accent-2);
+      letter-spacing: 0.02em;
+      text-transform: uppercase;
+    }
+    h3 {
+      font-size: 14px;
+      margin: 14px 0 6px;
+      color: var(--ink);
+    }
+    p, li { margin: 6px 0; }
+    ul, ol { padding-left: 22px; margin: 6px 0; }
+    strong { color: var(--accent-2); }
+    em { color: var(--muted); font-style: italic; }
+
+    /* INLINE CODE + PRE */
+    code {
+      font-family: "JetBrains Mono", "SF Mono", Menlo, Consolas, monospace;
+      font-size: 12px;
+      background: var(--code-bg);
+      padding: 1px 5px;
+      border-radius: 3px;
+      border: 1px solid var(--rule);
+    }
+    pre {
+      margin: 8px 0 12px;
+      padding: 0;
+      background: var(--code-bg);
+      border: 1px solid var(--rule);
+      border-left: 3px solid var(--accent);
+      border-radius: 4px;
+      overflow: auto;
+    }
+    pre > code {
+      display: block;
+      padding: 10px 12px;
+      background: transparent;
+      border: 0;
+      font-size: 11.5px;
+      line-height: 1.5;
+      white-space: pre;
+    }
+
+    /* TABLE */
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 10px 0 14px;
+      font-size: 12.5px;
+    }
+    th {
+      text-align: left;
+      background: #f1f5fb;
+      color: var(--accent-2);
+      padding: 6px 8px;
+      border-bottom: 2px solid var(--accent);
+    }
+    td {
+      padding: 5px 8px;
+      border-bottom: 1px solid var(--rule);
+      vertical-align: top;
+    }
+    tr:nth-child(even) td { background: #fafbfd; }
+
+    /* CALLOUT BOXES */
+    .box {
+      margin: 10px 0;
+      padding: 10px 14px;
+      border-left: 4px solid;
+      border-radius: 4px;
+      font-size: 13px;
+    }
+    .box .label {
+      display: inline-block;
+      font-weight: 700;
+      font-size: 11px;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      margin-right: 6px;
+    }
+    .gotcha { background: var(--warn-bg); border-color: var(--warn-bd); color: var(--warn-fg); }
+    .gotcha .label { color: var(--warn-bd); }
+    .tip    { background: var(--tip-bg);  border-color: var(--tip-bd); color: var(--tip-fg); }
+    .tip    .label { color: var(--tip-bd); }
+    .note   { background: var(--note-bg); border-color: var(--note-bd); color: var(--note-fg); }
+    .note   .label { color: var(--note-bd); }
+
+    /* ASCII DIAGRAM */
+    .arch {
+      background: #0e1b2c;
+      color: #d6e4f5;
+      border-radius: 6px;
+      padding: 14px 18px;
+      font-family: "JetBrains Mono", "SF Mono", Menlo, Consolas, monospace;
+      font-size: 12px;
+      line-height: 1.6;
+      margin: 10px 0 14px;
+      overflow-x: auto;
+    }
+    .arch .lbl { color: #f6c177; }
+    .arch .arr { color: #5fb4ff; }
+
+    /* PITCH BOX (elevator pitch — highlighted) */
+    .pitch {
+      margin: 14px 0 6px;
+      padding: 14px 18px;
+      background: linear-gradient(135deg, #f1f8ff 0%, #e7f1fb 100%);
+      border: 1px solid #bcd4ee;
+      border-left: 4px solid var(--accent);
+      border-radius: 6px;
+      font-size: 13.5px;
+      line-height: 1.55;
+    }
+    .pitch::before {
+      content: "ELEVATOR PITCH";
+      display: block;
+      font-size: 10.5px;
+      letter-spacing: 0.12em;
+      color: var(--accent-2);
+      font-weight: 700;
+      margin-bottom: 6px;
+    }
+
+    /* TWO-COLUMN GRID for compact pairs */
+    .grid2 {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+    }
+    .card {
+      border: 1px solid var(--rule);
+      border-radius: 5px;
+      padding: 10px 12px;
+      background: #fcfdff;
+    }
+    .card h3 { margin-top: 0; color: var(--accent-2); }
+
+    /* STEP NUMBER BUBBLE */
+    .step {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 22px; height: 22px;
+      border-radius: 50%;
+      background: var(--accent);
+      color: #fff;
+      font-size: 12px;
+      font-weight: 700;
+      margin-right: 8px;
+      vertical-align: middle;
+    }
+
+    /* PRINT */
+    @media print {
+      body { font-size: 10.5px; }
+      .page { margin: 0; padding: 12mm 14mm; max-width: none; }
+      h1 { font-size: 20px; }
+      h2 { font-size: 13px; margin-top: 14px; }
+      h3 { font-size: 12px; }
+      pre > code { font-size: 9.5px; }
+      table { font-size: 10.5px; }
+      .arch  { background: #fff; color: #000; border: 1px solid #aaa; font-size: 10px; }
+      .arch .lbl, .arch .arr { color: #000; }
+      .gotcha, .tip, .note, .pitch, .card {
+        background: #fff !important;
+        color: var(--ink) !important;
+      }
+      .gotcha { border: 1px solid var(--warn-bd); }
+      .tip    { border: 1px solid var(--tip-bd); }
+      .note   { border: 1px solid var(--note-bd); }
+      a { color: inherit; text-decoration: none; }
+    }
+  </style>
+</head>
+<body>
+<div class="page">
+
+  <h1>Snowflake Kafka Connector</h1>
+  <p class="sub">One-page cheat sheet for real-time JSON ingest into Snowflake.</p>
+  <hr class="rule">
+
+  <!-- WHAT IT IS -->
+  <h2>What it is</h2>
+  <p>
+    A <strong>Kafka Connect sink plugin</strong> (a JAR) maintained by Snowflake. Drop it
+    into a Kafka Connect worker, give it a config, and it streams Kafka topic
+    messages into Snowflake tables &mdash; <em>no app code in between</em>.
+    Two paths exist: classic Snowpipe (file-based, slow) and Snowpipe Streaming
+    (row-based, sub-second). <strong>v4 always uses Streaming</strong> and ships
+    with schema evolution on by default.
+  </p>
+
+  <!-- ARCHITECTURE -->
+  <h2>Architecture</h2>
+  <div class="arch">
+<span class="lbl">Producer apps</span>  <span class="arr">─▶</span>  <span class="lbl">Kafka topic</span>  <span class="arr">─▶</span>  <span class="lbl">Kafka Connect</span> <span class="arr">─▶</span>  <span class="lbl">Snowflake table</span>
+  (your code)         (broker)         (runs the JAR)         (queryable)
+
+<span class="lbl">v3 classic Snowpipe :</span>  buffer ─▶ gz file ─▶ STAGE ─▶ PIPE ─▶ TABLE        (~30s lag)
+<span class="lbl">v3 / v4 Streaming   :</span>  Streaming SDK ─▶ CHANNEL ─▶ TABLE                  (sub-second)
+  </div>
+
+  <!-- v3 vs v4 -->
+  <h2>v3 vs v4 &mdash; know cold</h2>
+  <table>
+    <thead>
+      <tr><th></th><th>v3 classic</th><th>v3 Streaming</th><th>v4 (current)</th></tr>
+    </thead>
+    <tbody>
+      <tr><td><code>connector.class</code></td><td>SnowflakeSinkConnector</td><td>SnowflakeSinkConnector</td><td><strong>SnowflakeStreamingSinkConnector</strong></td></tr>
+      <tr><td>Latency</td><td>tens of seconds</td><td>sub-second</td><td>sub-second</td></tr>
+      <tr><td>Stages files?</td><td>yes (gz JSON)</td><td>no</td><td>no</td></tr>
+      <tr><td>Schematization</td><td>no</td><td>yes (opt-in)</td><td><strong>yes (default)</strong></td></tr>
+      <tr><td>Role grants</td><td>hierarchical OK</td><td>hierarchical OK</td><td><strong>must be direct</strong></td></tr>
+      <tr><td>JVM heap</td><td>~partition count</td><td>same</td><td><strong>~50% (Rust off-heap)</strong></td></tr>
+      <tr><td>OAuth</td><td>no</td><td>no</td><td>yes (Streaming)</td></tr>
+    </tbody>
+  </table>
+
+  <!-- TABLE LAYOUT -->
+  <h2>Table layout</h2>
+  <div class="grid2">
+    <div class="card">
+      <h3>Without schematization (classic)</h3>
+      <pre><code class="language-sql">RECORD_METADATA  VARIANT  -- envelope
+RECORD_CONTENT   VARIANT  -- raw payload</code></pre>
+      <p style="margin: 4px 0 0; font-size: 12px; color: var(--muted);">
+        Query with <code>:</code> accessors:
+        <code>record_content:sensorId::int</code>
+      </p>
+    </div>
+    <div class="card">
+      <h3>With schematization (v4 default)</h3>
+      <pre><code class="language-sql">RECORD_METADATA  VARIANT
+SENSORID         NUMBER(38,0)
+PSI              NUMBER(38,0)
+TS               TIMESTAMP_NTZ
+LOCATION         VARIANT  -- nested obj</code></pre>
+      <p style="margin: 4px 0 0; font-size: 12px; color: var(--muted);">
+        Top-level keys ➝ typed columns. Nested ➝ VARIANT.
+        Top-level <em>arrays</em> are not supported.
+      </p>
+    </div>
+  </div>
+
+  <!-- 3 STEPS -->
+  <h2>End-to-end in 3 steps</h2>
+
+  <h3><span class="step">1</span>Provision Snowflake</h3>
+  <pre><code class="language-sql">CREATE DATABASE  kafka_db;
+CREATE SCHEMA    kafka_db.kafka_schema;
+CREATE WAREHOUSE kafka_wh WITH WAREHOUSE_SIZE=XSMALL AUTO_SUSPEND=60;
+
+CREATE USER kafka_connector_user;
+ALTER  USER kafka_connector_user SET RSA_PUBLIC_KEY='&lt;body, no PEM headers&gt;';
+
+CREATE ROLE kafka_connector_role;
+GRANT USAGE        ON DATABASE  kafka_db              TO ROLE kafka_connector_role;
+GRANT USAGE        ON SCHEMA    kafka_db.kafka_schema TO ROLE kafka_connector_role;
+GRANT CREATE TABLE ON SCHEMA    kafka_db.kafka_schema TO ROLE kafka_connector_role;
+GRANT USAGE        ON WAREHOUSE kafka_wh              TO ROLE kafka_connector_role;
+GRANT ROLE kafka_connector_role TO USER kafka_connector_user;</code></pre>
+
+  <h3><span class="step">2</span>Generate key-pair, post connector config</h3>
+  <pre><code class="language-bash"># Encrypted PKCS#8 private key + matching public key
+openssl genrsa 2048 \
+  | openssl pkcs8 -topk8 -v2 aes256 -inform PEM -out rsa_key.p8 -passout pass:&lt;PP&gt;
+openssl rsa -in rsa_key.p8 -pubout -out rsa_key.pub -passin pass:&lt;PP&gt;
+
+# Strip PEM headers + newlines for the connector config
+grep -v "BEGIN\|END" rsa_key.p8 | tr -d '\n' &gt; rsa_key.connector
+
+curl -s -X POST -H 'Content-Type: application/json' \
+     --data @connector-v4.json  http://localhost:8083/connectors</code></pre>
+
+  <h3><span class="step">3</span>Produce, then verify</h3>
+  <pre><code class="language-bash">echo '{"sensorId":1,"psi":451,"ts":"2026-05-03T19:23:51Z","location":{"site":"AUS-1"}}' \
+  | docker exec -i kafka kafka-console-producer --broker-list kafka:9092 --topic sensors
+
+snowq "DESCRIBE TABLE kafka_db.kafka_schema.sensors"
+snowq "SELECT sensorid, psi, ts, location FROM kafka_db.kafka_schema.sensors LIMIT 5"</code></pre>
+
+  <!-- CONNECTOR JSON -->
+  <h2>Minimum v4 connector JSON</h2>
+  <pre><code class="language-json">{
+  "name": "sensors-snowflake-v4",
+  "config": {
+    "connector.class": "com.snowflake.kafka.connector.SnowflakeStreamingSinkConnector",
+    "tasks.max": "1",
+    "topics": "sensors",
+    "snowflake.url.name": "https://&lt;org&gt;-&lt;account&gt;.snowflakecomputing.com",
+    "snowflake.user.name": "KAFKA_CONNECTOR_USER",
+    "snowflake.role.name": "KAFKA_CONNECTOR_ROLE",
+    "snowflake.database.name": "KAFKA_DB",
+    "snowflake.schema.name": "KAFKA_SCHEMA",
+    "snowflake.private.key": "&lt;base64 PKCS#8, no headers&gt;",
+    "snowflake.private.key.passphrase": "&lt;passphrase&gt;",
+    "key.converter": "org.apache.kafka.connect.storage.StringConverter",
+    "value.converter": "org.apache.kafka.connect.json.JsonConverter",
+    "value.converter.schemas.enable": "false",
+    "snowflake.enable.schematization": "true",
+    "snowflake.validation": "server_side"
+  }
+}</code></pre>
+
+  <!-- GOTCHAS -->
+  <h2>Top 5 gotchas (interview bait)</h2>
+
+  <div class="box gotcha">
+    <span class="label">#1 Private key format</span>
+    Strip PEM headers and newlines &mdash; the connector wants a single base64 string.
+    <code>grep -v "BEGIN\|END" rsa_key.p8 | tr -d '\n'</code>
+  </div>
+
+  <div class="box gotcha">
+    <span class="label">#2 v4 grants are direct only</span>
+    <code>GRANT INSERT ON TABLE foo TO ROLE x</code> directly. Role hierarchy
+    is <em>ignored</em> by v4 &mdash; this is the #1 silent permissions failure.
+  </div>
+
+  <div class="box gotcha">
+    <span class="label">#3 Schematization on a pre-existing table</span>
+    Needs OWNERSHIP on the table + <code>ENABLE_SCHEMA_EVOLUTION=TRUE</code>,
+    otherwise the connector silently drops payloads (only RECORD_METADATA is
+    written). Easier path: drop the table and let the connector auto-create it.
+  </div>
+
+  <div class="box gotcha">
+    <span class="label">#4 errors.tolerance=all + no DLQ = silent data loss</span>
+    Server-side validation failures land in <code>&lt;table&gt;$errors</code>;
+    client-side ones go to the DLQ topic <em>only if you set</em>
+    <code>errors.deadletterqueue.topic.name</code>.
+  </div>
+
+  <div class="box gotcha">
+    <span class="label">#5 v4 JVM heap should be ~50%</span>
+    The Rust Streaming SDK runs <strong>off-heap</strong>. Standard Kafka
+    Connect tuning advice (give JVM 80% of RAM) starves it. Set
+    <code>KAFKA_HEAP_OPTS="-Xmx4G -Xms4G"</code> on an 8 GB worker.
+  </div>
+
+  <!-- VERIFY QUERIES -->
+  <h2>Verify queries</h2>
+  <pre><code class="language-sql">-- Row count
+SELECT COUNT(*) FROM kafka_db.kafka_schema.sensors;
+
+-- Schema after schematization
+DESCRIBE TABLE kafka_db.kafka_schema.sensors;
+
+-- End-to-end Streaming latency
+SELECT DATEDIFF('ms',
+         TO_TIMESTAMP(record_metadata:CreateTime::bigint/1000),
+         TO_TIMESTAMP(record_metadata:SnowflakeConnectorPushTime::bigint/1000)) AS lag_ms
+FROM kafka_db.kafka_schema.sensors ORDER BY lag_ms DESC LIMIT 5;
+
+-- Server-side rejected rows
+SELECT * FROM kafka_db.kafka_schema.sensors$errors LIMIT 10;</code></pre>
+
+  <!-- OBJECTS + EXACTLY-ONCE -->
+  <h2>Snowflake objects the connector creates</h2>
+  <div class="grid2">
+    <div class="card">
+      <h3>v3 classic</h3>
+      <ul>
+        <li>1 internal stage / topic<br><code>SNOWFLAKE_KAFKA_CONNECTOR_&lt;name&gt;_STAGE_&lt;table&gt;</code></li>
+        <li>N pipes / topic (one per partition)<br><code>..._PIPE_&lt;table&gt;_&lt;partition&gt;</code></li>
+        <li>1 target table</li>
+      </ul>
+    </div>
+    <div class="card">
+      <h3>v4 / Snowpipe Streaming</h3>
+      <ul>
+        <li>1 pipe / table<br><code>&lt;TABLE&gt;-STREAMING</code></li>
+        <li>N channels (one per partition)<br><code>&lt;CONNECTOR&gt;_&lt;id&gt;_&lt;topic&gt;_&lt;partition&gt;</code></li>
+        <li>No stages, no files</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="box note">
+    <span class="label">Exactly-once</span>
+    Each Snowpipe Streaming channel persists its <code>offsetTokenUpperBound</code>
+    server-side. Restart the connector and it resumes from the persisted offset
+    &mdash; already-ingested records aren't duplicated.
+  </div>
+
+  <!-- ELEVATOR PITCH -->
+  <div class="pitch">
+    "It's a Kafka Connect <strong>sink plugin</strong> from Snowflake. v4 streams
+    Kafka partitions directly into Snowflake tables via Snowpipe Streaming
+    <em>channels</em> &mdash; sub-second latency, schema evolution by default,
+    exactly-once via persisted channel offsets. Auth is <strong>RSA key-pair</strong>,
+    the connector role needs <strong>direct grants</strong>, and the JVM heap
+    should be modest because the Rust SDK runs <strong>off-heap</strong>."
+  </div>
+
+</div>
+</body>
+</html>

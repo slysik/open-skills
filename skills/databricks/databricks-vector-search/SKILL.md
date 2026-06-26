@@ -1,0 +1,138 @@
+---
+name: databricks-vector-search
+description: "Patterns for Databricks Vector Search: create endpoints and indexes, query with filters, manage embeddings. Use when building RAG applications, semantic search, or similarity matching. Covers both storage-optimized and standard endpoints."
+license: MIT
+metadata:
+  author: slysik
+  version: "0.2.0"
+  updated: "2026-06-23"
+---
+# Databricks Vector Search
+
+Patterns for creating, managing, and querying vector search indexes for RAG and semantic search applications.
+
+## When to Use
+
+Use this skill when:
+- Building RAG (Retrieval-Augmented Generation) applications
+- Implementing semantic search or similarity matching
+- Creating vector indexes from Delta tables
+- Choosing between storage-optimized and standard endpoints
+- Querying vector indexes with filters
+
+## Overview
+
+Databricks Vector Search provides managed vector similarity search with automatic embedding generation and Delta Lake integration.
+
+| Component | Description |
+|-----------|-------------|
+| **Endpoint** | Compute resource hosting indexes (Standard or Storage-Optimized) |
+| **Index** | Vector data structure for similarity search |
+| **Delta Sync** | Auto-syncs with source Delta table |
+| **Direct Access** | Manual CRUD operations on vectors |
+
+## Endpoint Types
+
+| Type | Latency | Capacity | Cost | Best For |
+|------|---------|----------|------|----------|
+| **Standard** | 20-50ms | 320M vectors (768 dim) | Higher | Real-time, low-latency |
+| **Storage-Optimized** | 300-500ms | 1B+ vectors (768 dim) | 7x lower | Large-scale, cost-sensitive |
+
+## Index Types
+
+| Type | Embeddings | Sync | Use Case |
+|------|------------|------|----------|
+| **Delta Sync (managed)** | Databricks computes | Auto from Delta | Easiest setup |
+| **Delta Sync (self-managed)** | You provide | Auto from Delta | Custom embeddings |
+| **Direct Access** | You provide | Manual CRUD | Real-time updates |
+
+## Quick Start
+
+### Create Endpoint
+
+```python
+from databricks.sdk import WorkspaceClient
+
+w = WorkspaceClient()
+
+# Create a standard endpoint
+endpoint = w.vector_search_endpoints.create_endpoint(
+    name="my-vs-endpoint",
+    endpoint_type="STANDARD"  # or "STORAGE_OPTIMIZED"
+)
+# Note: Endpoint creation is asynchronous; check status with get_endpoint()
+```
+
+### Create Delta Sync Index (Managed Embeddings)
+
+```python
+# Source table must have: primary key column + text column
+index = w.vector_search_indexes.create_index(
+    name="catalog.schema.my_index",
+    endpoint_name="my-vs-endpoint",
+    primary_key="id",
+    index_type="DELTA_SYNC",
+    delta_sync_index_spec={
+        "source_table": "catalog.schema.documents",
+        "embedding_source_columns": [
+            {
+                "name": "content",  # Text column to embed
+                "embedding_model_endpoint_name": "databricks-gte-large-en"
+            }
+        ],
+        "pipeline_type": "TRIGGERED"  # or "CONTINUOUS"
+    }
+)
+```
+
+### Query Index
+
+```python
+results = w.vector_search_indexes.query_index(
+    index_name="catalog.schema.my_index",
+    columns=["id", "content", "metadata"],
+    query_text="What is machine learning?",
+    num_results=5
+)
+
+for doc in results.result.data_array:
+    score = doc[-1]  # Similarity score is last column
+    print(f"Score: {score}, Content: {doc[1][:100]}...")
+```
+
+
+## When to load which sub-doc
+
+| Sub-doc | Use when |
+|---|---|
+| [references/patterns.md](references/patterns.md) | Storage-optimized endpoints, self-managed embeddings, Direct Access CRUD, query-by-vector, hybrid search, filtering (dict vs SQL-like), trigger sync, scan, embedding models. |
+| [references/mcp-and-cli.md](references/mcp-and-cli.md) | CLI quick-reference + optional MCP tools (`manage_vs_endpoint/index/data`, `query_vs_index`). MCP is convenience-only per CLI-first policy. |
+
+## Common Issues
+
+| Issue | Solution |
+|-------|----------|
+| **Index sync slow** | Use Storage-Optimized endpoints (20x faster indexing) |
+| **Query latency high** | Use Standard endpoint for <100ms latency |
+| **filters_json not working** | Storage-Optimized uses SQL-like string filters via `databricks-vectorsearch` package's `filters` parameter |
+| **Embedding dimension mismatch** | Ensure query and index dimensions match |
+| **Index not updating** | Check pipeline_type; use sync_index() for TRIGGERED |
+| **Out of capacity** | Upgrade to Storage-Optimized (1B+ vectors) |
+| **`query_vector` truncated by MCP tool** | MCP tool calls serialize arrays as JSON and can truncate large vectors (e.g. 1024-dim). Use `query_text` instead (for managed embedding indexes), or use the Databricks SDK/CLI to pass raw vectors |
+
+## Notes
+
+- **Storage-Optimized is newer** — better for most use cases unless you need <100ms latency
+- **Delta Sync recommended** — easier than Direct Access for most scenarios
+- **Hybrid search** — available for both Delta Sync and Direct Access indexes
+- **`columns_to_sync` matters** — only synced columns are available in query results; include all columns you need
+- **Filter syntax differs by endpoint** — Standard uses dict-format filters, Storage-Optimized uses SQL-like string filters. Use the `databricks-vectorsearch` package's `filters` parameter which accepts both formats
+- **Management vs runtime** — MCP tools above handle lifecycle management; for agent tool-calling at runtime, use `VectorSearchRetrieverTool` or the Databricks managed Vector Search MCP server
+
+## Related Skills
+
+- **[databricks-model-serving](../databricks-model-serving/SKILL.md)** - Deploy agents that use VectorSearchRetrieverTool
+- **[databricks-agent-bricks](../databricks-agent-bricks/SKILL.md)** - Knowledge Assistants use RAG over indexed documents
+- **[databricks-unstructured-pdf-generation](../databricks-unstructured-pdf-generation/SKILL.md)** - Generate documents to index in Vector Search
+- **[databricks-unity-catalog](../databricks-unity-catalog/SKILL.md)** - Manage the catalogs and tables that back Delta Sync indexes
+- **[databricks-spark-declarative-pipelines](../databricks-spark-declarative-pipelines/SKILL.md)** - Build Delta tables used as Vector Search sources

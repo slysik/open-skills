@@ -1,0 +1,348 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Databricks · Fabric · Snowflake — Agent Skills</title>
+<meta name="description" content="64 production agent skills that turn Claude Code, Codex, or pi into a data-platform engineer. Build everything on Databricks, Snowflake, and Microsoft Fabric via CLI + REST. No MCP. No UI." />
+<meta property="og:title" content="Databricks · Fabric · Snowflake — Agent Skills" />
+<meta property="og:description" content="64 skills. One-step install. CLI + REST, no MCP, no UI. Works with Claude Code, Codex, and pi." />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#070a12; --bg2:#0b101c; --panel:#0f1626; --panel2:#131c30;
+  --ink:#eef2fb; --muted:#9aa6c2; --faint:#6b7796; --line:#1e2a44;
+  --dbx:#ff5a3c; --fab:#22c39a; --snow:#3fc6f5;
+  --grad:linear-gradient(120deg,#ff5a3c 0%,#b95cf0 45%,#3fc6f5 100%);
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,sans-serif;-webkit-font-smoothing:antialiased;line-height:1.55;overflow-x:hidden}
+a{color:inherit;text-decoration:none}
+code,.mono{font-family:"JetBrains Mono",ui-monospace,Menlo,monospace}
+.wrap{max-width:1120px;margin:0 auto;padding:0 24px}
+.glow{position:fixed;inset:0;z-index:0;pointer-events:none;
+  background:
+   radial-gradient(620px 420px at 14% -8%,rgba(255,90,60,.20),transparent 60%),
+   radial-gradient(680px 480px at 88% 4%,rgba(63,198,245,.16),transparent 60%),
+   radial-gradient(720px 520px at 50% 18%,rgba(185,92,240,.12),transparent 65%);}
+.content{position:relative;z-index:1}
+
+/* nav */
+nav{position:sticky;top:0;z-index:50;backdrop-filter:blur(12px);background:rgba(7,10,18,.72);border-bottom:1px solid var(--line)}
+nav .wrap{display:flex;align-items:center;gap:22px;height:62px}
+.brand{display:flex;align-items:center;gap:10px;font-weight:800;letter-spacing:-.2px}
+.brand .dot{width:11px;height:11px;border-radius:3px;background:var(--grad);box-shadow:0 0 18px rgba(185,92,240,.6)}
+nav .links{margin-left:auto;display:flex;gap:24px;align-items:center;font-size:14px;color:var(--muted)}
+nav .links a:hover{color:var(--ink)}
+.btn{display:inline-flex;align-items:center;gap:8px;border-radius:10px;padding:9px 16px;font-weight:600;font-size:14px;border:1px solid var(--line);background:var(--panel)}
+.btn.primary{background:var(--grad);border:0;color:#0a0a12}
+.btn:hover{transform:translateY(-1px)}
+@media(max-width:760px){nav .links a.hideSm{display:none}}
+
+/* hero */
+.hero{padding:78px 0 30px;text-align:center}
+.kicker{display:inline-flex;align-items:center;gap:8px;font-size:12.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);border:1px solid var(--line);background:var(--panel);padding:7px 14px;border-radius:999px;margin-bottom:26px}
+.kicker b{background:var(--grad);-webkit-background-clip:text;background-clip:text;color:transparent;font-weight:800}
+h1{font-size:clamp(38px,6vw,68px);line-height:1.03;letter-spacing:-.03em;margin:0 0 18px;font-weight:900}
+h1 .g{background:var(--grad);-webkit-background-clip:text;background-clip:text;color:transparent}
+.sub{max-width:720px;margin:0 auto;color:var(--muted);font-size:clamp(16px,2vw,19px)}
+.sub b{color:var(--ink)}
+
+/* install box */
+.install{max-width:760px;margin:34px auto 8px;text-align:left}
+.install .lab{font-size:12.5px;color:var(--faint);margin:0 0 8px;letter-spacing:.04em}
+.cmd{display:flex;align-items:center;gap:14px;background:#05070d;border:1px solid var(--line);border-radius:14px;padding:16px 18px;box-shadow:0 24px 60px -30px rgba(0,0,0,.9)}
+.cmd code{font-size:14px;color:#dfe7fb;overflow-x:auto;white-space:nowrap;flex:1}
+.cmd code .p{color:#5f6b8a}
+.cmd code .g2{color:var(--fab)}
+.copy{flex:none;border:1px solid var(--line);background:var(--panel2);color:var(--ink);border-radius:9px;padding:8px 14px;font-size:13px;font-weight:600;cursor:pointer}
+.copy:hover{border-color:#3a486e}
+.copy.ok{color:var(--fab);border-color:var(--fab)}
+.hint{text-align:center;color:var(--faint);font-size:13px;margin-top:14px}
+.hint code{color:var(--muted)}
+
+/* stat chips */
+.chips{display:flex;flex-wrap:wrap;gap:12px;justify-content:center;margin:30px 0 6px}
+.chip{display:flex;align-items:baseline;gap:8px;background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:12px 18px}
+.chip .n{font-size:24px;font-weight:800;letter-spacing:-.02em}
+.chip .l{font-size:12.5px;color:var(--muted)}
+.chip.dbx .n{color:var(--dbx)} .chip.fab .n{color:var(--fab)} .chip.snow .n{color:var(--snow)}
+
+section{padding:64px 0;position:relative}
+.eyebrow{font-size:12.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--faint);margin-bottom:12px}
+h2{font-size:clamp(26px,3.4vw,38px);letter-spacing:-.02em;margin:0 0 14px;font-weight:800}
+.lead{color:var(--muted);max-width:680px;font-size:16.5px}
+
+/* platforms */
+.pgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin-top:34px}
+@media(max-width:840px){.pgrid{grid-template-columns:1fr}}
+.pcard{position:relative;background:linear-gradient(180deg,var(--panel),var(--bg2));border:1px solid var(--line);border-radius:18px;padding:24px;overflow:hidden;transition:.2s}
+.pcard:hover{transform:translateY(-3px);border-color:#2c3b5e}
+.pcard .bar{position:absolute;left:0;top:0;height:100%;width:4px}
+.pcard.dbx .bar{background:var(--dbx)} .pcard.fab .bar{background:var(--fab)} .pcard.snow .bar{background:var(--snow)}
+.pcard h3{margin:0 0 4px;font-size:22px;font-weight:800;display:flex;align-items:center;gap:10px}
+.pcard .cnt{font-size:13px;font-weight:700;padding:3px 9px;border-radius:999px;background:var(--panel2);color:var(--muted)}
+.pcard.dbx .cnt{color:var(--dbx)} .pcard.fab .cnt{color:var(--fab)} .pcard.snow .cnt{color:var(--snow)}
+.pcard .tag{color:var(--muted);font-size:13.5px;margin:10px 0 16px}
+.pcard .ex{font-size:13px;color:var(--faint);line-height:1.7}
+.pcard .ex b{color:var(--ink);font-weight:600}
+
+/* feature cards */
+.fgrid{display:grid;grid-template-columns:repeat(2,1fr);gap:18px;margin-top:34px}
+@media(max-width:760px){.fgrid{grid-template-columns:1fr}}
+.fcard{background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:22px}
+.fcard .ic{width:38px;height:38px;border-radius:10px;display:grid;place-items:center;background:var(--panel2);margin-bottom:14px;font-size:18px}
+.fcard h4{margin:0 0 7px;font-size:16.5px;font-weight:700}
+.fcard p{margin:0;color:var(--muted);font-size:14px}
+.fcard .k{color:var(--snow);font-weight:600}
+
+/* big stat band */
+.band{margin-top:40px;display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--line);border:1px solid var(--line);border-radius:18px;overflow:hidden}
+@media(max-width:760px){.band{grid-template-columns:repeat(2,1fr)}}
+.band .b{background:var(--panel);padding:26px 18px;text-align:center}
+.band .b .n{font-size:34px;font-weight:900;letter-spacing:-.02em;background:var(--grad);-webkit-background-clip:text;background-clip:text;color:transparent}
+.band .b .l{font-size:13px;color:var(--muted);margin-top:6px}
+
+/* harness */
+.hgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin-top:32px}
+@media(max-width:840px){.hgrid{grid-template-columns:1fr}}
+.hcard{background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:22px}
+.hcard h4{margin:0 0 6px;font-size:18px;font-weight:800}
+.hcard .path{font-size:12.5px;color:var(--snow);background:#05070d;border:1px solid var(--line);border-radius:8px;padding:7px 10px;margin:12px 0;display:inline-block}
+.hcard p{margin:0;color:var(--muted);font-size:13.5px}
+
+/* explorer */
+.tools{display:flex;flex-wrap:wrap;gap:12px;align-items:center;margin:28px 0 22px}
+.search{flex:1;min-width:240px;display:flex;align-items:center;gap:10px;background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:11px 15px}
+.search input{flex:1;background:none;border:0;outline:0;color:var(--ink);font-size:14.5px;font-family:inherit}
+.search input::placeholder{color:var(--faint)}
+.filters{display:flex;gap:8px;flex-wrap:wrap}
+.pill{border:1px solid var(--line);background:var(--panel);color:var(--muted);border-radius:999px;padding:9px 15px;font-size:13px;font-weight:600;cursor:pointer;transition:.15s}
+.pill:hover{color:var(--ink)}
+.pill.on{color:#0a0a12;border-color:transparent}
+.pill.on[data-p="all"]{background:var(--ink);color:#0a0a12}
+.pill.on[data-p="databricks"]{background:var(--dbx)}
+.pill.on[data-p="fabric"]{background:var(--fab)}
+.pill.on[data-p="snowflake"]{background:var(--snow)}
+.sgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+@media(max-width:900px){.sgrid{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:600px){.sgrid{grid-template-columns:1fr}}
+.scard{display:block;background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:16px 17px;transition:.15s}
+.scard:hover{transform:translateY(-2px);border-color:#33456b;background:var(--panel2)}
+.scard .top{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:8px}
+.scard .nm{font-family:"JetBrains Mono",monospace;font-size:13px;font-weight:600;color:var(--ink);word-break:break-word}
+.scard .rl{flex:none;font-size:11px;font-weight:700;color:var(--faint);border:1px solid var(--line);border-radius:999px;padding:2px 8px;white-space:nowrap}
+.scard .sm{font-size:13px;color:var(--muted);line-height:1.5;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden}
+.scard .pl{display:inline-block;width:8px;height:8px;border-radius:2px;margin-right:7px;vertical-align:middle}
+.pl.databricks{background:var(--dbx)} .pl.fabric{background:var(--fab)} .pl.snowflake{background:var(--snow)}
+.count{color:var(--faint);font-size:13px;margin-left:auto}
+
+/* variants code block */
+.codeblock{background:#05070d;border:1px solid var(--line);border-radius:14px;padding:20px 22px;overflow-x:auto;margin-top:24px}
+.codeblock pre{margin:0;font-family:"JetBrains Mono",monospace;font-size:13px;line-height:1.85;color:#dfe7fb}
+.codeblock .c{color:#5f6b8a} .codeblock .g2{color:var(--fab)}
+
+footer{border-top:1px solid var(--line);padding:40px 0;color:var(--faint);font-size:13.5px}
+footer .wrap{display:flex;flex-wrap:wrap;gap:16px;align-items:center;justify-content:space-between}
+.divider{height:1px;background:var(--line);margin:0;border:0}
+</style>
+</head>
+<body>
+<div class="glow"></div>
+<div class="content">
+
+<nav><div class="wrap">
+  <a class="brand" href="#top"><span class="dot"></span> dbx · fabric · snowflake</a>
+  <div class="links">
+    <a class="hideSm" href="#platforms">Platforms</a>
+    <a class="hideSm" href="#optimized">Optimized</a>
+    <a class="hideSm" href="#harness">Harnesses</a>
+    <a href="#catalog">Catalog</a>
+    <a class="btn" href="https://github.com/slysik/dbx-snowflake-fabric" target="_blank" rel="noopener">GitHub ↗</a>
+  </div>
+</div></nav>
+
+<header class="hero" id="top"><div class="wrap">
+  <div class="kicker">Applied AI · <b>CLI + REST, no MCP, no UI</b></div>
+  <h1>Build everything on<br><span class="g">Databricks, Snowflake &amp; Fabric</span></h1>
+  <p class="sub"><b id="hcount">64</b> production agent skills that turn <b>Claude Code</b>, <b>Codex</b>, or <b>pi</b> into a data-platform engineer — lakehouses, pipelines, warehouses, AI functions, dashboards, all driven through the terminal.</p>
+
+  <div class="install">
+    <p class="lab">▸ Install everything in one step</p>
+    <div class="cmd">
+      <code id="cmd"><span class="p">curl -fsSL</span> https://raw.githubusercontent.com/slysik/dbx-snowflake-fabric/main/install.sh <span class="p">|</span> <span class="g2">bash</span></code>
+      <button class="copy" id="copy">Copy</button>
+    </div>
+    <p class="hint">Want a subset? <code>… | bash -s -- --platform snowflake</code> &nbsp;·&nbsp; <code>… -- databricks-genie</code> &nbsp;·&nbsp; <code>… --list</code></p>
+  </div>
+
+  <div class="chips">
+    <div class="chip dbx"><span class="n" data-p="databricks">29</span><span class="l">Databricks skills</span></div>
+    <div class="chip fab"><span class="n" data-p="fabric">32</span><span class="l">Fabric skills</span></div>
+    <div class="chip snow"><span class="n" data-p="snowflake">3</span><span class="l">Snowflake skills</span></div>
+    <div class="chip"><span class="n" id="avg">76</span><span class="l">avg router lines</span></div>
+  </div>
+</div></header>
+
+<section id="platforms"><div class="wrap">
+  <div class="eyebrow">Three platforms · one toolbox</div>
+  <h2>Everything you build, the agent can build</h2>
+  <p class="lead">Each skill is a focused playbook the agent loads on demand. Pick one platform or take the whole set.</p>
+  <div class="pgrid">
+    <div class="pcard dbx"><div class="bar"></div>
+      <h3>Databricks <span class="cnt" data-p="databricks">29</span></h3>
+      <div class="tag">Lakehouse · Unity Catalog · Spark · MLflow · Genie</div>
+      <div class="ex"><b>Genie spaces · DBSQL · Lakeflow pipelines · Vector Search · Model Serving · Agent Bricks · Lakebase · Iceberg · Unity Catalog governance · Asset Bundles</b> — from raw ingest to served AI agents.</div>
+    </div>
+    <div class="pcard fab"><div class="bar"></div>
+      <h3>Microsoft Fabric <span class="cnt" data-p="fabric">32</span></h3>
+      <div class="tag">OneLake · Eventhouse · Power BI · Dataflows · Warehouse</div>
+      <div class="ex"><b>Eventstream &amp; Eventhouse (KQL) · Dataflows Gen2 · Spark · SQL Warehouse · Power BI report &amp; semantic models · Activator alerts · FabricIQ ontology · medallion architecture</b> — authored over Fabric REST + az CLI.</div>
+    </div>
+    <div class="pcard snow"><div class="bar"></div>
+      <h3>Snowflake <span class="cnt" data-p="snowflake">3</span></h3>
+      <div class="tag">Cortex AI · Snowpark · Kafka · Dynamic Tables</div>
+      <div class="ex"><b>Cortex AI (Analyst, Search, LLM functions) · objects, RBAC &amp; dynamic tables · Kafka → Snowpipe Streaming</b> — the in-database agentic surface, key-pair auth ready.</div>
+    </div>
+  </div>
+</div></section>
+
+<hr class="divider"/>
+
+<section id="optimized"><div class="wrap">
+  <div class="eyebrow">Engineered, not assembled</div>
+  <h2>How these skills are optimized</h2>
+  <p class="lead">Every skill was rewritten to a measured standard — small context footprint, deterministic auth, and zero runtime dependencies.</p>
+  <div class="fgrid">
+    <div class="fcard"><div class="ic">🪶</div><h4>Thin-router architecture</h4><p><code class="k">SKILL.md</code> is a router, not a manual — a concept map plus a "load which sub-doc" table. Average <b class="k">76 lines</b>, hard cap 150. Depth lives in <code>references/</code>.</p></div>
+    <div class="fcard"><div class="ic">🎯</div><h4>Progressive disclosure</h4><p>Sub-docs load into context <b>only when the task needs them</b>. A typical invocation reads tens of lines instead of thousands — large suite, small token bill.</p></div>
+    <div class="fcard"><div class="ic">⛔</div><h4>CLI-first · MCP-never</h4><p>Vendor CLI / REST is the only required path. <b>No MCP servers</b> to install, register, or keep alive — nothing to babysit between sessions.</p></div>
+    <div class="fcard"><div class="ic">🔐</div><h4>Connection contract</h4><p>Every auth doc uses the same four headings — <span class="k">Interactive · Service principal · Verify · Troubleshoot</span> — so the agent never guesses how to authenticate.</p></div>
+    <div class="fcard"><div class="ic">✅</div><h4>Preservation-tested trims</h4><p>Routers were shrunk by moving body to <code>references/</code> <b>verbatim</b>; an automated check proves no command or code line was lost.</p></div>
+    <div class="fcard"><div class="ic">🖥️</div><h4>No UI, fully reproducible</h4><p>Everything runs from a shell — scriptable, diffable, CI-able. Skills are versioned folders; the installer just copies them where your agent looks.</p></div>
+  </div>
+  <div class="band">
+    <div class="b"><div class="n" id="b-skills">64</div><div class="l">production skills</div></div>
+    <div class="b"><div class="n" id="b-avg">76</div><div class="l">avg router lines</div></div>
+    <div class="b"><div class="n">0</div><div class="l">MCP servers required</div></div>
+    <div class="b"><div class="n" id="b-tot">120k</div><div class="l">lines of playbook</div></div>
+  </div>
+</div></section>
+
+<hr class="divider"/>
+
+<section id="harness"><div class="wrap">
+  <div class="eyebrow">Bring your own agent</div>
+  <h2>Works with Claude Code, Codex &amp; pi</h2>
+  <p class="lead">Plain skill folders (<code>SKILL.md</code> + <code>references/</code>) — portable across harnesses. The installer auto-detects yours, or pass <code>--harness</code>.</p>
+  <div class="hgrid">
+    <div class="hcard"><h4>Claude Code</h4><span class="path">~/.claude/skills/</span><p>Auto-detected. Restart Claude Code or run <code>/doctor</code> to load the new skills.</p></div>
+    <div class="hcard"><h4>Codex</h4><span class="path">~/.codex/skills/</span><p>Static copies — re-run the installer after upstream updates to refresh.</p></div>
+    <div class="hcard"><h4>pi</h4><span class="path">~/.agents/skills/</span><p>Loaded automatically on the next run. Nothing else to configure.</p></div>
+  </div>
+  <div class="codeblock"><pre><span class="c"># one platform group</span>
+curl -fsSL .../install.sh | <span class="g2">bash</span> -s -- --platform fabric
+
+<span class="c"># a single skill, into Codex</span>
+curl -fsSL .../install.sh | <span class="g2">bash</span> -s -- --harness codex databricks-genie
+
+<span class="c"># mix and match — repeat --platform, name skills, or both</span>
+curl -fsSL .../install.sh | <span class="g2">bash</span> -s -- --platform snowflake databricks-jobs</pre></div>
+</div></section>
+
+<hr class="divider"/>
+
+<section id="catalog"><div class="wrap">
+  <div class="eyebrow">Browse the catalog</div>
+  <h2 style="display:flex;align-items:center;flex-wrap:wrap;gap:12px">Skill explorer <span class="count" id="shown"></span></h2>
+  <div class="tools">
+    <label class="search">🔎 <input id="q" type="text" placeholder="Search skills — genie, kafka, eventhouse, vector, dashboard…" /></label>
+    <div class="filters">
+      <button class="pill on" data-p="all">All</button>
+      <button class="pill" data-p="databricks">Databricks</button>
+      <button class="pill" data-p="fabric">Fabric</button>
+      <button class="pill" data-p="snowflake">Snowflake</button>
+    </div>
+  </div>
+  <div class="sgrid" id="grid"></div>
+</div></section>
+
+<footer><div class="wrap">
+  <div>MIT licensed · Built for agents that build data platforms.</div>
+  <div><a href="https://github.com/slysik/dbx-snowflake-fabric" target="_blank" rel="noopener">github.com/slysik/dbx-snowflake-fabric ↗</a></div>
+</div></footer>
+
+</div>
+<script src="_data.js"></script>
+<script>
+(function(){
+  var DATA = window.SKILLS || {platforms:{},meta:{}};
+  var P = DATA.platforms||{}, M = DATA.meta||{};
+  var REPO="https://github.com/slysik/dbx-snowflake-fabric/tree/main/skills/";
+
+  // build flat list
+  var all=[];
+  ["databricks","fabric","snowflake"].forEach(function(pl){
+    (P[pl]||[]).forEach(function(s){ all.push({pl:pl,nm:s.dir,sm:s.summary||"",rl:s.router_lines}); });
+  });
+
+  // counts -> any [data-p]
+  function setCounts(){
+    document.querySelectorAll("[data-p]").forEach(function(el){
+      var p=el.getAttribute("data-p");
+      if(p==="all") return;
+      if(el.classList.contains("pill")) return;
+      if((P[p]||[]).length) el.textContent=(P[p]||[]).length;
+    });
+  }
+  setCounts();
+  if(M.skills){ var hc=document.getElementById("hcount"); if(hc)hc.textContent=M.skills;
+    document.getElementById("b-skills").textContent=M.skills; }
+  if(M.avg_router_lines){ var a=Math.round(M.avg_router_lines);
+    document.getElementById("avg").textContent=a; document.getElementById("b-avg").textContent=a; }
+  if(M.total_lines){ document.getElementById("b-tot").textContent=Math.round(M.total_lines/1000)+"k"; }
+
+  // explorer
+  var grid=document.getElementById("grid"), q=document.getElementById("q"),
+      shown=document.getElementById("shown"), filter="all", term="";
+  function render(){
+    var t=term.trim().toLowerCase();
+    var list=all.filter(function(s){
+      if(filter!=="all"&&s.pl!==filter) return false;
+      if(!t) return true;
+      return (s.nm+" "+s.sm+" "+s.pl).toLowerCase().indexOf(t)>=0;
+    });
+    shown.textContent=list.length+" of "+all.length;
+    grid.innerHTML=list.map(function(s){
+      return '<a class="scard" href="'+REPO+s.pl+'/'+s.nm+'" target="_blank" rel="noopener">'+
+        '<div class="top"><div class="nm"><span class="pl '+s.pl+'"></span>'+s.nm+'</div>'+
+        '<span class="rl">'+s.rl+' ln</span></div>'+
+        '<div class="sm">'+esc(s.sm)+'</div></a>';
+    }).join("");
+  }
+  function esc(x){return (x||"").replace(/[&<>]/g,function(c){return{"&":"&amp;","<":"&lt;",">":"&gt;"}[c];});}
+  document.querySelectorAll(".pill").forEach(function(b){
+    b.addEventListener("click",function(){
+      document.querySelectorAll(".pill").forEach(function(x){x.classList.remove("on");});
+      b.classList.add("on"); filter=b.getAttribute("data-p"); render();
+    });
+  });
+  q.addEventListener("input",function(){term=q.value;render();});
+  render();
+
+  // copy
+  var copyBtn=document.getElementById("copy");
+  copyBtn.addEventListener("click",function(){
+    var txt="curl -fsSL https://raw.githubusercontent.com/slysik/dbx-snowflake-fabric/main/install.sh | bash";
+    navigator.clipboard.writeText(txt).then(function(){
+      copyBtn.textContent="Copied ✓"; copyBtn.classList.add("ok");
+      setTimeout(function(){copyBtn.textContent="Copy";copyBtn.classList.remove("ok");},1800);
+    });
+  });
+})();
+</script>
+</body>
+</html>
