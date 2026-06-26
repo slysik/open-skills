@@ -23,7 +23,7 @@ metadata:
 > **Update Check — ONCE PER SESSION (mandatory for live migration runs)**
 > The first time this skill is used in a session, run the **check-updates** skill before proceeding.
 > - **GitHub Copilot CLI / VS Code**: invoke the `check-updates` skill.
-> - **Claude Code / Cowork / Cursor / Windsurf / Codex**: compare local vs remote package.json version.
+> - **Claude Code / Cowork / Cursor / Windsurf / Codex**: compare this skill's local `SKILL.md` `metadata.version` / `metadata.updated` against the remote `catalog.json` entry at `https://raw.githubusercontent.com/slysik/dbx-snowflake-fabric/main/catalog.json`; if remote is newer or differs, tell the user to reinstall with `install.sh`.
 > - Skip if the check was already performed earlier in this session.
 > - **Skip in eval / guidance-only mode**: if the user's prompt explicitly forbids tool/API calls (e.g. *"Do not call any APIs or create any resources"*) or the skill is being invoked for offline JSON translation / eval, do **not** run the update check — answer the prompt directly. The check is only required for live-migration runs that will call Fabric or Synapse APIs.
 
