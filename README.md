@@ -23,7 +23,7 @@ Build everything on **Databricks, Snowflake, and Microsoft Fabric** through CLIs
 Installs **all 78 skills** into Claude Code:
 
 ```bash
-curl -fsSL https://raw.githubusercontent.com/slysik/open-skills/main/install.sh | bash
+just install-codex
 ```
 
 ### Pick exactly what you want
@@ -40,16 +40,16 @@ just install snowflake-ai
 just install microsoft-ai
 
 # one platform
-curl -fsSL https://raw.githubusercontent.com/slysik/open-skills/main/install.sh | bash -s -- --platform snowflake
+just install-platform snowflake
 
 # a single skill
-curl -fsSL https://raw.githubusercontent.com/slysik/open-skills/main/install.sh | bash -s -- databricks-genie
+just install databricks-genie
 
 # into Codex or pi instead of Claude Code
-curl -fsSL https://raw.githubusercontent.com/slysik/open-skills/main/install.sh | bash -s -- --harness codex --platform fabric
+just install-platform fabric codex
 
 # just list everything first
-curl -fsSL https://raw.githubusercontent.com/slysik/open-skills/main/install.sh | bash -s -- --list
+just list
 ```
 
 | Flag | Effect |
