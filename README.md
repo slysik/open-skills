@@ -2,12 +2,12 @@
 
 # Databricks · Microsoft Fabric · Snowflake — Agent Skills
 
-**77 production skills** that turn Claude Code, Codex, or pi into a data-platform engineer.
+**78 production skills** that turn Claude Code, Codex, or pi into a data-platform engineer.
 Build everything on **Databricks, Snowflake, and Microsoft Fabric** through CLIs and REST APIs —
 **no MCP, no UI, no glue code.**
 
-[![Skills](https://img.shields.io/badge/skills-77-FF3621)](#-skill-catalog)
-[![Avg router](https://img.shields.io/badge/avg_router-71.0_lines-29B5E8)](#-how-these-skills-are-optimized)
+[![Skills](https://img.shields.io/badge/skills-78-FF3621)](#-skill-catalog)
+[![Avg router](https://img.shields.io/badge/avg_router-70.5_lines-29B5E8)](#-how-these-skills-are-optimized)
 [![Harness](https://img.shields.io/badge/harness-Claude_Code_·_Codex_·_pi-11A37F)](#-works-with-your-agent)
 [![Architecture](https://img.shields.io/badge/architecture-CLI_+_REST,_no_MCP-555)](#-design-principles)
 [![Landing](https://img.shields.io/badge/landing-GitHub_Pages-8b5cf6)](https://slysik.github.io/open-skills/)
@@ -20,7 +20,7 @@ Build everything on **Databricks, Snowflake, and Microsoft Fabric** through CLIs
 
 ## ⚡ Install in one step
 
-Installs **all 77 skills** into Claude Code:
+Installs **all 78 skills** into Claude Code:
 
 ```bash
 curl -fsSL https://raw.githubusercontent.com/slysik/open-skills/main/install.sh | bash
@@ -29,6 +29,16 @@ curl -fsSL https://raw.githubusercontent.com/slysik/open-skills/main/install.sh 
 ### Pick exactly what you want
 
 ```bash
+# with just from a local clone
+just install-databricks-ai         # Databricks skills into Codex
+just install-snowflake-ai          # Snowflake skills into Codex
+just install-microsoft-ai          # Microsoft Fabric + Foundry skills into Codex
+
+# generic just form also works
+just install databricks-ai
+just install snowflake-ai
+just install microsoft-ai
+
 # one platform
 curl -fsSL https://raw.githubusercontent.com/slysik/open-skills/main/install.sh | bash -s -- --platform snowflake
 
@@ -44,8 +54,8 @@ curl -fsSL https://raw.githubusercontent.com/slysik/open-skills/main/install.sh 
 
 | Flag | Effect |
 |---|---|
-| *(none)* | install all 77 skills |
-| `--platform databricks\|fabric\|snowflake` | install one platform group (repeatable) |
+| *(none)* | install all 78 skills |
+| `--platform databricks\|fabric\|snowflake\|foundry` | install one platform group (repeatable; aliases include `databricks-ai`, `snowflake-ai`, `microsoft-ai`, `dbx`, `snow`, and `ai-foundry`) |
 | `<skill-name> …` | install named skills only |
 | `--harness claude\|codex\|pi` | choose target agent (auto-detected by default) |
 | `--dir PATH` | install into a custom directory |
@@ -65,19 +75,47 @@ These are **plain skill folders** (`SKILL.md` + `references/`), portable across 
 | **Codex** | `~/.codex/skills/` | Static copies — re-run installer after upstream updates. |
 | **pi** | `~/.agents/skills/` | Loaded automatically on next run. |
 
+## Cross-platform smoke test
+
+The customer-support benchmark builds the same seven-table AI solution on
+Databricks, Snowflake, and Microsoft Fabric + Foundry. It is CLI-first, uses REST
+only when a CLI operation is unavailable, and never uses MCP tools.
+
+```bash
+just smoke-dry-run
+
+# Cloud execution after configuring each platform:
+just smoke-databricks
+just smoke-snowflake
+just smoke-microsoft
+just smoke-report
+```
+
+See [`examples/customer-support-ai/`](examples/customer-support-ai/) for the
+dataset, SQL, prompts, eval expectations, and result contract.
+
+---
+
+## 🧭 Simple routing
+
+Use platform umbrella skills for broad prompts. For example, after installing the
+Snowflake platform group, a prompt like "help me design this in Snowflake" should
+trigger the `snowflake` router skill, which then routes to `snowflake-cortex`,
+`snowflake-kafka`, or `cortex-code` based on the task.
+
 ---
 
 ## 🧠 How these skills are optimized
 
 Every skill was rewritten to a measured standard, not vibes:
 
-- **Thin-router architecture** — `SKILL.md` is a *router*, not a manual. Average **71.0 lines** (target < 100, hard cap 150). 75 of 77 routers are under 150.
+- **Thin-router architecture** — `SKILL.md` is a *router*, not a manual. Average **70.5 lines** (target < 100, hard cap 150). 76 of 78 routers are under 150.
 - **Progressive disclosure** — the router loads only a concept map + a "load which sub-doc" table. Heavy detail lives in `references/` and is pulled into context **only when the task needs it**, so a typical invocation reads tens of lines instead of thousands.
 - **CLI-first, REST-second, MCP-never** — vendor CLI / REST is the only required path. No MCP servers to install, register, or keep alive. (One Databricks skill was rewritten specifically because it wrongly mandated an MCP tool that registered zero tools.)
 - **Connection contract** — every auth doc follows the same 4 headings: *Interactive · Service principal · Verify · Troubleshoot* — so the agent never guesses how to authenticate.
 - **Preservation-tested trims** — routers were shrunk by moving body to `references/` *verbatim*; an automated check proves no command or code line was lost in the process.
 
-**Suite totals:** 77 skills · 71.0 avg router lines · 122,400 total lines of curated playbook.
+**Suite totals:** 78 skills · 70.5 avg router lines · 122,433 total lines of curated playbook.
 
 ---
 
@@ -180,15 +218,16 @@ Every skill was rewritten to a measured standard, not vibes:
 </details>
 
 
-### Snowflake (3)
+### Snowflake (4)
 
 *Cortex AI · Snowpark · Kafka · Dynamic Tables*
 
 <details>
-<summary><b>Show 3 skills</b></summary>
+<summary><b>Show 4 skills</b></summary>
 
 | Skill | What it does | Router |
 |---|---|---|
+| `snowflake` | Route high-level Snowflake work to the right Open Skills Snowflake skill. Use whenever the user mentions Snowflake, Snowflake SQL, warehouses, databases, sch... | 33 |
 | `cortex-code` | Routes Snowflake-related operations to Cortex Code CLI for specialized Snowflake expertise. Use when user asks about Snowflake databases, data warehouses, SQ... | 483 |
 | `snowflake-cortex` | Build Snowflake objects (databases, schemas, warehouses, tables, stages, streams, tasks, dynamic tables, RBAC) and design Snowflake Cortex AI workloads (LLM... | 85 |
 | `snowflake-kafka` | Build, configure, debug, and explain the Snowflake Kafka Connector — both the classic v3 file-based Snowpipe path and the v4 Snowpipe Streaming path. Use whe... | 203 |

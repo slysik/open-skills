@@ -1,0 +1,42 @@
+{
+  "active_ticket_count": {
+    "value": 5,
+    "accepted_text": ["5", "five"]
+  },
+  "customer_with_most_tickets": {
+    "value": "C001",
+    "accepted_text": ["C001", "Avery Chen"]
+  },
+  "top_ticket_category": {
+    "value": ["billing", "technical"],
+    "accepted_text": ["billing", "technical", "tie"]
+  },
+  "returned_or_refunded_orders": {
+    "value": 2,
+    "accepted_text": ["2", "two"]
+  },
+  "top_technical_product": {
+    "value": "P003",
+    "accepted_text": ["P003", "Helix Gateway"]
+  },
+  "duplicate_charge_article": {
+    "article_id": "A001",
+    "required_terms": ["duplicate", "charge", "refund"]
+  },
+  "gateway_recovery_article": {
+    "article_id": "A002",
+    "required_terms": ["firmware", "rollback", "gateway"]
+  },
+  "password_reset_article": {
+    "article_id": "A005",
+    "required_terms": ["password", "identity", "reset"]
+  },
+  "return_label_article": {
+    "article_id": "A004",
+    "required_terms": ["return", "label", "damage"]
+  },
+  "ticket_t002_quality": {
+    "required_terms": ["gateway", "firmware", "rollback"],
+    "max_words": 35
+  }
+}

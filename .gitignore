@@ -1,3 +1,5 @@
 .DS_Store
 __pycache__/
 *.py[cod]
+examples/customer-support-ai/generated/
+reports/customer-support-ai/raw/

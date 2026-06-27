@@ -58,7 +58,7 @@ def git_tracked_skill_paths(root: Path = REPO_ROOT) -> list[Path]:
     return sorted(path for path in paths if is_top_level_skill_path(path, root))
 
 
-def discover_skill_paths(root: Path = REPO_ROOT, include_untracked: bool = False) -> list[Path]:
+def discover_skill_paths(root: Path = REPO_ROOT, include_untracked: bool = True) -> list[Path]:
     if include_untracked:
         return sorted(root.glob("skills/*/*/SKILL.md"))
     tracked = git_tracked_skill_paths(root)
@@ -200,7 +200,7 @@ def load_skill(path: Path) -> Skill:
     )
 
 
-def load_skills(root: Path = REPO_ROOT, include_untracked: bool = False) -> list[Skill]:
+def load_skills(root: Path = REPO_ROOT, include_untracked: bool = True) -> list[Skill]:
     return [load_skill(path) for path in discover_skill_paths(root, include_untracked)]
 
 

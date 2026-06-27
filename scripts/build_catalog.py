@@ -18,7 +18,7 @@ PLATFORM_LABELS = {
     "snowflake": ("Snowflake", "Cortex AI · Snowpark · Kafka · Dynamic Tables"),
     "foundry": ("Microsoft Foundry", "Azure AI Foundry · Agents · Projects · Endpoints"),
 }
-PLATFORM_ORDER = ["databricks", "fabric", "snowflake"]
+PLATFORM_ORDER = ["databricks", "fabric", "snowflake", "foundry"]
 
 
 def skill_item(skill: Skill) -> dict[str, object]:
@@ -35,14 +35,18 @@ def skill_item(skill: Skill) -> dict[str, object]:
     return item
 
 
-def build_catalog(include_untracked: bool = False) -> dict[str, object]:
+def build_catalog(include_untracked: bool = True) -> dict[str, object]:
     skills = load_skills(REPO_ROOT, include_untracked)
     platform_names = PLATFORM_ORDER + sorted(
         platform for platform in {skill.platform for skill in skills} if platform not in PLATFORM_ORDER
     )
     platforms: OrderedDict[str, list[dict[str, object]]] = OrderedDict()
     for platform in platform_names:
-        items = [skill_item(skill) for skill in skills if skill.platform == platform]
+        platform_skills = sorted(
+            (skill for skill in skills if skill.platform == platform),
+            key=lambda skill: (skill.name != platform, skill.name),
+        )
+        items = [skill_item(skill) for skill in platform_skills]
         if items:
             platforms[platform] = items
 
@@ -141,11 +145,12 @@ def write_outputs(catalog: dict[str, object], root: Path) -> None:
 
 def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("--include-untracked", action="store_true", help="include untracked top-level skills")
+    parser.add_argument("--include-untracked", action="store_true", default=True, help="include untracked top-level skills (default)")
+    parser.add_argument("--tracked-only", action="store_true", help="only include git-tracked top-level skills")
     parser.add_argument("--write", action="store_true", help="write catalog outputs instead of printing JSON")
     args = parser.parse_args()
 
-    catalog = build_catalog(include_untracked=args.include_untracked)
+    catalog = build_catalog(include_untracked=not args.tracked_only)
     if args.write:
         write_outputs(catalog, REPO_ROOT)
     else:

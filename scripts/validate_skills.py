@@ -148,22 +148,24 @@ def check_catalog(include_untracked: bool, issues: list[Issue]) -> None:
 
 def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("--include-untracked", action="store_true", help="validate untracked top-level skills too")
+    parser.add_argument("--include-untracked", action="store_true", default=True, help="validate untracked top-level skills too (default)")
+    parser.add_argument("--tracked-only", action="store_true", help="only validate git-tracked top-level skills")
     parser.add_argument("--strict-frontmatter", action="store_true", help="treat non-name/description frontmatter keys as errors")
     parser.add_argument("--max-router-lines", type=int, default=150)
     parser.add_argument("--fail-on-warnings", action="store_true")
     args = parser.parse_args()
 
     issues: list[Issue] = []
-    skill_paths = discover_skill_paths(REPO_ROOT, include_untracked=args.include_untracked)
+    include_untracked = not args.tracked_only
+    skill_paths = discover_skill_paths(REPO_ROOT, include_untracked=include_untracked)
     top_level = set(skill_paths)
     if not skill_paths:
         issues.append(Issue("error", REPO_ROOT / "skills", "no top-level skills found"))
 
     for path in skill_paths:
         check_skill(path, args.strict_frontmatter, args.max_router_lines, issues)
-    check_nested_skill_files(top_level, args.include_untracked, issues)
-    check_catalog(args.include_untracked, issues)
+    check_nested_skill_files(top_level, include_untracked, issues)
+    check_catalog(include_untracked, issues)
 
     errors = [issue for issue in issues if issue.severity == "error"]
     warnings = [issue for issue in issues if issue.severity == "warn"]

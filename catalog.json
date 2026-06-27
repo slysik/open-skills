@@ -460,6 +460,14 @@
     ],
     "snowflake": [
       {
+        "name": "snowflake",
+        "dir": "snowflake",
+        "router_lines": 33,
+        "summary": "Route high-level Snowflake work to the right Open Skills Snowflake skill. Use whenever the user mentions Snowflake, Snowflake SQL, warehouses, databases, sch...",
+        "version": "0.1.0",
+        "updated": "2026-06-26"
+      },
+      {
         "name": "cortex-code",
         "dir": "cortex-code",
         "router_lines": 483,
@@ -589,9 +597,9 @@
     ]
   },
   "meta": {
-    "skills": 77,
-    "avg_router_lines": 71.0,
+    "skills": 78,
+    "avg_router_lines": 70.5,
     "routers_over_150": 2,
-    "total_lines": 122400
+    "total_lines": 122433
   }
 }

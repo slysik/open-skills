@@ -4,7 +4,7 @@
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Databricks · Fabric · Snowflake — Agent Skills</title>
-<meta name="description" content="64 production agent skills that turn Claude Code, Codex, or pi into a data-platform engineer. Build everything on Databricks, Snowflake, and Microsoft Fabric via CLI + REST. No MCP. No UI." />
+<meta name="description" content="78 production agent skills that turn Claude Code, Codex, or pi into a data and AI platform engineer. Build everything on Databricks, Snowflake, Microsoft Fabric, and Microsoft Foundry via CLI + REST. No MCP. No UI." />
 <meta property="og:title" content="Databricks · Fabric · Snowflake — Agent Skills" />
 <meta property="og:description" content="64 skills. One-step install. CLI + REST, no MCP, no UI. Works with Claude Code, Codex, and pi." />
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -177,7 +177,7 @@ footer .wrap{display:flex;flex-wrap:wrap;gap:16px;align-items:center;justify-con
 <header class="hero" id="top"><div class="wrap">
   <div class="kicker">Applied AI · <b>CLI + REST, no MCP, no UI</b></div>
   <h1>Build everything on<br><span class="g">Databricks, Snowflake, Fabric &amp; Foundry</span></h1>
-  <p class="sub"><b id="hcount">77</b> production agent skills that turn <b>Claude Code</b>, <b>Codex</b>, or <b>pi</b> into a data &amp; AI platform engineer — lakehouses, pipelines, warehouses, AI functions, dashboards, and <b>Microsoft Foundry agents</b>, all driven through the terminal.</p>
+  <p class="sub"><b id="hcount">78</b> production agent skills that turn <b>Claude Code</b>, <b>Codex</b>, or <b>pi</b> into a data &amp; AI platform engineer — lakehouses, pipelines, warehouses, AI functions, dashboards, and <b>Microsoft Foundry agents</b>, all driven through the terminal.</p>
   <p class="newbar">✨ <b>New:</b> Microsoft Foundry — <b>13 agent skills</b> · build, run &amp; ground Foundry agents via <code>az&nbsp;rest</code>, every payload live-verified. <a href="#platforms">See Foundry →</a></p>
 
   <div class="install">
@@ -192,7 +192,7 @@ footer .wrap{display:flex;flex-wrap:wrap;gap:16px;align-items:center;justify-con
   <div class="chips">
     <div class="chip dbx"><span class="n" data-p="databricks">29</span><span class="l">Databricks skills</span></div>
     <div class="chip fab"><span class="n" data-p="fabric">32</span><span class="l">Fabric skills</span></div>
-    <div class="chip snow"><span class="n" data-p="snowflake">3</span><span class="l">Snowflake skills</span></div>
+    <div class="chip snow"><span class="n" data-p="snowflake">4</span><span class="l">Snowflake skills</span></div>
     <div class="chip fdy"><span class="n" data-p="foundry">13</span><span class="l">Foundry skills</span></div>
     <div class="chip"><span class="n" id="avg">71</span><span class="l">avg router lines</span></div>
   </div>
@@ -214,7 +214,7 @@ footer .wrap{display:flex;flex-wrap:wrap;gap:16px;align-items:center;justify-con
       <div class="ex"><b>Eventstream &amp; Eventhouse (KQL) · Dataflows Gen2 · Spark · SQL Warehouse · Power BI report &amp; semantic models · Activator alerts · FabricIQ ontology · medallion architecture</b> — authored over Fabric REST + az CLI.</div>
     </div>
     <div class="pcard snow"><div class="bar"></div>
-      <h3>Snowflake <span class="cnt" data-p="snowflake">3</span></h3>
+      <h3>Snowflake <span class="cnt" data-p="snowflake">4</span></h3>
       <div class="tag">Cortex AI · Snowpark · Kafka · Dynamic Tables</div>
       <div class="ex"><b>Cortex AI (Analyst, Search, LLM functions) · objects, RBAC &amp; dynamic tables · Kafka → Snowpipe Streaming</b> — the in-database agentic surface, key-pair auth ready.</div>
     </div>
@@ -259,14 +259,19 @@ footer .wrap{display:flex;flex-wrap:wrap;gap:16px;align-items:center;justify-con
     <div class="hcard"><h4>Codex</h4><span class="path">~/.codex/skills/</span><p>Static copies — re-run the installer after upstream updates to refresh.</p></div>
     <div class="hcard"><h4>pi</h4><span class="path">~/.agents/skills/</span><p>Loaded automatically on the next run. Nothing else to configure.</p></div>
   </div>
-  <div class="codeblock"><pre><span class="c"># one platform group</span>
-curl -fsSL .../install.sh | <span class="g2">bash</span> -s -- --platform foundry
+  <div class="codeblock"><pre><span class="c"># simple product groups</span>
+just install databricks-ai
+just install snowflake-ai
+just install microsoft-ai
+
+<span class="c"># one platform group, remote install</span>
+curl -fsSL .../install.sh | <span class="g2">bash</span> -s -- snowflake-ai
 
 <span class="c"># a single skill, into Codex</span>
 curl -fsSL .../install.sh | <span class="g2">bash</span> -s -- --harness codex databricks-genie
 
 <span class="c"># mix and match — repeat --platform, name skills, or both</span>
-curl -fsSL .../install.sh | <span class="g2">bash</span> -s -- --platform snowflake databricks-jobs</pre></div>
+curl -fsSL .../install.sh | <span class="g2">bash</span> -s -- snowflake-ai databricks-jobs</pre></div>
 </div></section>
 
 <hr class="divider"/>

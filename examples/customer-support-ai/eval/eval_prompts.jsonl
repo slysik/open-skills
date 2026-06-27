@@ -1,0 +1,10 @@
+{"id":"sql-001","kind":"structured","prompt":"How many tickets are currently open or pending?","expected_key":"active_ticket_count"}
+{"id":"sql-002","kind":"structured","prompt":"Which customer has the most support tickets?","expected_key":"customer_with_most_tickets"}
+{"id":"sql-003","kind":"structured","prompt":"Which support category appears most often?","expected_key":"top_ticket_category"}
+{"id":"sql-004","kind":"structured","prompt":"How many orders are returned or refunded?","expected_key":"returned_or_refunded_orders"}
+{"id":"sql-005","kind":"structured","prompt":"Which product has the most technical support tickets?","expected_key":"top_technical_product"}
+{"id":"rag-001","kind":"rag","prompt":"What should an agent do for a duplicate charge?","expected_key":"duplicate_charge_article"}
+{"id":"rag-002","kind":"rag","prompt":"How do I recover a gateway that went offline after a firmware update?","expected_key":"gateway_recovery_article"}
+{"id":"rag-003","kind":"rag","prompt":"How can a customer reset a password when the normal reset flow fails?","expected_key":"password_reset_article"}
+{"id":"rag-004","kind":"rag","prompt":"How do I create a return label for a damaged camera?","expected_key":"return_label_article"}
+{"id":"quality-001","kind":"quality","prompt":"Summarize ticket T002 in no more than 35 words and propose the next action.","expected_key":"ticket_t002_quality"}
