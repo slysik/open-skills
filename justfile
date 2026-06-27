@@ -18,7 +18,7 @@ list:
     @bash install.sh --local --list
 
 # Install all skills into Codex.
-install-codex:
+install-open-skills:
     @bash install.sh --local --harness codex
 
 # Install one platform into a target harness, defaulting to Codex.

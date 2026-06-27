@@ -23,7 +23,7 @@ Build everything on **Databricks, Snowflake, and Microsoft Fabric** through CLIs
 Installs **all 78 skills** into Claude Code:
 
 ```bash
-just install-codex
+just install-open-skills
 ```
 
 ### Pick exactly what you want
