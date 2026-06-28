@@ -31,7 +31,7 @@ warn() { printf "${Y}!${X} %s\n" "$*"; }
 die()  { printf "${R}✗ %s${X}\n" "$*" >&2; exit 1; }
 
 # ---- args ----------------------------------------------------------------
-HARNESS=""; DEST=""; LIST=0; WANT_ALL=0; LOCAL=0
+HARNESS=""; DEST=""; LIST=0; WANT_ALL=0; LOCAL=0; VERIFY=0
 PLATFORMS=(); SKILLS=()
 PLATFORM_NAMES="databricks fabric snowflake foundry"
 add_platform_arg() {
@@ -58,6 +58,7 @@ while [ $# -gt 0 ]; do
     --platform) add_platform_arg "${2:-}"; shift 2 ;;
     --dir)      DEST="${2:-}"; shift 2 ;;
     --local)    LOCAL=1; shift ;;
+    --verify)   VERIFY=1; shift ;;
     --all)      WANT_ALL=1; shift ;;
     --list|-l)  LIST=1; shift ;;
     -h|--help)
@@ -162,16 +163,52 @@ done
 # ---- install -------------------------------------------------------------
 mkdir -p "$DEST"
 printf "\n${B}Installing into${X} %s ${D}(%s)${X}\n" "$DEST" "$H"
+
+# preservation-safe copy: identical -> no-op (idempotent); differing existing
+# dir -> backed up to <name>.bak before replace (never silently clobber edits).
+install_dir() {  # <src> <destdir>
+  src="$1"; dst="$2"; name="$(basename "$dst")"
+  if [ -d "$dst" ]; then
+    if diff -rq "$src" "$dst" >/dev/null 2>&1; then
+      printf "${D}=${X} %s ${D}(unchanged)${X}\n" "$name"; return 0
+    fi
+    rm -rf "$dst.bak"; mv "$dst" "$dst.bak"
+    warn "$name changed — previous version saved to $name.bak"
+  fi
+  cp -R "$src" "$dst"
+  rm -rf "$dst/.git"
+  # runtime scripts must be executable
+  find "$dst" -name '*.sh' -exec chmod +x {} + 2>/dev/null || true
+  ok "$name"
+}
+
 count=0
 for d in "${SRCDIRS[@]}"; do
-  name="$(basename "$d")"
-  rm -rf "$DEST/$name"
-  cp -R "$d" "$DEST/$name"
-  rm -rf "$DEST/$name/.git"
-  ok "$name"
+  install_dir "${d%/}" "$DEST/$(basename "$d")"
   count=$((count+1))
 done
+
+# ---- ship the shared self-healing runtime (sense/verify/diagnose/assert) ---
+if [ -d "$ROOT/skills/_runtime" ]; then
+  install_dir "$ROOT/skills/_runtime" "$DEST/_runtime"
+  ok "_runtime (shared contract + emit/diagnose/repair)"
+fi
+
 printf "\n${G}Done.${X} %s skill(s) installed.\n" "$count"
+
+# ---- optional post-install auth verification -----------------------------
+if [ "$VERIFY" = "1" ]; then
+  printf "\n${B}Verifying auth${X}\n"
+  for va in "$DEST"/*/scripts/verify-auth.sh; do
+    [ -f "$va" ] || continue
+    sk="$(basename "$(dirname "$(dirname "$va")")")"
+    st="$(bash "$va" 2>/dev/null | (command -v jq >/dev/null 2>&1 && jq -r '.status' || cat))"
+    case "$st" in
+      ok)   ok "$sk auth ok" ;;
+      *)    warn "$sk auth not ready — run: bash $va" ;;
+    esac
+  done
+fi
 case "$H" in
   claude) say "Restart Claude Code or run /doctor to pick up new skills." ;;
   codex)  say "Codex installs are static copies — re-run this script after upstream updates." ;;

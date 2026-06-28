@@ -189,6 +189,69 @@ footer .wrap{display:flex;flex-wrap:wrap;gap:16px;align-items:center;justify-con
     <p class="hint">Want a subset? <code>… | bash -s -- --platform snowflake</code> &nbsp;·&nbsp; <code>… -- databricks-genie</code> &nbsp;·&nbsp; <code>… --list</code></p>
   </div>
 
+  <!-- ===== Skill Combinator wizard: platform -> solution -> harness -> command ===== -->
+  <div class="install" id="wizard" style="margin-top:18px">
+    <p class="lab">▸ Build your install — pick platform · solution · harness</p>
+    <div style="display:flex;gap:10px;flex-wrap:wrap;margin:6px 0 12px">
+      <select id="w-platform" style="flex:1;min-width:150px;padding:9px 10px;background:#11161c;color:#e6edf3;border:1px solid #2a323c;border-radius:8px;font:inherit"></select>
+      <select id="w-solution" style="flex:1;min-width:150px;padding:9px 10px;background:#11161c;color:#e6edf3;border:1px solid #2a323c;border-radius:8px;font:inherit"></select>
+      <select id="w-harness" style="flex:1;min-width:150px;padding:9px 10px;background:#11161c;color:#e6edf3;border:1px solid #2a323c;border-radius:8px;font:inherit">
+        <option value="claude">Claude Code</option>
+        <option value="codex">Codex</option>
+        <option value="pi">pi</option>
+      </select>
+    </div>
+    <div class="cmd">
+      <code id="wcmd"></code>
+      <button class="copy" id="wcopy">Copy</button>
+    </div>
+    <p class="hint">Self-healing runtime (<code>sense-state · verify-auth · diagnose-error · assert</code>) ships with every install. <code>--verify</code> checks auth on the spot.</p>
+  </div>
+
+  <script>
+  (function(){
+    var SOL = {
+      databricks: [["all","Everything (all Databricks skills)","databricks"],
+                   ["genie","Genie — NL→SQL exploration","databricks-genie"],
+                   ["agent","Agent Bricks — KA / MAS","databricks-agent-bricks"],
+                   ["vector","Vector Search / RAG","databricks-vector-search"]],
+      snowflake:  [["all","Everything (all Snowflake skills)","snowflake"],
+                   ["cortex","Cortex AI / Search","snowflake-cortex"],
+                   ["kafka","Kafka → Snowflake streaming","snowflake-kafka"]],
+      fabric:     [["all","Everything (all Fabric skills)","fabric"],
+                   ["medallion","Medallion bronze/silver/gold","e2e-medallion-architecture"],
+                   ["eventstream","Real-time Eventstream","eventstream-authoring-cli"]],
+      foundry:    [["all","Everything (all Foundry skills)","foundry"]]
+    };
+    var BASE = "curl -fsSL https://raw.githubusercontent.com/slysik/open-skills/main/install.sh | bash -s --";
+    var p = document.getElementById("w-platform"),
+        s = document.getElementById("w-solution"),
+        h = document.getElementById("w-harness"),
+        out = document.getElementById("wcmd");
+    Object.keys(SOL).forEach(function(k){
+      var o=document.createElement("option"); o.value=k; o.textContent=k.charAt(0).toUpperCase()+k.slice(1); p.appendChild(o);
+    });
+    function fillSolutions(){
+      s.innerHTML="";
+      SOL[p.value].forEach(function(t){ var o=document.createElement("option"); o.value=t[0]; o.dataset.token=t[2]; o.dataset.kind=(t[0]==="all"?"platform":"skill"); o.textContent=t[1]; s.appendChild(o); });
+    }
+    function render(){
+      var opt=s.options[s.selectedIndex]; var cmd=BASE;
+      if(opt.dataset.kind==="platform"){ cmd+=" --platform "+opt.dataset.token; }
+      else { cmd+=" "+opt.dataset.token; }
+      if(h.value!=="claude"){ cmd+=" --harness "+h.value; }
+      cmd+=" --verify";
+      out.textContent=cmd;
+    }
+    p.addEventListener("change",function(){fillSolutions();render();});
+    s.addEventListener("change",render); h.addEventListener("change",render);
+    fillSolutions(); render();
+    document.getElementById("wcopy").addEventListener("click",function(){
+      navigator.clipboard.writeText(out.textContent); var b=this; b.textContent="Copied"; setTimeout(function(){b.textContent="Copy";},1200);
+    });
+  })();
+  </script>
+
   <div class="chips">
     <div class="chip dbx"><span class="n" data-p="databricks">29</span><span class="l">Databricks skills</span></div>
     <div class="chip fab"><span class="n" data-p="fabric">32</span><span class="l">Fabric skills</span></div>

@@ -1,0 +1,31 @@
+{
+  "name": "{{TOPIC}}-snowflake-v4",
+  "config": {
+    "connector.class": "com.snowflake.kafka.connector.SnowflakeStreamingSinkConnector",
+    "tasks.max": "1",
+
+    "topics": "{{TOPIC}}",
+    "snowflake.topic2table.map": "{{TOPIC}}:{{TABLE}}",
+
+    "snowflake.url.name": "https://{{ACCOUNT}}.snowflakecomputing.com",
+    "snowflake.user.name": "{{CONN_USER}}",
+    "snowflake.role.name": "{{CONN_ROLE}}",
+    "snowflake.database.name": "{{DB}}",
+    "snowflake.schema.name": "{{SCHEMA}}",
+
+    "snowflake.private.key": "<PRIVATE_KEY_BASE64>",
+    "snowflake.private.key.passphrase": "<PRIVATE_KEY_PASSPHRASE>",
+
+    "key.converter": "org.apache.kafka.connect.storage.StringConverter",
+    "value.converter": "org.apache.kafka.connect.json.JsonConverter",
+    "value.converter.schemas.enable": "false",
+
+    "snowflake.enable.schematization": "true",
+    "snowflake.validation": "server_side",
+    "snowflake.streaming.validate.compatibility.with.classic": "false",
+
+    "errors.tolerance": "none",
+    "errors.log.enable": "true",
+    "enable.task.fail.on.authorization.errors": "true"
+  }
+}

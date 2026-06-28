@@ -123,6 +123,8 @@ Every skill was rewritten to a measured standard, not vibes:
 
 **Suite totals:** 78 skills · 63.4 avg router lines · 118,983 total lines of curated playbook.
 
+> **Adding more skills.** New skills are added through the **same open-skills agent-harness optimization framework** — drop a thin-router `SKILL.md` (+ `references/`) under `skills/<platform>/<skill>/`, run `scripts/build_catalog.py` to refresh `catalog.json`, and `scripts/validate_skills.py` to enforce the router-line / preservation contract. The self-healing runtime (`_runtime/` + per-skill `scripts/sense-state · verify-auth · diagnose-error · assert · generate-blueprint`) and the one-step installer pick the new skill up automatically — no bespoke wiring. Every skill ships to every harness (Claude Code · Codex · pi) the same way.
+
 ---
 
 ## 🎯 Design principles
