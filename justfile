@@ -25,21 +25,17 @@ install-open-skills:
 install-platform platform harness="codex":
     @bash install.sh --local --harness {{harness}} --platform {{platform}}
 
-# Install Databricks AI skills into a target harness, defaulting to Codex.
-install-databricks-ai harness="codex":
+# Install Databricks skills into a target harness, defaulting to Codex.
+install-databricks harness="codex":
     @bash install.sh --local --harness {{harness}} databricks-ai
 
-# Install Snowflake AI skills into a target harness, defaulting to Codex.
-install-snowflake-ai harness="codex":
+# Install Snowflake skills into a target harness, defaulting to Codex.
+install-snowflake harness="codex":
     @bash install.sh --local --harness {{harness}} snowflake-ai
 
 # Install Microsoft AI skills (Fabric + Foundry) into a target harness, defaulting to Codex.
 install-microsoft-ai harness="codex":
     @bash install.sh --local --harness {{harness}} microsoft-ai
-
-# Install only Snowflake skills into a target harness, defaulting to Codex.
-install-snowflake harness="codex":
-    @bash install.sh --local --harness {{harness}} --platform snowflake
 
 # Install only Microsoft Foundry skills into a target harness, defaulting to Codex.
 install-foundry harness="codex":

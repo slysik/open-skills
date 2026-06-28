@@ -470,7 +470,7 @@
       {
         "name": "cortex-code",
         "dir": "cortex-code",
-        "router_lines": 483,
+        "router_lines": 57,
         "summary": "Routes Snowflake-related operations to Cortex Code CLI for specialized Snowflake expertise. Use when user asks about Snowflake databases, data warehouses, SQ...",
         "version": "1.0.0"
       },
@@ -485,7 +485,7 @@
       {
         "name": "snowflake-kafka",
         "dir": "snowflake-kafka",
-        "router_lines": 203,
+        "router_lines": 75,
         "summary": "Build, configure, debug, and explain the Snowflake Kafka Connector — both the classic v3 file-based Snowpipe path and the v4 Snowpipe Streaming path. Use whe..."
       }
     ],
@@ -598,8 +598,8 @@
   },
   "meta": {
     "skills": 78,
-    "avg_router_lines": 70.5,
-    "routers_over_150": 2,
-    "total_lines": 122433
+    "avg_router_lines": 63.4,
+    "routers_over_150": 0,
+    "total_lines": 118983
   }
 }

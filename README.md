@@ -9,7 +9,7 @@ Build everything on **Databricks, Snowflake, and Microsoft Fabric** through CLIs
 **no MCP, no UI, no glue code.**
 
 [![Skills](https://img.shields.io/badge/skills-78-FF3621)](#-skill-catalog)
-[![Avg router](https://img.shields.io/badge/avg_router-70.5_lines-29B5E8)](#-how-these-skills-are-optimized)
+[![Avg router](https://img.shields.io/badge/avg_router-63.4_lines-29B5E8)](#-how-these-skills-are-optimized)
 [![Harness](https://img.shields.io/badge/harness-Claude_Code_·_Codex_·_pi-11A37F)](#-works-with-your-agent)
 [![Architecture](https://img.shields.io/badge/architecture-CLI_+_REST,_no_MCP-555)](#-design-principles)
 [![Landing](https://img.shields.io/badge/landing-GitHub_Pages-8b5cf6)](https://slysik.github.io/open-skills/)
@@ -115,13 +115,13 @@ trigger the `snowflake` router skill, which then routes to `snowflake-cortex`,
 
 Every skill was rewritten to a measured standard, not vibes:
 
-- **Thin-router architecture** — `SKILL.md` is a *router*, not a manual. Average **70.5 lines** (target < 100, hard cap 150). 76 of 78 routers are under 150.
+- **Thin-router architecture** — `SKILL.md` is a *router*, not a manual. Average **63.4 lines** (target < 100, hard cap 150). 78 of 78 routers are under 150.
 - **Progressive disclosure** — the router loads only a concept map + a "load which sub-doc" table. Heavy detail lives in `references/` and is pulled into context **only when the task needs it**, so a typical invocation reads tens of lines instead of thousands.
 - **CLI-first, REST-second, MCP-never** — vendor CLI / REST is the only required path. No MCP servers to install, register, or keep alive. (One Databricks skill was rewritten specifically because it wrongly mandated an MCP tool that registered zero tools.)
 - **Connection contract** — every auth doc follows the same 4 headings: *Interactive · Service principal · Verify · Troubleshoot* — so the agent never guesses how to authenticate.
 - **Preservation-tested trims** — routers were shrunk by moving body to `references/` *verbatim*; an automated check proves no command or code line was lost in the process.
 
-**Suite totals:** 78 skills · 70.5 avg router lines · 122,433 total lines of curated playbook.
+**Suite totals:** 78 skills · 63.4 avg router lines · 118,983 total lines of curated playbook.
 
 ---
 
@@ -234,9 +234,9 @@ Every skill was rewritten to a measured standard, not vibes:
 | Skill | What it does | Router |
 |---|---|---|
 | `snowflake` | Route high-level Snowflake work to the right Open Skills Snowflake skill. Use whenever the user mentions Snowflake, Snowflake SQL, warehouses, databases, sch... | 33 |
-| `cortex-code` | Routes Snowflake-related operations to Cortex Code CLI for specialized Snowflake expertise. Use when user asks about Snowflake databases, data warehouses, SQ... | 483 |
+| `cortex-code` | Routes Snowflake-related operations to Cortex Code CLI for specialized Snowflake expertise. Use when user asks about Snowflake databases, data warehouses, SQ... | 57 |
 | `snowflake-cortex` | Build Snowflake objects (databases, schemas, warehouses, tables, stages, streams, tasks, dynamic tables, RBAC) and design Snowflake Cortex AI workloads (LLM... | 85 |
-| `snowflake-kafka` | Build, configure, debug, and explain the Snowflake Kafka Connector — both the classic v3 file-based Snowpipe path and the v4 Snowpipe Streaming path. Use whe... | 203 |
+| `snowflake-kafka` | Build, configure, debug, and explain the Snowflake Kafka Connector — both the classic v3 file-based Snowpipe path and the v4 Snowpipe Streaming path. Use whe... | 75 |
 
 </details>
 
