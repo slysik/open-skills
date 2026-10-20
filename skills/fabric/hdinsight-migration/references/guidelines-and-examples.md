@@ -6,8 +6,8 @@ Read these companion documents before executing migration tasks:
 - [COMMON-CLI.md](../../common/COMMON-CLI.md) — `az rest`, `az login`, token acquisition, Fabric REST via CLI
 - [SPARK-AUTHORING-CORE.md](../../common/SPARK-AUTHORING-CORE.md) — Notebook deployment, lakehouse creation, Spark job execution
 
-For notebook and Lakehouse creation, see [spark-authoring-cli](../spark-authoring-cli/SKILL.md).
-For Fabric Warehouse DDL/DML authoring, see [sqldw-authoring-cli](../sqldw-authoring-cli/SKILL.md).
+For notebook and Lakehouse creation, see [spark-cli](../spark-cli/SKILL.md).
+For Fabric Warehouse DDL/DML authoring, see [sqldw-cli](../sqldw-cli/SKILL.md).
 
 ---
 
@@ -76,7 +76,7 @@ Map Oozie workflow actions to Fabric Data Pipeline activities:
 | `<coordinator>` (time-based schedule) | **Pipeline schedule trigger** | Set recurrence in pipeline trigger; supports cron-like expressions |
 | `<coordinator>` (data-triggered) | **Storage Event trigger** | Trigger on OneLake file arrival |
 
-> **Delegate to `spark-authoring-cli`** for notebook and SJD creation after mapping pipeline activities.
+> **Delegate to `spark-cli`** for notebook and SJD creation after mapping pipeline activities.
 
 ---
 

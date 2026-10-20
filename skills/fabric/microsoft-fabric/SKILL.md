@@ -56,6 +56,17 @@ Decision-oriented references, each with trade-offs, anti-patterns, a reference a
 | [references/architect/ai-readiness.md](references/architect/ai-readiness.md) | Data agent, Copilot data handling, IQ/ontology, AI functions, vector placement |
 | [references/architect/databricks-coexistence.md](references/architect/databricks-coexistence.md) | Mirrored catalog, OneLake federation, Databricks-to-OneLake patterns |
 
+## Related upstream skills (microsoft/skills-for-fabric)
+
+| Task | Skill |
+|---|---|
+| SKU sizing and PAYG/reservation comparison with live pricing | [e2e-fabric-cost-estimation](../e2e-fabric-cost-estimation/SKILL.md) |
+| Governance audit: domains, labels, tags, endorsement | [onelake-catalog-govern-cli](../onelake-catalog-govern-cli/SKILL.md) |
+| Dev/test/prod promotion | [deployment-pipelines-authoring-cli](../deployment-pipelines-authoring-cli/SKILL.md) |
+| Git connect, commit, update, conflicts | [git-integration-operations-cli](../git-integration-operations-cli/SKILL.md) |
+| Parameterization | [variable-library-cli](../variable-library-cli/SKILL.md) |
+| SQL database in Fabric (OLTP) | [sqldb-cli](../sqldb-cli/SKILL.md) |
+
 ## Mental model
 
 ```

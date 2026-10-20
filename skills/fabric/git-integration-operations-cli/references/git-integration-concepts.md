@@ -194,7 +194,7 @@ insert_final_newline = false
 ```
 
 This is a **file-level** workaround for the observed trailing-newline behavior.
-The [per-cell notebook rule](../../spark-authoring-cli/resources/notebook-api-operations.md)
+The [per-cell notebook rule](../../spark-cli/references/authoring/resources/notebook-api-operations.md)
 is separate and still applies: inside an `.ipynb` payload, every `source` line ends
 with `\n` **except** the last line of a cell.
 

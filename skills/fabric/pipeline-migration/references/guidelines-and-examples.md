@@ -244,7 +244,7 @@ After pipeline migration, hand off to these companion skills and tools:
 | Schedule migrated pipelines | [COMMON-CLI.md § Job Scheduling](../../common/COMMON-CLI.md) |
 | Monitor pipeline runs | Fabric workspace → Monitor hub |
 | Build new Fabric pipelines | Refer to [ITEM-DEFINITIONS-CORE.md § DataPipeline](../../common/ITEM-DEFINITIONS-CORE.md) |
-| Explore migrated Lakehouse data post-pipeline run | `spark-consumption-cli` or `sqldw-consumption-cli` skill |
+| Explore migrated Lakehouse data post-pipeline run | `spark-cli` or `sqldw-cli` skill |
 
 ---
 

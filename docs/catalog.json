@@ -325,42 +325,62 @@
       {
         "name": "activator-authoring-cli",
         "dir": "activator-authoring-cli",
-        "router_lines": 40,
-        "summary": "Create alerts, notifications, and automated actions on Fabric data and events via Fabric REST API and `az rest` CLI. **Invoke this skill** whenever the user...",
-        "version": "0.2.0",
-        "updated": "2026-06-25"
+        "router_lines": 10,
+        "summary": "DEPRECATED alias, renamed upstream. Use the `activator-cli` skill instead (authoring: create/update/delete alert rules). Kept so old trigger names still rout..."
+      },
+      {
+        "name": "activator-cli",
+        "dir": "activator-cli",
+        "router_lines": 117,
+        "summary": "Creates and inspects Fabric Activator (Reflex) alerts: rules, their data sources, conditions, and the Teams or email action they fire, plus decoding an exist..."
       },
       {
         "name": "activator-consumption-cli",
         "dir": "activator-consumption-cli",
-        "router_lines": 42,
-        "summary": "Inspect existing alerts, notifications, and automated actions in Fabric via read-only REST API calls using `az rest` CLI. **Invoke this skill** whenever the...",
-        "version": "0.2.0",
-        "updated": "2026-06-25"
+        "router_lines": 10,
+        "summary": "DEPRECATED alias, renamed upstream. Use the `activator-cli` skill instead (consumption: inspect/list/decode alerts). Kept so old trigger names still route. T..."
+      },
+      {
+        "name": "azmon-mirroredcatalogs-operations-cli",
+        "dir": "azmon-mirroredcatalogs-operations-cli",
+        "router_lines": 1093,
+        "summary": "Brings Azure Monitor, Application Insights, and Log Analytics telemetry into Fabric as Eventhouse external delta tables and correlates it with business data...."
       },
       {
         "name": "dataflows-authoring-cli",
         "dir": "dataflows-authoring-cli",
-        "router_lines": 42,
-        "summary": "Create, update, delete, and refresh Fabric Dataflows Gen2 via write-side CLI against Fabric Items and Connections APIs. Builds mashup.pq + queryMetadata defi...",
-        "version": "0.2.0",
-        "updated": "2026-06-25"
+        "router_lines": 10,
+        "summary": "DEPRECATED alias, renamed upstream. Use the `dataflows-cli` skill instead (authoring). Kept so old trigger names still route. Triggers: dataflows authoring cli."
+      },
+      {
+        "name": "dataflows-cli",
+        "dir": "dataflows-cli",
+        "router_lines": 108,
+        "summary": "Manages Fabric Dataflow Gen2 items, including creation, M editing, connections, output destinations, getDefinition and updateDefinition inspection, executeQu..."
       },
       {
         "name": "dataflows-consumption-cli",
         "dir": "dataflows-consumption-cli",
-        "router_lines": 42,
-        "summary": "Monitor, inspect, and query saved Fabric Dataflows Gen2 via read-only CLI. List dataflows, decode base64 definitions (mashup.pq, queryMetadata.json, .platfor...",
-        "version": "0.2.0",
-        "updated": "2026-06-25"
+        "router_lines": 10,
+        "summary": "DEPRECATED alias, renamed upstream. Use the `dataflows-cli` skill instead (consumption). Kept so old trigger names still route. Triggers: dataflows consumpti..."
       },
       {
         "name": "dataflows-save-as-authoring-cli",
         "dir": "dataflows-save-as-authoring-cli",
-        "router_lines": 42,
-        "summary": "Assess, plan, and execute dataflow Gen1 → Gen2.1 CI/CD save-as operations via CLI (az rest / curl) against Power BI REST and Fabric REST APIs. Scan workspace...",
-        "version": "0.2.0",
-        "updated": "2026-06-25"
+        "router_lines": 10,
+        "summary": "DEPRECATED alias, renamed upstream. Use the `dataflows-cli` skill instead (Gen1 to Gen2 save-as). Kept so old trigger names still route. Triggers: dataflows..."
+      },
+      {
+        "name": "deployment-pipelines-authoring-cli",
+        "dir": "deployment-pipelines-authoring-cli",
+        "router_lines": 370,
+        "summary": "Manages Fabric deployment pipelines for ALM promotion across dev, test, and prod stages, including stage creation, workspace assignment, selective forward or..."
+      },
+      {
+        "name": "e2e-fabric-cost-estimation",
+        "dir": "e2e-fabric-cost-estimation",
+        "router_lines": 588,
+        "summary": "Estimates Fabric capacity cost before a migration by profiling Spark, SQL, Power BI, and Real-Time workloads, then recommending SKU size and comparing Reserv..."
       },
       {
         "name": "e2e-medallion-architecture",
@@ -373,34 +393,44 @@
       {
         "name": "eventhouse-authoring-cli",
         "dir": "eventhouse-authoring-cli",
-        "router_lines": 38,
-        "summary": "Execute KQL management commands (table management, ingestion, policies, functions, materialized views) against Fabric Eventhouse and KQL Databases via CLI. U...",
-        "version": "0.2.0",
-        "updated": "2026-06-25"
+        "router_lines": 10,
+        "summary": "DEPRECATED alias, renamed upstream. Use the `eventhouse-cli` skill instead (authoring). Kept so old trigger names still route. Triggers: eventhouse authoring..."
+      },
+      {
+        "name": "eventhouse-cli",
+        "dir": "eventhouse-cli",
+        "router_lines": 106,
+        "summary": "Authors and queries Fabric Eventhouse and KQL databases: tables, functions, policies, materialized views, ingestion, and read-only KQL for real-time and time..."
       },
       {
         "name": "eventhouse-consumption-cli",
         "dir": "eventhouse-consumption-cli",
-        "router_lines": 39,
-        "summary": "Run KQL queries against Fabric Eventhouse for real-time intelligence and time-series analytics using `az rest` against the Kusto REST API. Covers KQL operato...",
-        "version": "0.2.0",
-        "updated": "2026-06-25"
+        "router_lines": 10,
+        "summary": "DEPRECATED alias, renamed upstream. Use the `eventhouse-cli` skill instead (consumption (read-only KQL)). Kept so old trigger names still route. Triggers: ev..."
+      },
+      {
+        "name": "eventschemaset-cli",
+        "dir": "eventschemaset-cli",
+        "router_lines": 96,
+        "summary": "Governs Event Schema Sets, the Fabric registries of event types and message payload schemas. Covers create, rename, update and delete of a definition, and li..."
       },
       {
         "name": "eventstream-authoring-cli",
         "dir": "eventstream-authoring-cli",
-        "router_lines": 38,
-        "summary": "Create, wire, and publish Microsoft Fabric Eventstream real-time event streaming topologies via the Fabric Items REST API. Build graph-based definitions with...",
-        "version": "0.2.0",
-        "updated": "2026-06-25"
+        "router_lines": 10,
+        "summary": "DEPRECATED alias, renamed upstream. Use the `eventstream-cli` skill instead (authoring). Kept so old trigger names still route. Triggers: eventstream authori..."
+      },
+      {
+        "name": "eventstream-cli",
+        "dir": "eventstream-cli",
+        "router_lines": 94,
+        "summary": "Owns Fabric Eventstream items end to end: sources, operators, destinations, routing, retention, throughput and connection strings, plus read-only topology ch..."
       },
       {
         "name": "eventstream-consumption-cli",
         "dir": "eventstream-consumption-cli",
-        "router_lines": 38,
-        "summary": "List, inspect, and monitor Microsoft Fabric Eventstream real-time event ingestion pipelines via the Fabric Items REST API. Discover Eventstreams across works...",
-        "version": "0.2.0",
-        "updated": "2026-06-25"
+        "router_lines": 10,
+        "summary": "DEPRECATED alias, renamed upstream. Use the `eventstream-cli` skill instead (consumption). Kept so old trigger names still route. Triggers: eventstream consu..."
       },
       {
         "name": "fabriciq",
@@ -413,18 +443,26 @@
       {
         "name": "fabriciq-ontology-authoring-cli",
         "dir": "fabriciq-ontology-authoring-cli",
-        "router_lines": 29,
-        "summary": "Create and evolve Fabric IQ Ontology (preview) items from CLI — define entity types, properties (including timeseries), relationship types, and bind them to...",
-        "version": "0.2.0",
-        "updated": "2026-06-25"
+        "router_lines": 10,
+        "summary": "DEPRECATED alias, renamed upstream. Use the `fabriciq-ontology-cli` skill instead (authoring). Kept so old trigger names still route. Triggers: fabriciq onto..."
+      },
+      {
+        "name": "fabriciq-ontology-cli",
+        "dir": "fabriciq-ontology-cli",
+        "router_lines": 90,
+        "summary": "Manages Fabric IQ Ontology items, including entity and relationship types, data bindings, and definition updates, plus schema, lineage, grounding, and graph-..."
       },
       {
         "name": "fabriciq-ontology-consumption-cli",
         "dir": "fabriciq-ontology-consumption-cli",
-        "router_lines": 42,
-        "summary": "Explore Fabric IQ Ontology (preview) items (read-only) from the CLI to ground an agent before it queries data. Explore, describe, and summarize what an ontol...",
-        "version": "0.2.0",
-        "updated": "2026-06-25"
+        "router_lines": 10,
+        "summary": "DEPRECATED alias, renamed upstream. Use the `fabriciq-ontology-cli` skill instead (consumption). Kept so old trigger names still route. Triggers: fabriciq on..."
+      },
+      {
+        "name": "git-integration-operations-cli",
+        "dir": "git-integration-operations-cli",
+        "router_lines": 623,
+        "summary": "Runs the Fabric Git integration lifecycle through fab api or az rest, including connecting a workspace to Azure DevOps or GitHub, committing, updating from G..."
       },
       {
         "name": "hdinsight-migration",
@@ -437,7 +475,7 @@
       {
         "name": "microsoft-fabric",
         "dir": "microsoft-fabric",
-        "router_lines": 81,
+        "router_lines": 92,
         "summary": "Build and operate Microsoft Fabric workloads from the CLI / REST / Fabric notebooks: Data Pipelines (Data Factory in Fabric), Dataflows Gen2, Lakehouse + One...",
         "version": "0.2.0",
         "updated": "2026-06-23"
@@ -451,6 +489,12 @@
         "updated": "2026-06-25"
       },
       {
+        "name": "onelake-catalog-govern-cli",
+        "dir": "onelake-catalog-govern-cli",
+        "router_lines": 161,
+        "summary": "Governs Microsoft Fabric OneLake catalog health, protection, and trust through Fabric Admin, Core, and Power BI REST APIs. Use for tenant or owner-scoped aud..."
+      },
+      {
         "name": "pipeline-migration",
         "dir": "pipeline-migration",
         "router_lines": 47,
@@ -461,34 +505,39 @@
       {
         "name": "powerbi-report-authoring",
         "dir": "powerbi-report-authoring",
-        "router_lines": 39,
-        "summary": "Create and modify Power BI report files in PBIR/PBIP format using the `powerbi-report-author` and `powerbi-desktop` CLIs. Use when the user wants to: (1) imp...",
-        "version": "0.2.0",
-        "updated": "2026-06-25"
+        "router_lines": 10,
+        "summary": "DEPRECATED alias, renamed upstream. Use the `powerbi-report-cli` skill instead (report authoring (PBIR)). Kept so old trigger names still route. Triggers: po..."
+      },
+      {
+        "name": "powerbi-report-cli",
+        "dir": "powerbi-report-cli",
+        "router_lines": 240,
+        "summary": "Plan, design, author, preview, publish, and manage Power BI reports across requirements, page design, local PBIR/PBIP edits, validation, screenshots, Fabric...",
+        "version": "1.0.4"
       },
       {
         "name": "powerbi-report-design",
         "dir": "powerbi-report-design",
-        "router_lines": 35,
-        "summary": "Generate Power BI report visual design guidance before PBIR files are written. Use when the user wants to: (1) choose tone, signature, page archetypes, chart...",
-        "version": "0.2.0",
-        "updated": "2026-06-25"
+        "router_lines": 10,
+        "summary": "DEPRECATED alias, renamed upstream. Use the `powerbi-report-cli` skill instead (report design). Kept so old trigger names still route. Triggers: powerbi repo..."
       },
       {
         "name": "powerbi-report-management",
         "dir": "powerbi-report-management",
-        "router_lines": 36,
-        "summary": "Manage Power BI report workspace items in Microsoft Fabric via `az rest` CLI against the Fabric REST API. Use when the user wants to: (1) create reports from...",
-        "version": "0.2.0",
-        "updated": "2026-06-25"
+        "router_lines": 10,
+        "summary": "DEPRECATED alias, renamed upstream. Use the `powerbi-report-cli` skill instead (publish/rebind/management). Kept so old trigger names still route. Triggers:..."
       },
       {
         "name": "powerbi-report-planning",
         "dir": "powerbi-report-planning",
-        "router_lines": 38,
-        "summary": "Build a guided requirements-to-implementation workflow for new Power BI reports and dashboards from semantic models, datasets, or PBIP projects. Use when the...",
-        "version": "0.2.0",
-        "updated": "2026-06-25"
+        "router_lines": 10,
+        "summary": "DEPRECATED alias, renamed upstream. Use the `powerbi-report-cli` skill instead (report planning). Kept so old trigger names still route. Triggers: powerbi re..."
+      },
+      {
+        "name": "project-osmos",
+        "dir": "project-osmos",
+        "router_lines": 177,
+        "summary": "Orchestrate Project Osmos for long-running Fabric and OneLake data-engineering outcomes, including task status, messages, follow-ups, cancellation, and delet..."
       },
       {
         "name": "search-consumption-cli",
@@ -517,26 +566,26 @@
       {
         "name": "spark-authoring-cli",
         "dir": "spark-authoring-cli",
-        "router_lines": 40,
-        "summary": "Develop Microsoft Fabric Spark/data engineering workflows and write code in Fabric Notebook cells with intelligent routing to specialized resources. Provides...",
-        "version": "0.2.0",
-        "updated": "2026-06-25"
+        "router_lines": 10,
+        "summary": "DEPRECATED alias, renamed upstream. Use the `spark-cli` skill instead (notebook authoring). Kept so old trigger names still route. Triggers: spark authoring..."
+      },
+      {
+        "name": "spark-cli",
+        "dir": "spark-cli",
+        "router_lines": 101,
+        "summary": "Manages Fabric Spark work, including notebook cell code with %%configure, %%sql, PySpark and notebookutils, named notebook runs, Livy sessions, triage of fai..."
       },
       {
         "name": "spark-consumption-cli",
         "dir": "spark-consumption-cli",
-        "router_lines": 31,
-        "summary": "Analyze lakehouse data interactively using Fabric Lakehouse Livy API sessions and PySpark/Spark SQL for advanced analytics, DataFrames, cross-lakehouse joins...",
-        "version": "0.2.0",
-        "updated": "2026-06-25"
+        "router_lines": 10,
+        "summary": "DEPRECATED alias, renamed upstream. Use the `spark-cli` skill instead (consumption). Kept so old trigger names still route. Triggers: spark consumption cli."
       },
       {
         "name": "spark-operations-cli",
         "dir": "spark-operations-cli",
-        "router_lines": 43,
-        "summary": "Diagnose failed Spark jobs, unhealthy Livy sessions, and performance bottlenecks in Microsoft Fabric via read-only CLI triage. Use when the user wants to: (1...",
-        "version": "0.2.0",
-        "updated": "2026-06-25"
+        "router_lines": 10,
+        "summary": "DEPRECATED alias, renamed upstream. Use the `spark-cli` skill instead (operations and failure triage). Kept so old trigger names still route. Triggers: spark..."
       },
       {
         "name": "spark-python-data-source",
@@ -547,28 +596,34 @@
         "updated": "2026-06-23"
       },
       {
+        "name": "sqldb-cli",
+        "dir": "sqldb-cli",
+        "router_lines": 96,
+        "summary": "Manages a Fabric SQL database item, the OLTP SQL Server engine, including running T-SQL through sqlcmd, temporal and vector similarity search, schema and sys..."
+      },
+      {
         "name": "sqldw-authoring-cli",
         "dir": "sqldw-authoring-cli",
-        "router_lines": 34,
-        "summary": "Execute authoring T-SQL (DDL, DML, data ingestion, transactions, schema changes) against Microsoft Fabric Data Warehouse and SQL endpoints from agentic CLI e...",
-        "version": "0.2.0",
-        "updated": "2026-06-25"
+        "router_lines": 10,
+        "summary": "DEPRECATED alias, renamed upstream. Use the `sqldw-cli` skill instead (authoring (DDL/DML)). Kept so old trigger names still route. Triggers: sqldw authoring..."
+      },
+      {
+        "name": "sqldw-cli",
+        "dir": "sqldw-cli",
+        "router_lines": 139,
+        "summary": "Manage Fabric Warehouse, Lakehouse SQL endpoints, and Mirrored Databases: DDL/DML, COPY INTO, read-only T-SQL, Query Insights diagnostics, and Capacity Metri..."
       },
       {
         "name": "sqldw-consumption-cli",
         "dir": "sqldw-consumption-cli",
-        "router_lines": 35,
-        "summary": "Execute read-only T-SQL queries against Fabric Data Warehouse, Lakehouse SQL Endpoints, and Mirrored Databases via CLI. Default skill for any lakehouse data...",
-        "version": "0.2.0",
-        "updated": "2026-06-25"
+        "router_lines": 10,
+        "summary": "DEPRECATED alias, renamed upstream. Use the `sqldw-cli` skill instead (read-only queries). Kept so old trigger names still route. Triggers: sqldw consumption..."
       },
       {
         "name": "sqldw-operations-cli",
         "dir": "sqldw-operations-cli",
-        "router_lines": 38,
-        "summary": "Analyze Fabric Data Warehouse performance via CLI using sqlcmd and queryinsights views. Diagnose slow queries, SQL pool pressure, cache coldness, and recomme...",
-        "version": "0.2.0",
-        "updated": "2026-06-25"
+        "router_lines": 10,
+        "summary": "DEPRECATED alias, renamed upstream. Use the `sqldw-cli` skill instead (operations and Query Insights). Kept so old trigger names still route. Triggers: sqldw..."
       },
       {
         "name": "synapse-migration",
@@ -577,6 +632,12 @@
         "summary": "Port Azure Synapse Analytics Spark workloads to Microsoft Fabric. Translates mssparkutils calls to notebookutils (including the env→runtime namespace change)...",
         "version": "0.2.0",
         "updated": "2026-06-25"
+      },
+      {
+        "name": "variable-library-cli",
+        "dir": "variable-library-cli",
+        "router_lines": 109,
+        "summary": "Manages Fabric Variable Library items, including definitions, libraryVariables and valueSets overrides. Covers which consumers can reference a variable and w..."
       }
     ],
     "snowflake": [
@@ -738,9 +799,9 @@
     ]
   },
   "meta": {
-    "skills": 98,
-    "avg_router_lines": 118.7,
-    "routers_over_150": 24,
-    "total_lines": 149712
+    "skills": 115,
+    "avg_router_lines": 133.5,
+    "routers_over_150": 31,
+    "total_lines": 220577
   }
 }

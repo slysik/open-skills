@@ -6,8 +6,8 @@ Read these companion documents before executing migration tasks:
 - [COMMON-CLI.md](../../common/COMMON-CLI.md) — `az rest`, `az login`, token acquisition, Fabric REST via CLI
 - [SPARK-AUTHORING-CORE.md](../../common/SPARK-AUTHORING-CORE.md) — Notebook deployment, lakehouse creation, Spark job execution
 
-For notebook and Lakehouse creation, see [spark-authoring-cli](../spark-authoring-cli/SKILL.md).
-For Fabric Warehouse DDL/DML authoring, see [sqldw-authoring-cli](../sqldw-authoring-cli/SKILL.md).
+For notebook and Lakehouse creation, see [spark-cli](../spark-cli/SKILL.md).
+For Fabric Warehouse DDL/DML authoring, see [sqldw-cli](../sqldw-cli/SKILL.md).
 
 ---
 
@@ -109,7 +109,7 @@ The complete side-by-side API table is in [dbutils-to-notebookutils.md](resource
 | Job clusters per task | **Pool attached to SJD** | Each SJD can specify its Spark pool independently |
 | Databricks Workflows | **Fabric Data Pipelines** | Full DAG orchestration with conditions, loops, and failure branches |
 
-> **Delegate to `spark-authoring-cli`** for SJD creation and notebook deployment.
+> **Delegate to `spark-cli`** for SJD creation and notebook deployment.
 
 ---
 
