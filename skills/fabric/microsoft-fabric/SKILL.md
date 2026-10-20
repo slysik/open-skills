@@ -1,6 +1,6 @@
 ---
 name: microsoft-fabric
-description: "Build and operate Microsoft Fabric workloads from the CLI / REST / Fabric notebooks: Data Pipelines (Data Factory in Fabric), Dataflows Gen2, Lakehouse + OneLake, Warehouse, Spark notebooks, Eventstream / Real-Time Intelligence, Semantic Models, Deployment Pipelines, workspaces, capacities, domains, Git integration, and monitoring. USE FOR: create fabric workspace, assign capacity, create lakehouse, create warehouse, build fabric data pipeline, copy activity, dataflow gen2, on-prem data gateway, parameterize pipeline, schedule trigger, pipeline failure / retry / resiliency, dead-letter, idempotent ingestion, monitor pipeline runs, alerting on failure, az fabric CLI, fab CLI, Fabric REST API, OneLake shortcuts, medallion bronze/silver/gold, compare Fabric Data Factory vs ADF vs Synapse pipelines. DO NOT USE FOR: Snowflake (use snowflake-cortex), IBM watsonx (use watsonx-data-fabric), pure Azure ADF outside Fabric (use the ADF deck under /Users/slysik/fabric)."
+description: "Build and operate Microsoft Fabric workloads from the CLI / REST / Fabric notebooks: Data Pipelines (Data Factory in Fabric), Dataflows Gen2, Lakehouse + OneLake, Warehouse, Spark notebooks, Eventstream / Real-Time Intelligence, Semantic Models, Deployment Pipelines, workspaces, capacities, domains, Git integration, and monitoring. USE FOR: create fabric workspace, assign capacity, create lakehouse, create warehouse, build fabric data pipeline, copy activity, dataflow gen2, on-prem data gateway, parameterize pipeline, schedule trigger, pipeline failure / retry / resiliency, dead-letter, idempotent ingestion, monitor pipeline runs, alerting on failure, az fabric CLI, fab CLI, Fabric REST API, OneLake shortcuts, medallion bronze/silver/gold, compare Fabric Data Factory vs ADF vs Synapse pipelines. ARCHITECT USE FOR: Fabric design session, capacity sizing, Direct Lake guardrails, OneLake security, private link, workspace CMK, Fabric DR / BCDR, shortcut vs mirroring, Fabric vs Databricks, data agent, Copilot data residency. DO NOT USE FOR: Snowflake (use snowflake-cortex), IBM watsonx (use watsonx-data-fabric), pure Azure ADF outside Fabric (use the ADF deck under /Users/slysik/fabric)."
 license: MIT
 metadata:
   author: slysik
@@ -40,6 +40,21 @@ convenience and is not installed here); MCP is never required. Opinionated towar
 | [data-pipelines/failure-handling.md](data-pipelines/failure-handling.md) | A pipeline failed — read run history, classify, fix, re-run. Triage decision tree. |
 | [data-pipelines/resiliency.md](data-pipelines/resiliency.md) | Design-time resiliency: retries, backoff, idempotent loads, dead-letter, alerting, failover. |
 | [recipes.md](recipes.md) | End-to-end recipes: medallion, incremental copy, nightly Warehouse load, event-driven landing, CI/CD. |
+
+## Architect layer (design sessions, PoC sizing, production hardening)
+
+Decision-oriented references, each with trade-offs, anti-patterns, a reference architecture and a talk track. Verified against Microsoft Learn on 2026-10-19; items Learn did not state are marked `UNVERIFIED`.
+
+| Reference | Use when |
+|---|---|
+| [references/architect/workload-selection.md](references/architect/workload-selection.md) | Lakehouse vs Warehouse vs Eventhouse vs SQL db; Direct Lake vs Import vs DQ; Fabric vs Databricks vs Synapse |
+| [references/architect/capacity-finops.md](references/architect/capacity-finops.md) | SKU sizing, smoothing, throttling, pause, overage, isolation, FinOps |
+| [references/architect/security-governance.md](references/architect/security-governance.md) | Roles, OneLake security, RLS/CLS, labels, private link, MPE, TWA, CMK, tenant settings |
+| [references/architect/resiliency-dr.md](references/architect/resiliency-dr.md) | Zone vs regional failure, BCDR switch, recovery runbook, RPO/RTO tiers |
+| [references/architect/onelake-integration.md](references/architect/onelake-integration.md) | Shortcut vs mirror vs copy, Iceberg interop, ADF/Synapse migration |
+| [references/architect/alm-governance.md](references/architect/alm-governance.md) | Git, deployment pipelines, variable libraries, domains, endorsement |
+| [references/architect/ai-readiness.md](references/architect/ai-readiness.md) | Data agent, Copilot data handling, IQ/ontology, AI functions, vector placement |
+| [references/architect/databricks-coexistence.md](references/architect/databricks-coexistence.md) | Mirrored catalog, OneLake federation, Databricks-to-OneLake patterns |
 
 ## Mental model
 

@@ -17,30 +17,25 @@ Understanding the billing model is key to designing cost-effective pipelines:
 | Metric | What it means | Notes |
 |---|---|---|
 | **Capacity Units (CUs)** | The raw horsepower of your capacity. | An F2 capacity has 2 CUs; an F64 has 64 CUs. |
-| **Interactive Operations** | Power BI report renders, SQL queries, ad-hoc Notebook runs. | Smoothed over a **5-minute window**. If you burst, you're throttled quickly. |
+| **Interactive Operations** | Power BI report renders, SQL queries, ad-hoc Notebook runs. | Smoothed over a minimum of **5 minutes** (up to 64 minutes depending on CU use). |
 | **Background Operations** | Scheduled Pipelines, Dataflows Gen2, Notebook activities. | Smoothed over a **24-hour window**. You can burst high, and Fabric averages it out. |
 | **Smoothing** | Spreading a compute-heavy burst over time. | If a PySpark notebook runs for 10 minutes and uses 64 CUs on an F32 capacity, Fabric spreads that cost over 24 hours so you don't hit the ceiling. |
 | **Overages** | Accumulating more compute debt than your capacity can clear. | When you carry an overage, your background jobs start getting queued or delayed. |
 
 ---
 
-## 2. Throttling: The Three Stages of Pain
+## 2. Throttling: Four Stages (driven by smoothed future usage)
 
-When your workspace consumes more CUs than your capacity provides, Fabric applies throttling in three distinct phases:
+Last verified 2026-10-19 against Learn `enterprise/throttling`. Stages depend on how much *future* capacity the smoothed usage has already consumed, not on a CU% threshold:
 
-```
- CU% Consumption ───►  100%  ──────────────►  150%  ──────────────►  200%
-                       │                       │                       │
- Throttling Phase:   [ 1. Interactive Delay ] [ 2. Interactive Reject] [ 3. Background Reject ]
-                     Queries feel sluggish     Web UI shows 429s       Pipelines fail instantly
-```
+| Smoothed future usage | Stage | Effect |
+|---|---|---|
+| 10 minutes or less | Overage protection | Nothing throttled |
+| more than 10 min, up to 60 min | Interactive delay | New interactive jobs delayed 20 seconds |
+| more than 60 min, up to 24 h | Interactive rejection | New interactive jobs rejected; background can still start |
+| more than 24 h | Background rejection | All new requests rejected |
 
-1. **Interactive Delay (100% CU Limit Exceeded):**
-   - Fabric artificially delays interactive operations (e.g., rendering a report takes 10s instead of 1s) to force consumption down.
-2. **Interactive Rejection (150% CU Limit Exceeded):**
-   - Interactive requests fail immediately with a `429 Too Many Requests` error. Users cannot edit reports or run query previews.
-3. **Background Rejection (200% CU Limit Exceeded):**
-   - Active pipelines fail, schedules are skipped, and background jobs are outright rejected.
+In-flight operations always finish. See [../references/architect/capacity-finops.md](../references/architect/capacity-finops.md) for SKUs, overage billing and sizing.
 
 ---
 
