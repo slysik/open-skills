@@ -1,0 +1,19 @@
+table orders
+	sourceLineageTag: [dbo].[orders]
+
+	column OrderId
+		dataType: string
+		sourceColumn: OrderId
+		sourceLineageTag: OrderId
+
+	column Amount
+		dataType: double
+		sourceColumn: Amount
+		sourceLineageTag: Amount
+
+	partition orders = entity
+		mode: directLake
+		source
+			entityName: orders
+			schemaName: dbo
+			expressionSource: DatabaseQuery

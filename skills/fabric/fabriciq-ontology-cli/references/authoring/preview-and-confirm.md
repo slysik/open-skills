@@ -1,5 +1,7 @@
 # Preview & Confirm — Author-Time Design Review
 
+> **Generation 2 (TMDL):** parts are plain text, so show the user a unified text diff of every changed `.tmdl` file (before and after `unpack`) instead of an ASCII proposal of JSON objects, then run `ontology_tmdl.py check` and ask for confirmation before the `updateDefinition` call. Same rule: nothing is persisted until the terminal write returns success.
+
 > Before invoking `createItem` or `updateDefinition` (the LRO write), the agent **must** render a preview of what's about to be authored and obtain explicit user confirmation. This prevents schema drift, accidental property type changes, and unintended drops of bindings/relationships.
 
 Two modes:

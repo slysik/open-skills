@@ -1,5 +1,7 @@
 # Ontology Consumption — Query Routing Reference
 
+> **Generation note.** Paths named here (`EntityTypes/...`, `DataBindings/...`) are generation 1 (old experience). For a TMDL (generation 2) definition read entities, relationships and table bindings from the `.tmdl` parts described in [tmdl-definition.md](../authoring/tmdl-definition.md).
+
 Deep reference for translating a grounded ontology entity type (or relationship) into a source query against the correct per-datasource consumption skill. SKILL.md has the quick decision table; this file has the per-delegate invocation templates, field-mapping contracts, and edge cases.
 
 See [ONTOLOGY-AUTHORING-CORE.md § DataBinding file](../authoring/ONTOLOGY-AUTHORING-CORE.md#databinding-file--entitytypesiddatabindingsguidjson) for the authoritative binding schema this routing layer consumes.

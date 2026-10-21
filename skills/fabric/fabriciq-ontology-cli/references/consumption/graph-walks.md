@@ -1,5 +1,7 @@
 # Ontology Consumption — Graph Walks
 
+> **Generation note.** Paths named here (`EntityTypes/...`, `DataBindings/...`) are generation 1 (old experience). For a TMDL (generation 2) definition read entities, relationships and table bindings from the `.tmdl` parts described in [tmdl-definition.md](../authoring/tmdl-definition.md).
+
 How to resolve **all data N hops from an anchor entity instance** through an ontology — without writing a custom script per question.
 
 This is the most common consumption ask after grounding ("show me everything related to Panel7", "what does aircraft N42ZA touch", "neighborhood of customer 1234"). The pattern below composes existing routing primitives into a fixed N-hop walk.

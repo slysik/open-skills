@@ -1,5 +1,7 @@
 # Ontology Definition — Script Templates
 
+> **Generation 1 (JSON tree) templates.** The scripts below explode and rebuild the old JSON tree. For a TMDL (generation 2) definition use `references/scripts/ontology_tmdl.py` (`unpack`, `check`, `pack`) and the workflow in [tmdl-definition.md](tmdl-definition.md#8-authoring-workflow-generation-2): the fetch, LRO polling and base64 handling below still apply, only the part tree differs (and TMDL files must use tabs).
+
 Reference scaffolds for authoring Fabric Ontology items end-to-end from the CLI. Keep these snippets close to your deployment scripts; they are intentionally minimal and meant to be adapted, not executed verbatim.
 
 ## Platform assumptions

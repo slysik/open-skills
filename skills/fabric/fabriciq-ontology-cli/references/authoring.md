@@ -9,6 +9,8 @@
 
 # fabriciq-ontology-cli authoring mode — Fabric Ontology Authoring via CLI
 
+> **Format note (2026-10-21).** Everything below that mentions `EntityTypes/`, `RelationshipTypes/`, `DataBindings/` or `valueType` describes the **old experience (generation 1, JSON tree)**, which **retires on 2027-01-31** (Learn: Fabric IQ ontology overview). Ontologies created in the new experience use a **TMDL** definition: see [authoring/tmdl-definition.md](authoring/tmdl-definition.md) for the layout, REST paths, workflow and the offline checker `references/scripts/ontology_tmdl.py`. **Decide the generation first** from the part layout returned by `getDefinition` (JSON tree versus `database.tmdl`); do not mix formats in one definition. To move an old item to the new experience use the in-product "create a copy" action; no migration API is documented.
+
 ## Table of Contents
 
 | Task                                           | Reference                                                                                                                                              | Notes                                                                        |

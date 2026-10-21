@@ -1,5 +1,7 @@
 # Ontology Consumption — Grounding Extraction Reference
 
+> **Generation note.** Paths named here (`EntityTypes/...`, `DataBindings/...`) are generation 1 (old experience). For a TMDL (generation 2) definition read entities, relationships and table bindings from the `.tmdl` parts described in [tmdl-definition.md](../authoring/tmdl-definition.md).
+
 Deep reference for turning a Fabric Ontology item definition into an agent-ready **grounding JSON**. SKILL.md keeps the decision content (scope, routing, Must/Prefer/Avoid). This file holds the full fetch / decode / parse / summarise recipes.
 
 See [ONTOLOGY-AUTHORING-CORE.md § Definition Tree](../authoring/ONTOLOGY-AUTHORING-CORE.md#definition-tree) for the authoritative file-and-folder shape of the parts you will decode — reading it is the best way to understand every field the summary exposes.

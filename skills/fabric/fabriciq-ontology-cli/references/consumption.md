@@ -10,6 +10,8 @@
 
 # fabriciq-ontology-cli consumption mode — Fabric Ontology Consumption via CLI
 
+> **Generation note.** The part paths below (`EntityTypes/...`, `RelationshipTypes/...`, `DataBindings/...`) are the old experience (generation 1). A generation-2 definition returned by `getDefinition` is TMDL: entities in `entities/{namespace}#{name}.tmdl`, relationships in `entityRelationships.tmdl`, bindings in `tables/{name}.tmdl` partitions (`entityName`, `schemaName`, `expressionSource`), rules in `rules/*.tmdl`. Classify first with `python3 references/scripts/ontology_tmdl.py detect <envelope.json>`; layout and parsing rules are in [authoring/tmdl-definition.md](authoring/tmdl-definition.md). Consumption stays read-only for both formats.
+
 ## Table of Contents
 
 | Task                                             | Reference                                                                                                                    | Notes                                                             |

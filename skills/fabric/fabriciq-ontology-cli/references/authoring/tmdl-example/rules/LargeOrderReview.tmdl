@@ -1,0 +1,6 @@
+rule LargeOrderReview
+	lineageTag: 44444444-4444-4444-4444-444444444444
+	statement: Orders above the approval threshold need a manual review.
+	ruleReferencedEntity orders
+		propertyScope: specific
+		ruleReferencedProperty Amount

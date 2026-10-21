@@ -1,5 +1,7 @@
 # Ontology Authoring — Examples
 
+> **Examples use the old experience (generation 1).** For a generation-2 (TMDL) example tree see [tmdl-example/](tmdl-example/) and [tmdl-definition.md](tmdl-definition.md). The tree is reconstructed from Learn and must be confirmed against a real `getDefinition` output.
+
 End-to-end worked examples composing the operations documented in [authoring-mechanics.md](authoring-mechanics.md).
 
 > **Portability note for the bash snippets below:** GNU `base64 -w 0` and `base64 -d` are assumed. On macOS (BSD `base64`), use `base64 -D` to decode, and `base64 | tr -d '\n'` to encode without wrapping. See [definition-script-templates.md § Platform assumptions](definition-script-templates.md#platform-assumptions) for portable helpers. `/tmp` is Unix-only — on Windows use `$env:TEMP` (PowerShell) or an equivalent path.

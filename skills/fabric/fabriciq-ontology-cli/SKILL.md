@@ -1,6 +1,6 @@
 ---
 name: fabriciq-ontology-cli
-description: "Manages Fabric IQ Ontology items, including entity and relationship types, data bindings, and definition updates, plus schema, lineage, grounding, and graph-walk exploration. Use for ontology modelling and traversal. For natural-language questions over a Power BI report use fabriciq."
+description: "Manages Fabric IQ Ontology items, including entity and relationship types, data bindings, and definition updates in both the old JSON format (generation 1, retires 2027-01-31) and the new TMDL format (generation 2), plus schema, lineage, grounding, and graph-walk exploration. Use for ontology modelling and traversal. For natural-language questions over a Power BI report use fabriciq."
 ---
 
 > **Telemetry — MANDATORY.** Every `api.fabric.microsoft.com` call must carry
@@ -55,6 +55,14 @@ Resolve the workspace and item first; every mode depends on it.
 | Authentication Recipes | [COMMON-CLI.md](references/common/COMMON-CLI.md#authentication-recipes) | `az login` flows and token acquisition |
 | Core Control-Plane REST APIs | [COMMON-CORE.md](references/common/COMMON-CORE.md#core-control-plane-rest-apis) | Pagination, LRO polling, rate limiting |
 | Gotchas & Troubleshooting | [COMMON-CLI.md](references/common/COMMON-CLI.md#gotchas--troubleshooting-cli-specific) | `az rest` audience, shell escaping, token expiry |
+
+## Ontology generations (read before any write)
+
+The Ontology item exists in two definition formats. **Old experience (generation 1)**: JSON tree (`EntityTypes/...`); retires **2027-01-31**; documented in `references/authoring.md` and the files it links. **New experience (generation 2)**: TMDL (`database.tmdl`, `entities/*.tmdl`, ...); documented in [references/authoring/tmdl-definition.md](references/authoring/tmdl-definition.md), with an offline helper `references/scripts/ontology_tmdl.py` (`detect`, `unpack`, `check`, `pack`). Rules:
+1. Fetch `getDefinition` first and classify the part layout; never mix formats in one definition.
+2. New ontologies should target generation 2; creating an item with no definition creates generation 2.
+3. Migration from old to new is the in-product "create a copy" action (new separate item; rules and Activator alerts must be recreated); there is no migration API and this skill does not convert definitions.
+4. The Ontology item is Preview. The TMDL examples in this skill were reconstructed from Learn and must be confirmed against a real `getDefinition` response.
 
 ## Rules
 

@@ -28,3 +28,7 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 
 ```
+
+## Local modifications to upstream skills
+
+- `skills/fabric/fabriciq-ontology-cli` (from microsoft/skills-for-fabric v0.3.18): added generation notes to the authoring and consumption references, a generation-2 TMDL spec (`references/authoring/tmdl-definition.md`), an offline helper and tests (`references/scripts/ontology_tmdl.py`, `test_ontology_tmdl.py`), a reconstructed example tree (`references/authoring/tmdl-example/`), an "Ontology generations" section and an updated description in `SKILL.md`. Upstream content was kept; changes are additive. Reapply these on the next upstream sync (patch list: `_inbox/ontology-tmdl-patch-list.md`).

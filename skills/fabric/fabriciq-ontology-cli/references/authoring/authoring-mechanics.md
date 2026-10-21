@@ -1,5 +1,7 @@
 # Ontology Authoring — Mechanics Reference
 
+> **Endpoints.** Learn documents typed ontology paths (`/v1/workspaces/{workspaceId}/ontologies[/{ontologyId}][/getDefinition|/updateDefinition]`, scope `Item.ReadWrite.All`). The recipes below use the generic `/items` paths; see [tmdl-definition.md](tmdl-definition.md#2-rest-operations-verified) for the verified table. The ID rules in this file (positive 64-bit integers, namespace `usertypes`) apply to **generation 1 only**.
+
 Deep reference for each authoring operation. SKILL.md keeps the high-level decision content (workflows, Must/Prefer/Avoid, troubleshooting). This file holds the full JSON shapes, field-by-field contracts, and verification recipes.
 
 For base64 encode/decode across GNU vs BSD, and for the full fetch-mutate-send scripts, see [definition-script-templates.md](definition-script-templates.md).

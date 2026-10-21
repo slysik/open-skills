@@ -1,5 +1,7 @@
 # ONTOLOGY-AUTHORING-CORE.md — Fabric IQ Ontology (preview) Authoring Reference
 
+> **Generation 1 (legacy) reference.** This file documents the old JSON-tree definition. For the new TMDL definition (generation 2) see [tmdl-definition.md](tmdl-definition.md). The old experience retires on 2027-01-31.
+
 > **Purpose**: Shared reference for authoring Fabric IQ Ontology (preview) items via the Fabric item-definition REST API. Covers the definition tree (entity types, data bindings, relationship types, contextualizations), schema constraints, value-type mappings, supported source kinds, and platform limitations.
 > **Not a tutorial** — assumes familiarity with the Fabric control-plane REST API and base64-encoded item definitions. Focus is the JSON shapes and rules the skill must generate correctly.
 > **Preview**: The Ontology item type is in public preview. Wire format and limitations may change; validate against the latest Microsoft docs before production use.
