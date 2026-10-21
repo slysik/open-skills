@@ -6,14 +6,14 @@ Last verified: 2026-10-19 (Learn: `data-science/concept-data-agent` 2026-09-29, 
 | Capability | Status | Notes |
 |---|---|---|
 | Fabric data agent | GA per concept page; release-status table (2026-06-19) still says Preview | Trust the newer page, say "GA per concept page" |
-| Copilot in Fabric | Mixed. GA: Data Factory, SQL database, Power BI, KQL queryset, real-time dashboards, operations agent. PREVIEW: notebooks, Warehouse SQL | Overview text still says "in preview" |
+| Copilot in Fabric | Mixed. GA: Data Factory, SQL database, Power BI, KQL queryset, real-time dashboards. PREVIEW: notebooks, Warehouse SQL, operations agent for pipelines (Learn 2026-10-21; the June release table listed the operations agent as GA, now stale) | Overview text still says "in preview" |
 | AI functions | UNVERIFIED (overview silent; table says Preview, stale) | Lean preview |
 | Prebuilt Foundry Tools (formerly AI services) | PREVIEW | gpt-5.1, gpt-5-mini, text-embedding-ada-002; bring-your-own-key available |
 | Fabric IQ (ontology) | PREVIEW | Old ontology experience retires 2027-01-31 |
 | Graph in Fabric | Overview calls IQ items preview; graph page silent: UNVERIFIED | GQL (ISO 39075) |
 | Eventhouse vector search | No label on page | No native ANN index |
 | SQL database in Fabric vector | UNVERIFIED | `vector` type, `VECTOR_DISTANCE`, `VECTOR_SEARCH` described |
-| Fabric MCP | UNVERIFIED | Local and remote MCP mentioned only in passing |
+| Fabric IQ MCP | **GA** (Learn 2026-10-21) | Read-only; Power BI reports and semantic models only; does **not** serve ontologies or data agents; delegated OAuth only. Details in [fabric-iq-ontology-planning.md](fabric-iq-ontology-planning.md). Other Fabric MCP servers (local/remote item CRUD): still UNVERIFIED |
 
 ## 2. Data agent (design rules)
 - Needs paid F2 or higher (or P1+ with Fabric), AI tenant settings incl. cross-geo processing where required, and read access to at least one source.
@@ -26,6 +26,8 @@ Last verified: 2026-10-19 (Learn: `data-science/concept-data-agent` 2026-09-29, 
 Enabled by default on paid F2+ (not trial, not sovereign clouds). Azure OpenAI runs in US datacenters and the EU data boundary. Capacities in UK, Australia, Brazil, Canada, India, Asia, Japan, Korea, South Africa, Southeast Asia, UAE need the cross-geo tenant setting (UK processes in EU, others in US). Prompts, meta prompts, schema and conversation history may be sent; table contents are not unless directed. History for notebook Copilot and data agents is kept 28 days unless cleared.
 
 ## 4. Fabric IQ and ontology
+For namespaces, inheritance, version history, RDF/OWL import, the TMDL definition format (and the old-format retirement on 2027-01-31) and Planning, see [fabric-iq-ontology-planning.md](fabric-iq-ontology-planning.md).
+
 Ontology binds to semantic models, lakehouses, eventhouses, warehouses, SQL databases, mirrored databases, shortcuts, views and materialized views; can be generated from a semantic model (DAX measures become metrics); imports RDF, Turtle, OWL and exports RDF/Turtle; graph materialization is optional; respects OneLake security, RLS, OLS, CLS. Graph billing: 10 CU-s per CPU-second, minimum 100 GB. Tenant toggles and SKU requirements: `UNVERIFIED`.
 
 ## 5. AI functions and Foundry tools

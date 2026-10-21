@@ -9,7 +9,7 @@ Last verified: 2026-10-19 (Learn: `cicd/git-integration/intro-to-git-integration
 
 ## 2. Deployment pipelines
 - 2 to 10 stages (default 3). Items are paired across stages; unpaired items with the same name create duplicates instead of overwriting.
-- Deployment rules switch data sources and parameters per stage. New UI and deployment plans are PREVIEW. Semantic models not on Enhanced Metadata have been retired from deployment pipelines since 2026-02-12.
+- Deployment rules switch data sources and parameters per stage. New UI and deployment plans are PREVIEW (ordering, pre/post actions and API usage: see [deployment-plans-monitoring.md](deployment-plans-monitoring.md); `fabric-cicd` does not support plans). Semantic models not on Enhanced Metadata have been retired from deployment pipelines since 2026-02-12.
 - Automate through the deployment pipelines REST APIs.
 
 ## 3. Variable libraries (the right way to parameterize)
@@ -25,7 +25,7 @@ Consumers: Pipeline, lakehouse shortcut, Notebook, Dataflow Gen2, Copy job, UDF,
 Best practices from Learn: separate workspaces per team and per environment; separate dev/test/prod data stores; parameterize per stage; private workspace per feature branch with small commits (large commits hit a max size); revert with git revert/reset then update the workspace; test on a capacity similar to production; updating an app needs the API, not the UI.
 
 ## 5. fab CLI
-`pip install ms-fabric-cli` (Python 3.10 to 3.13). `fab auth login` supports interactive, service principal (secret, certificate, federated token) and managed identity. Commands include ls, cd, cp, mv, rm, ln, import, export, bulk-export, deploy, start, jobs, api, acl, assign, table, label. GA status is not stated on the docs page: `UNVERIFIED`. Local note: `fab` currently reports "Not logged in" on this machine. Terraform provider: `UNVERIFIED`.
+`pip install ms-fabric-cli` (Python 3.10 to 3.13). `fab auth login` supports interactive, service principal (secret, certificate, federated token) and managed identity. Commands include ls, cd, cp, mv, rm, ln, import, export, bulk-export, deploy, start, jobs, api, acl, assign, table, label. The Fabric REST index and CI/CD article list the `fab` CLI, the Terraform provider and the `fabric-cicd` library as automation options (Learn, 2026-10-21); GA labels and supported item types per tool are not stated on Learn: `UNVERIFIED`. Local note: `fab` currently reports "Not logged in" on this machine. Terraform provider: listed on Learn but no Learn page documents its resource list: `UNVERIFIED`.
 
 ## 6. Governance operating model
 | Element | Decision |

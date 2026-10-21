@@ -475,7 +475,7 @@
       {
         "name": "microsoft-fabric",
         "dir": "microsoft-fabric",
-        "router_lines": 92,
+        "router_lines": 96,
         "summary": "Build and operate Microsoft Fabric workloads from the CLI / REST / Fabric notebooks: Data Pipelines (Data Factory in Fabric), Dataflows Gen2, Lakehouse + One...",
         "version": "0.2.0",
         "updated": "2026-06-23"
@@ -800,8 +800,8 @@
   },
   "meta": {
     "skills": 115,
-    "avg_router_lines": 133.5,
+    "avg_router_lines": 133.6,
     "routers_over_150": 31,
-    "total_lines": 220577
+    "total_lines": 220885
   }
 }

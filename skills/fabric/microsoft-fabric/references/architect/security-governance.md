@@ -62,6 +62,8 @@ Private link is inbound only; it does not secure outbound traffic to data source
 Publish to web; external data sharing and accepting external shares; guest access and inviting guests; shareable links to everyone; export formats; who can create workspaces; service principal API access; Azure Private Links and Block Public Internet Access; Apply customer-managed keys; OneLake access from apps outside Fabric and short-lived user-delegated SAS; cross-region processing for Azure OpenAI/AI. Defaults are mostly `UNVERIFIED`; always read the live admin portal (now also under OneLake catalog, Govern, Configurations).
 
 ## 8. Governance and audit
+Admin guardrails for item creation, external sharing and workspace settings (Preview "Fabric policies"): see [fabric-policies.md](fabric-policies.md).
+
 - Domains group data by business area and can receive delegated tenant settings. Endorsement: promoted, certified, master data (delegate certification to domain admins).
 - Purview DLP, Information Protection and Audit need extra Purview licensing. Compliance listed: HIPAA BAA, ISO/IEC 27001, 27017, 27018, 27701.
 - Audit log covers control-plane events (7-day default search, Exchange Online "Audit Logs" role). **OneLake data-plane access needs OneLake diagnostics.** CMK operations are logged. Retention: `UNVERIFIED`.

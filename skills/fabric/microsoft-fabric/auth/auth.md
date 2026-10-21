@@ -2,7 +2,7 @@
 
 CLI-first / REST-primary. Az CLI mints the Entra token; the **Fabric REST API is
 the primary execution path** (the `fab` CLI is optional and not installed here,
-and REST coverage is more predictable). MCP is never required.
+and REST coverage is more predictable). MCP is not required for the REST skills in this suite; the Fabric IQ MCP (GA, read-only, Power BI items) is used only by the upstream `fabriciq` skill.
 
 The four headings below are the standard connection contract shared by every
 skill in this suite: **Interactive · Service principal · Verify · Troubleshoot**.
@@ -78,5 +78,4 @@ curl -s -H "Authorization: Bearer $TOKEN" \
 | `fab: command not found` | `fab` CLI not installed (expected) | Use REST (primary). Install `fab` only if you want the convenience layer. |
 | Lakehouse tables empty | Data in Files section, not promoted to Delta | Promote to a Delta table or query `/files`. As of 2026-06-18 `lh_hr_policy_dev` had 0 promoted tables. |
 
-> MCP note: a Fabric MCP server may be added later as a convenience, but no skill
-> in this suite depends on it. REST is the contract.
+> MCP note: REST is the contract for the item-management skills. The one MCP-based skill is `fabriciq` (Fabric IQ MCP, GA per Learn 2026-10-21, delegated OAuth only, Power BI reports and semantic models only).
