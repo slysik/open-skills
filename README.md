@@ -4,12 +4,12 @@
 
 # Databricks · Microsoft Fabric · Snowflake — Agent Skills
 
-**78 production skills** that turn Claude Code, Codex, or pi into a data-platform engineer.
+**79 production skills** that turn Claude Code, Codex, or pi into a data-platform engineer.
 Build everything on **Databricks, Snowflake, and Microsoft Fabric** through CLIs and REST APIs —
 **no MCP, no UI, no glue code.**
 
-[![Skills](https://img.shields.io/badge/skills-78-FF3621)](#-skill-catalog)
-[![Avg router](https://img.shields.io/badge/avg_router-63.4_lines-29B5E8)](#-how-these-skills-are-optimized)
+[![Skills](https://img.shields.io/badge/skills-79-FF3621)](#-skill-catalog)
+[![Avg router](https://img.shields.io/badge/avg_router-63.9_lines-29B5E8)](#-how-these-skills-are-optimized)
 [![Harness](https://img.shields.io/badge/harness-Claude_Code_·_Codex_·_pi-11A37F)](#-works-with-your-agent)
 [![Architecture](https://img.shields.io/badge/architecture-CLI_+_REST,_no_MCP-555)](#-design-principles)
 [![Landing](https://img.shields.io/badge/landing-GitHub_Pages-8b5cf6)](https://slysik.github.io/open-skills/)
@@ -25,7 +25,7 @@ Build everything on **Databricks, Snowflake, and Microsoft Fabric** through CLIs
 Each install command copies skills into **one** harness. It does **not**
 automatically make them available in all three tools at once.
 
-Installs **all 78 skills** into Codex:
+Installs **all 79 skills** into Codex:
 
 ```bash
 just install-open-skills
@@ -60,7 +60,7 @@ just list
 
 | Flag | Effect |
 |---|---|
-| *(none)* | install all 78 skills |
+| *(none)* | install all 79 skills |
 | `--platform databricks\|fabric\|snowflake\|foundry` | install one platform group (repeatable; aliases include `databricks-ai`, `snowflake-ai`, `microsoft-ai`, `dbx`, `snow`, and `ai-foundry`) |
 | `<skill-name> …` | install named skills only |
 | `--harness claude\|codex\|pi` | choose target agent (auto-detected by default) |
@@ -115,13 +115,13 @@ trigger the `snowflake` router skill, which then routes to `snowflake-cortex`,
 
 Every skill was rewritten to a measured standard, not vibes:
 
-- **Thin-router architecture** — `SKILL.md` is a *router*, not a manual. Average **63.4 lines** (target < 100, hard cap 150). 78 of 78 routers are under 150.
+- **Thin-router architecture** — `SKILL.md` is a *router*, not a manual. Average **63.9 lines** (target < 100, hard cap 150). 79 of 79 routers are under 150.
 - **Progressive disclosure** — the router loads only a concept map + a "load which sub-doc" table. Heavy detail lives in `references/` and is pulled into context **only when the task needs it**, so a typical invocation reads tens of lines instead of thousands.
 - **CLI-first, REST-second, MCP-never** — vendor CLI / REST is the only required path. No MCP servers to install, register, or keep alive. (One Databricks skill was rewritten specifically because it wrongly mandated an MCP tool that registered zero tools.)
 - **Connection contract** — every auth doc follows the same 4 headings: *Interactive · Service principal · Verify · Troubleshoot* — so the agent never guesses how to authenticate.
 - **Preservation-tested trims** — routers were shrunk by moving body to `references/` *verbatim*; an automated check proves no command or code line was lost in the process.
 
-**Suite totals:** 78 skills · 63.4 avg router lines · 118,983 total lines of curated playbook.
+**Suite totals:** 79 skills · 63.9 avg router lines · 119,989 total lines of curated playbook.
 
 > **Adding more skills.** New skills are added through the **same open-skills agent-harness optimization framework** — drop a thin-router `SKILL.md` (+ `references/`) under `skills/<platform>/<skill>/`, run `scripts/build_catalog.py` to refresh `catalog.json`, and `scripts/validate_skills.py` to enforce the router-line / preservation contract. The self-healing runtime (`_runtime/` + per-skill `scripts/sense-state · verify-auth · diagnose-error · assert · generate-blueprint`) and the one-step installer pick the new skill up automatically — no bespoke wiring. Every skill ships to every harness (Claude Code · Codex · pi) the same way.
 
@@ -181,12 +181,12 @@ Every skill was rewritten to a measured standard, not vibes:
 </details>
 
 
-### Microsoft Fabric (32)
+### Microsoft Fabric (33)
 
 *OneLake · Eventhouse · Power BI · Dataflows · Warehouse*
 
 <details>
-<summary><b>Show 32 skills</b></summary>
+<summary><b>Show 33 skills</b></summary>
 
 | Skill | What it does | Router |
 |---|---|---|
@@ -200,6 +200,7 @@ Every skill was rewritten to a measured standard, not vibes:
 | `eventhouse-consumption-cli` | Run KQL queries against Fabric Eventhouse for real-time intelligence and time-series analytics using `az rest` against the Kusto REST API. Covers KQL operato... | 39 |
 | `eventstream-authoring-cli` | Create, wire, and publish Microsoft Fabric Eventstream real-time event streaming topologies via the Fabric Items REST API. Build graph-based definitions with... | 38 |
 | `eventstream-consumption-cli` | List, inspect, and monitor Microsoft Fabric Eventstream real-time event ingestion pipelines via the Fabric Items REST API. Discover Eventstreams across works... | 38 |
+| `fabric-apps-rayfin` | Build TypeScript backend apps that run on Microsoft Fabric as a managed Fabric App (MSSQL only) with the @microsoft/rayfin CLI (Rayfin): scaffold, model enti... | 105 |
 | `fabriciq` | Answer business questions by querying Power BI reports and dashboards through the FabricIQ MCP endpoint. Orchestrates: discover Power BI artifacts, inspect r... | 38 |
 | `fabriciq-ontology-authoring-cli` | Create and evolve Fabric IQ Ontology (preview) items from CLI — define entity types, properties (including timeseries), relationship types, and bind them to... | 29 |
 | `fabriciq-ontology-consumption-cli` | Explore Fabric IQ Ontology (preview) items (read-only) from the CLI to ground an agent before it queries data. Explore, describe, and summarize what an ontol... | 42 |
