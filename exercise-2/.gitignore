@@ -1,5 +1,28 @@
-.DS_Store
+# Environment & Secrets
+.env
+.env.*
+!.env.example
+
+# Python
 __pycache__/
-logs/
+*.py[cod]
+*$py.class
+.venv/
+env/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Large Datasets
 *.xlsx
 data/
+*.csv
+
+# Logs & temp
+logs/
+prev/
+*.log
+
+# Local archives
+orig/
