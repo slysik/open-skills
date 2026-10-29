@@ -282,6 +282,14 @@
         "updated": "2026-06-25"
       },
       {
+        "name": "fabric-apps-rayfin",
+        "dir": "fabric-apps-rayfin",
+        "router_lines": 105,
+        "summary": "Build TypeScript backend apps that run on Microsoft Fabric as a managed Fabric App (MSSQL only) with the @microsoft/rayfin CLI (Rayfin): scaffold, model enti...",
+        "version": "0.1.0",
+        "updated": "2026-10-29"
+      },
+      {
         "name": "fabriciq",
         "dir": "fabriciq",
         "router_lines": 38,
@@ -597,9 +605,9 @@
     ]
   },
   "meta": {
-    "skills": 78,
-    "avg_router_lines": 63.4,
+    "skills": 79,
+    "avg_router_lines": 63.9,
     "routers_over_150": 0,
-    "total_lines": 118983
+    "total_lines": 119989
   }
 }
