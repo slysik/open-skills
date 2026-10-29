@@ -17,9 +17,9 @@
       {
         "name": "databricks-ai-functions",
         "dir": "databricks-ai-functions",
-        "router_lines": 180,
-        "summary": "Use Databricks built-in AI Functions (ai_classify, ai_extract, ai_summarize, ai_mask, ai_translate, ai_fix_grammar, ai_gen, ai_analyze_sentiment, ai_similari...",
-        "version": "0.2.0"
+        "router_lines": 182,
+        "summary": "Use Databricks built-in AI Functions (ai_classify, ai_decide, ai_extract, ai_summarize, ai_mask, ai_translate, ai_fix_grammar, ai_gen, ai_analyze_sentiment,...",
+        "version": "0.3.0"
       },
       {
         "name": "databricks-ai-runtime",
@@ -31,9 +31,9 @@
       {
         "name": "databricks-aibi-dashboards",
         "dir": "databricks-aibi-dashboards",
-        "router_lines": 574,
+        "router_lines": 310,
         "summary": "Create Databricks AI/BI dashboards. Must use when creating, updating, or deploying Lakeview dashboards as Databricks Dashboard have a unique json structure....",
-        "version": "0.2.1"
+        "version": "0.2.3"
       },
       {
         "name": "databricks-app-apx",
@@ -57,9 +57,9 @@
       {
         "name": "databricks-apps",
         "dir": "databricks-apps",
-        "router_lines": 262,
+        "router_lines": 241,
         "summary": "Build apps on Databricks Apps platform. Use when asked to create data apps, analytics tools, or custom interactive visualizations. A plain \"create a dashboar...",
-        "version": "0.1.3"
+        "version": "0.1.4"
       },
       {
         "name": "databricks-apps-python",
@@ -87,7 +87,7 @@
       {
         "name": "databricks-core",
         "dir": "databricks-core",
-        "router_lines": 165,
+        "router_lines": 166,
         "summary": "Databricks CLI operations and the parent/entry-point skill for Databricks CLI use: authentication, profile selection, and bundles. Load this first for CLI, a...",
         "version": "0.1.0"
       },
@@ -134,9 +134,9 @@
       {
         "name": "databricks-genie-agents",
         "dir": "databricks-genie-agents",
-        "router_lines": 44,
-        "summary": "Create, manage, and query Databricks Genie Agents — curated, per-data natural-language agents (formerly Genie Spaces): build, export/import, migrate across w...",
-        "version": "0.1.0"
+        "router_lines": 58,
+        "summary": "Create, manage, and query Databricks Genie Agents (formerly Genie Spaces): curated agents over Unity Catalog tables, Metric Views, and documents in UC volume...",
+        "version": "0.2.0"
       },
       {
         "name": "databricks-iceberg",
@@ -148,16 +148,16 @@
       {
         "name": "databricks-jobs",
         "dir": "databricks-jobs",
-        "router_lines": 409,
+        "router_lines": 353,
         "summary": "Develop and deploy Lakeflow Jobs on Databricks via DABs, Python SDK, or the CLI. Use when creating data engineering jobs with notebooks, Python wheels, SQL,...",
-        "version": "0.2.0"
+        "version": "0.3.0"
       },
       {
         "name": "databricks-lakebase",
         "dir": "databricks-lakebase",
-        "router_lines": 351,
+        "router_lines": 391,
         "summary": "Databricks Lakebase Postgres: projects, scaling, connectivity, Lakebase synced tables, and Data API. Use when asked about Lakebase databases, OLTP storage, o...",
-        "version": "0.1.0"
+        "version": "0.2.0"
       },
       {
         "name": "databricks-lakebase-autoscale",
@@ -176,7 +176,7 @@
       {
         "name": "databricks-lakeflow-connect",
         "dir": "databricks-lakeflow-connect",
-        "router_lines": 260,
+        "router_lines": 261,
         "summary": "Build managed ingestion pipelines into Databricks using Lakeflow Connect. Use when ingesting from SaaS apps (Salesforce, Workday Reports, ServiceNow, Google...",
         "version": "0.1.0"
       },
@@ -227,7 +227,7 @@
       {
         "name": "databricks-pipelines",
         "dir": "databricks-pipelines",
-        "router_lines": 268,
+        "router_lines": 154,
         "summary": "Develop Lakeflow Spark Declarative Pipelines (formerly Delta Live Tables) on Databricks. Use when building batch or streaming data pipelines with Python or S...",
         "version": "0.3.0"
       },
@@ -248,9 +248,9 @@
       {
         "name": "databricks-serverless-migration",
         "dir": "databricks-serverless-migration",
-        "router_lines": 847,
+        "router_lines": 277,
         "summary": "Migrate Databricks workloads from classic compute to serverless compute. Use when migrating notebooks, jobs, pipelines, or Scala JARs (`spark_jar_task`) from...",
-        "version": "0.1.0"
+        "version": "0.1.1"
       },
       {
         "name": "databricks-setup-local",
@@ -297,7 +297,7 @@
         "name": "databricks-unstructured-pdf-generation",
         "dir": "databricks-unstructured-pdf-generation",
         "router_lines": 134,
-        "summary": "Build RAG / unstructured-document evaluation datasets and demo documents (e.g. for Knowledge Assistant) on Databricks: generate synthetic PDFs locally, uploa...",
+        "summary": "Build RAG / unstructured-document evaluation datasets and demo documents (e.g. for a Genie Agent with an attached volume) on Databricks: generate synthetic P...",
         "version": "0.1.0"
       },
       {
@@ -310,14 +310,14 @@
       {
         "name": "databricks-zerobus-ingest",
         "dir": "databricks-zerobus-ingest",
-        "router_lines": 216,
+        "router_lines": 188,
         "summary": "Push records from apps, services, devices, or scripts directly into Unity Catalog Delta tables with Zerobus Ingest: SDKs (Python, TypeScript, Go, Java, Rust,...",
-        "version": "0.2.0"
+        "version": "0.2.1"
       },
       {
         "name": "mlflow-onboarding",
         "dir": "mlflow-onboarding",
-        "router_lines": 254,
+        "router_lines": 256,
         "summary": "Onboards users to MLflow by determining their use case (GenAI agents/apps or traditional ML/deep learning) and guiding them through relevant quickstart tutor..."
       }
     ],
@@ -449,8 +449,8 @@
       {
         "name": "fabriciq-ontology-cli",
         "dir": "fabriciq-ontology-cli",
-        "router_lines": 90,
-        "summary": "Manages Fabric IQ Ontology items, including entity and relationship types, data bindings, and definition updates, plus schema, lineage, grounding, and graph-..."
+        "router_lines": 98,
+        "summary": "Manages Fabric IQ Ontology items, including entity and relationship types, data bindings, and definition updates in both the old JSON format (generation 1, r..."
       },
       {
         "name": "fabriciq-ontology-consumption-cli",
@@ -800,8 +800,8 @@
   },
   "meta": {
     "skills": 115,
-    "avg_router_lines": 133.6,
+    "avg_router_lines": 125.0,
     "routers_over_150": 31,
-    "total_lines": 220885
+    "total_lines": 220671
   }
 }

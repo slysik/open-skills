@@ -414,10 +414,17 @@ line-length = 120
 
 **Solution**:
 ```bash
-pip install databricks-cli
-# or
-pip install --upgrade databricks-cli
+# macOS or Linux with Homebrew (official Databricks tap)
+brew tap databricks/tap
+brew install databricks
+
+# Upgrade an existing Homebrew installation
+brew upgrade databricks
 ```
+
+For Linux without Homebrew or Windows, use the current binary installer from
+https://docs.databricks.com/dev-tools/cli/install.html. Do not install the
+archived Python package named `databricks-cli`.
 
 ### "Invalid catalog name"
 

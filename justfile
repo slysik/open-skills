@@ -41,6 +41,14 @@ install-microsoft-ai harness="codex":
 install-foundry harness="codex":
     @bash install.sh --local --harness {{harness}} --platform foundry
 
+# Check upstream Databricks skills for updates.
+sync-databricks-check:
+    @python3 scripts/sync_databricks_skills.py
+
+# Sync upstream Databricks skills, apply updates, and rebuild catalog.
+sync-databricks:
+    @python3 scripts/sync_databricks_skills.py --apply
+
 # Rebuild generated catalog artifacts.
 catalog:
     @scripts/build_catalog.py --write

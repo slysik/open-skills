@@ -1,89 +1,134 @@
 ---
 name: databricks-unstructured-pdf-generation
-description: "Generate PDF documents from HTML and upload to Unity Catalog volumes. Use for creating test PDFs, demo documents, reports, or evaluation datasets."
-license: MIT
+description: "Build RAG / unstructured-document evaluation datasets and demo documents (e.g. for a Genie Agent with an attached volume) on Databricks: generate synthetic PDFs locally, upload to Unity Catalog volumes, and pair each document with test questions for retrieval evaluation."
+compatibility: Requires databricks CLI (>= v1.0.0)
 metadata:
-  author: slysik
-  version: "0.2.0"
-  updated: "2026-06-23"
+  version: "0.1.0"
+parent: databricks-core
 ---
 
-# PDF Generation from HTML
+# Unstructured-Document for Demos and Eval Datasets on Databricks
 
-Convert HTML content to PDF documents and upload them to Unity Catalog Volumes.
+Workflow for producing **synthetic PDF documents + paired test questions** as a Unity Catalog-resident dataset for Demos and RAG / unstructured-document retrieval evaluation on Databricks. The PDF-generation step uses standard local HTML → PDF tooling; the Databricks-specific value is the workflow shape — UC volume layout, paired question files, and integration with downstream Databricks retrieval / `ai_extract` / `ai_parse_document` evaluation.
 
-## Overview
+## Workflow
 
-The `generate_and_upload_pdf` MCP tool converts HTML to PDF and uploads to a Unity Catalog Volume. You (the LLM) generate the HTML content, and the tool handles conversion and upload.
+1. Write HTML files to `./raw_data/html/` (write multiple files in parallel for speed) — domain-shaped to match the documents your retrieval pipeline will see in production.
+2. Convert HTML → PDF using `<SKILL_ROOT>/scripts/pdf_generator.py` (parallel conversion, wraps `plutoprint`).
+3. Upload PDFs to a Unity Catalog volume via `databricks fs cp` — same volume shape your production pipeline will read from.
+4. Generate `./raw_data/pdf/pdf_eval_questions.json` pairing each document with retrieval-eval questions; this becomes the gold dataset for `mlflow.genai.evaluate()` or comparable retrieval-quality scorers.
 
-## Tool Signature
+> If you only need ad-hoc PDFs (no Databricks workflow), any HTML → PDF tool (`weasyprint`, `wkhtmltopdf`, `playwright pdf`, `plutoprint`) works directly — this skill exists for the synthetic-dataset-on-UC end-to-end shape, not as a general PDF generator.
 
+> **Path convention:** `<SKILL_ROOT>` below = the directory containing this SKILL.md. Resolve to the absolute install path (e.g. `~/.claude/skills/databricks-unstructured-pdf-generation`). `./raw_data/...` paths are relative to your own project cwd.
+
+## Dependencies
+
+```bash
+uv pip install plutoprint
 ```
-generate_and_upload_pdf(
-    html_content: str,      # Complete HTML document
-    filename: str,          # PDF filename (e.g., "report.pdf")
-    catalog: str,           # Unity Catalog name
-    schema: str,            # Schema name
-    volume: str = "raw_data",  # Volume name (default: "raw_data")
-    folder: str = None,     # Optional subfolder
-)
+
+## Step 1: Write HTML Files
+
+```bash
+mkdir -p ./raw_data/html
 ```
 
-**Returns:**
+Write HTML documents to `./raw_data/html/filename.html`. Use subdirectories to organize (structure is preserved).
+
+## Step 2: Convert to PDF
+
+```bash
+# Convert entire folder (parallel, 4 workers)
+python <SKILL_ROOT>/scripts/pdf_generator.py convert --input ./raw_data/html --output ./raw_data/pdf
+```
+
+Skips files where PDF exists and is newer than HTML. Use `--force` to reconvert all.
+
+## Step 3: Upload to Volume
+
+`databricks fs` requires the `dbfs:` scheme prefix even for UC Volume paths. `-r` copies the *contents* of the source directory into the target (the source directory name is not preserved), so name the target `raw_data/pdf` explicitly to keep the PDFs in their own folder on the volume. They land under `raw_data/pdf/` — i.e. `dbfs:/Volumes/my_catalog/my_schema/raw_data/pdf/report.pdf` — so an ingest pipeline can point at that single folder. **For a Genie Agent, upload to a dedicated managed volume instead** (e.g. `dbfs:/Volumes/my_catalog/my_schema/docs/`), because Genie indexes the *whole* volume, not a subfolder (see [databricks-genie-agents § Documents](../databricks-genie-agents/references/create-genie-agent.md#documents-uc-volumes)).
+
+```bash
+databricks fs cp -r --overwrite ./raw_data/pdf dbfs:/Volumes/my_catalog/my_schema/raw_data/pdf
+```
+
+## Step 4: Generate Test Questions
+
+Create `./raw_data/pdf/pdf_eval_questions.json` with questions for evaluating a Genie Agent (or a legacy Knowledge Assistant) over the PDFs. **Keep it out of a volume attached to a Genie Agent**: the whole volume is indexed, so the answers would leak into the agent's context (upload the PDFs before writing it, or `databricks fs rm` it from that volume):
+
 ```json
 {
-    "success": true,
-    "volume_path": "/Volumes/catalog/schema/volume/filename.pdf",
-    "error": null
+  "api_errors_guide.pdf": {
+    "question": "What is the solution for error ERR-4521?",
+    "expected_fact": "Call /api/v2/auth/refresh with refresh_token before the 3600s TTL expires"
+  },
+  "installation_manual.pdf": {
+    "question": "What port does the service use by default?",
+    "expected_fact": "Port 8443 for HTTPS, configurable via CONFIG_PORT environment variable"
+  }
 }
 ```
 
-## Quick Start
+Use it to build Agent-mode test cases (or Genie benchmarks) and validate retrieval accuracy.
 
-Generate a simple PDF:
+## Document Content Guidelines
+
+When generating documents for Genie Agent (document Q&A) testing or demos:
+
+- **Multi-page documents**: Each PDF should be several pages with substantial content
+- **Specific error codes and solutions**: Include product-specific error codes, causes, and resolution steps
+- **Technical details**: API endpoints, configuration parameters, version numbers, specific commands
+- **Simple CSS**: Keep styling minimal for fast HTML creation and reliable PDF conversion
+- **Queryable facts**: Include details the agent must read the document to answer (not general knowledge)
+
+**Good document types:**
+- Product user manuals with troubleshooting sections
+- API error reference guides (error codes, causes, solutions)
+- Installation/configuration guides with specific steps
+- Technical specifications with version-specific details
+
+**Example content:** Instead of generic "Connection failed" errors, write:
+- "Error ERR-4521: OAuth token expired. Cause: Token TTL exceeded 3600s default. Solution: Call `/api/v2/auth/refresh` with your refresh_token before expiration. See Section 4.2 for token lifecycle management."
+
+## CLI Reference
 
 ```
-generate_and_upload_pdf(
-    html_content='''<!DOCTYPE html>
-<html>
-<head>
-    <style>
-        body { font-family: Arial, sans-serif; margin: 40px; }
-        h1 { color: #1a73e8; border-bottom: 2px solid #1a73e8; padding-bottom: 10px; }
-        .section { margin: 20px 0; }
-    </style>
-</head>
-<body>
-    <h1>Quarterly Report Q1 2024</h1>
-    <div class="section">
-        <h2>Executive Summary</h2>
-        <p>Revenue increased 15% year-over-year...</p>
-    </div>
-</body>
-</html>''',
-    filename="q1_report.pdf",
-    catalog="my_catalog",
-    schema="my_schema"
-)
+python <SKILL_ROOT>/scripts/pdf_generator.py convert [OPTIONS]
+
+  --input, -i     Input HTML file or folder (required)
+  --output, -o    Output folder for PDFs (required)
+  --force, -f     Force reconvert (ignore timestamps)
+  --workers, -w   Parallel workers (default: 4)
 ```
 
-## When to load which sub-doc
+## Folder Structure
 
-| Sub-doc | Use when |
-|---|---|
-| [references/html-guide.md](references/html-guide.md) | Parallel multi-PDF generation, **HTML best practices**, common patterns (reports, tables, styling), and the multi-document workflow. |
+Subfolder structure is preserved:
 
-## Prerequisites
+```
+./raw_data/html/                    ./raw_data/pdf/
+├── report.html             →       ├── report.pdf
+├── quarterly/                      ├── quarterly/
+│   └── q1.html             →       │   └── q1.pdf
+└── legal/                          └── legal/
+    └── terms.html          →           └── terms.pdf
+```
 
-- Unity Catalog schema must exist
-- Volume must exist (default: `raw_data`)
-- User must have WRITE permission on the volume
+## Bundled Script
+
+This skill ships one helper script:
+
+| File | Description |
+|------|-------------|
+| [scripts/pdf_generator.py](scripts/pdf_generator.py) | HTML → PDF converter (wraps `plutoprint`); parallel folder conversion with timestamp-skip. Referenced by Step 2 and the CLI Reference. |
+
+The script ships at `<SKILL_ROOT>/scripts/pdf_generator.py`. If it is absent, recreate it from the [CLI Reference](#cli-reference) above (a `convert` subcommand taking `--input`/`--output`/`--force`/`--workers`, wrapping `plutoprint` for HTML → PDF).
 
 ## Troubleshooting
 
 | Issue | Solution |
 |-------|----------|
-| "Volume does not exist" | Create the volume first or use an existing one |
-| "Schema does not exist" | Create the schema or check the name |
-| PDF looks wrong | Check HTML/CSS syntax, use supported CSS features |
-| Slow generation | Call multiple PDFs in parallel, not sequentially |
+| "plutoprint not installed" | `uv pip install plutoprint` |
+| PDF looks wrong | Check HTML/CSS syntax |
+| "Volume does not exist" | `databricks volumes create CATALOG SCHEMA VOLUME_NAME MANAGED` (four separate positional args, not `catalog.schema.volume`) |

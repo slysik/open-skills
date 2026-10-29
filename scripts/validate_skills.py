@@ -85,7 +85,8 @@ def check_skill(skill_path: Path, strict_frontmatter: bool, max_router_lines: in
     if extra_keys and strict_frontmatter:
         issues.append(Issue("error", skill_path, f"extra frontmatter keys: {', '.join(extra_keys)}"))
 
-    if "package.json" in skill_path.read_text(encoding="utf-8"):
+    content = skill_path.read_text(encoding="utf-8")
+    if "package.json" in content and ("check-updates" in content or "update check" in content.lower()):
         issues.append(Issue("error", skill_path, "update check references package.json; use catalog.json metadata instead"))
 
     check_router_links(skill_path, issues)
