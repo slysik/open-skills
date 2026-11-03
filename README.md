@@ -4,12 +4,12 @@
 
 # Databricks · Microsoft Fabric · Snowflake — Agent Skills
 
-**79 production skills** that turn Claude Code, Codex, or pi into a data-platform engineer.
+**84 production skills** that turn Claude Code, Codex, or pi into a data-platform engineer.
 Build everything on **Databricks, Snowflake, and Microsoft Fabric** through CLIs and REST APIs —
 **no MCP, no UI, no glue code.**
 
-[![Skills](https://img.shields.io/badge/skills-79-FF3621)](#-skill-catalog)
-[![Avg router](https://img.shields.io/badge/avg_router-63.9_lines-29B5E8)](#-how-these-skills-are-optimized)
+[![Skills](https://img.shields.io/badge/skills-84-FF3621)](#-skill-catalog)
+[![Avg router](https://img.shields.io/badge/avg_router-62.0_lines-29B5E8)](#-how-these-skills-are-optimized)
 [![Harness](https://img.shields.io/badge/harness-Claude_Code_·_Codex_·_pi-11A37F)](#-works-with-your-agent)
 [![Architecture](https://img.shields.io/badge/architecture-CLI_+_REST,_no_MCP-555)](#-design-principles)
 [![Landing](https://img.shields.io/badge/landing-GitHub_Pages-8b5cf6)](https://slysik.github.io/open-skills/)
@@ -25,7 +25,7 @@ Build everything on **Databricks, Snowflake, and Microsoft Fabric** through CLIs
 Each install command copies skills into **one** harness. It does **not**
 automatically make them available in all three tools at once.
 
-Installs **all 79 skills** into Codex:
+Installs **all 84 skills** into Codex:
 
 ```bash
 just install-open-skills
@@ -60,7 +60,7 @@ just list
 
 | Flag | Effect |
 |---|---|
-| *(none)* | install all 79 skills |
+| *(none)* | install all 84 skills |
 | `--platform databricks\|fabric\|snowflake\|foundry` | install one platform group (repeatable; aliases include `databricks-ai`, `snowflake-ai`, `microsoft-ai`, `dbx`, `snow`, and `ai-foundry`) |
 | `<skill-name> …` | install named skills only |
 | `--harness claude\|codex\|pi` | choose target agent (auto-detected by default) |
@@ -115,13 +115,13 @@ trigger the `snowflake` router skill, which then routes to `snowflake-cortex`,
 
 Every skill was rewritten to a measured standard, not vibes:
 
-- **Thin-router architecture** — `SKILL.md` is a *router*, not a manual. Average **63.9 lines** (target < 100, hard cap 150). 79 of 79 routers are under 150.
+- **Thin-router architecture** — `SKILL.md` is a *router*, not a manual. Average **62.0 lines** (target < 100, hard cap 150). 84 of 84 routers are under 150.
 - **Progressive disclosure** — the router loads only a concept map + a "load which sub-doc" table. Heavy detail lives in `references/` and is pulled into context **only when the task needs it**, so a typical invocation reads tens of lines instead of thousands.
 - **CLI-first, REST-second, MCP-never** — vendor CLI / REST is the only required path. No MCP servers to install, register, or keep alive. (One Databricks skill was rewritten specifically because it wrongly mandated an MCP tool that registered zero tools.)
 - **Connection contract** — every auth doc follows the same 4 headings: *Interactive · Service principal · Verify · Troubleshoot* — so the agent never guesses how to authenticate.
 - **Preservation-tested trims** — routers were shrunk by moving body to `references/` *verbatim*; an automated check proves no command or code line was lost in the process.
 
-**Suite totals:** 79 skills · 63.9 avg router lines · 119,989 total lines of curated playbook.
+**Suite totals:** 84 skills · 62.0 avg router lines · 124,045 total lines of curated playbook.
 
 > **Adding more skills.** New skills are added through the **same open-skills agent-harness optimization framework** — drop a thin-router `SKILL.md` (+ `references/`) under `skills/<platform>/<skill>/`, run `scripts/build_catalog.py` to refresh `catalog.json`, and `scripts/validate_skills.py` to enforce the router-line / preservation contract. The self-healing runtime (`_runtime/` + per-skill `scripts/sense-state · verify-auth · diagnose-error · assert · generate-blueprint`) and the one-step installer pick the new skill up automatically — no bespoke wiring. Every skill ships to every harness (Claude Code · Codex · pi) the same way.
 
@@ -227,18 +227,23 @@ Every skill was rewritten to a measured standard, not vibes:
 </details>
 
 
-### Snowflake (4)
+### Snowflake (9)
 
 *Cortex AI · Snowpark · Kafka · Dynamic Tables*
 
 <details>
-<summary><b>Show 4 skills</b></summary>
+<summary><b>Show 9 skills</b></summary>
 
 | Skill | What it does | Router |
 |---|---|---|
 | `snowflake` | Route high-level Snowflake work to the right Open Skills Snowflake skill. Use whenever the user mentions Snowflake, Snowflake SQL, warehouses, databases, sch... | 33 |
+| `check-model-availability` | Use when asked about Snowflake Cortex model availability, checking model status, verifying deployment readiness, or understanding differences between base an... | 31 |
 | `cortex-code` | Routes Snowflake-related operations to Cortex Code CLI for specialized Snowflake expertise. Use when user asks about Snowflake databases, data warehouses, SQ... | 57 |
+| `migrate-snowsql` | Use for Snowflake SnowsQL migration tasks: convert SnowsQL scripts, stored procedures, to Snowflake CLI, automate refactoring workflows, validate migrations,... | 31 |
+| `rbac` | Use for Snowflake RBAC architecture, role design, hierarchy planning, and governance. Triggers: role hierarchy, RBAC design, permission architect, data acces... | 31 |
+| `semantic-view-patterns` | Use when learning Snowflake Semantic View patterns, teaching SV concepts, applying patterns to existing SVs, or building new SVs with best practices. Trigger... | 33 |
 | `snowflake-cortex` | Build Snowflake objects (databases, schemas, warehouses, tables, stages, streams, tasks, dynamic tables, RBAC) and design Snowflake Cortex AI workloads (LLM... | 85 |
+| `snowflake-docs` | Use for ALL Snowflake documentation lookups: feature questions, SQL syntax, best practices, how-to guides, configuration, and troubleshooting. This is the re... | 27 |
 | `snowflake-kafka` | Build, configure, debug, and explain the Snowflake Kafka Connector — both the classic v3 file-based Snowpipe path and the v4 Snowpipe Streaming path. Use whe... | 75 |
 
 </details>
