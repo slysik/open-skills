@@ -60,7 +60,7 @@ h1 .g{background:var(--grad);-webkit-background-clip:text;background-clip:text;c
 .install{max-width:760px;margin:34px auto 8px;text-align:left}
 .install .lab{font-size:12.5px;color:var(--faint);margin:0 0 8px;letter-spacing:.04em}
 .cmd{display:flex;align-items:center;gap:14px;background:var(--code);border:1px solid var(--line);border-radius:14px;padding:16px 18px;box-shadow:0 14px 36px -24px rgba(20,50,100,.25)}
-.cmd code{font-size:14px;color:var(--codeink);overflow-x:auto;white-space:nowrap;flex:1}
+.cmd code{white-space:pre;font-size:14px;color:var(--codeink);overflow-x:auto;white-space:pre;flex:1}
 .cmd code .p{color:var(--codemute)}
 .cmd code .g2{color:var(--fab)}
 .copy{flex:none;border:1px solid var(--line);background:var(--panel2);color:var(--ink);border-radius:9px;padding:8px 14px;font-size:13px;font-weight:600;cursor:pointer}
@@ -182,17 +182,18 @@ footer .wrap{display:flex;flex-wrap:wrap;gap:16px;align-items:center;justify-con
   <p class="sub"><b id="hcount">84</b> production agent skills that turn <b>Claude Code</b>, <b>Codex</b>, or <b>pi</b> into a data &amp; AI platform engineer — warehouses, Cortex AI, lakehouses, pipelines, AI functions, dashboards, and <b>Microsoft Foundry agents</b>, all driven through the terminal.</p>
 
   <div class="install">
-    <p class="lab">▸ Install everything in one step</p>
+    <p class="lab">▸ Install the Snowflake skills — needs <a href="https://github.com/casey/just" target="_blank" rel="noopener"><code>just</code></a></p>
     <div class="cmd">
-      <code id="cmd"><span class="p">curl -fsSL</span> https://raw.githubusercontent.com/slysik/open-skills/main/install.sh <span class="p">|</span> <span class="g2">bash</span></code>
+      <code id="cmd"><span class="p">git clone</span> https://github.com/slysik/open-skills <span class="p">&amp;&amp;</span> <span class="p">cd</span> open-skills
+<span class="g2">just</span> install-snowflake claude</code>
       <button class="copy" id="copy">Copy</button>
     </div>
-    <p class="hint">Want a subset? <code>… | bash -s -- --platform snowflake</code> &nbsp;·&nbsp; <code>… -- databricks-genie</code> &nbsp;·&nbsp; <code>… --list</code></p>
+    <p class="hint"><code>just install-databricks claude</code> &nbsp;·&nbsp; <code>just install-microsoft-ai claude</code> &nbsp;·&nbsp; <code>just list</code> &nbsp;·&nbsp; swap <code>claude</code> for <code>codex</code> or <code>pi</code></p>
   </div>
 
   <!-- ===== Skill Combinator wizard: platform -> solution -> harness -> command ===== -->
   <div class="install" id="wizard" style="margin-top:18px">
-    <p class="lab">▸ Build your install — pick platform · solution · harness</p>
+    <p class="lab">▸ Build your command — pick platform · solution · harness</p>
     <div style="display:flex;gap:10px;flex-wrap:wrap;margin:6px 0 12px">
       <select id="w-platform" style="flex:1;min-width:150px;padding:9px 10px;background:#fff;color:var(--ink);border:1px solid var(--line);border-radius:8px;font:inherit"></select>
       <select id="w-solution" style="flex:1;min-width:150px;padding:9px 10px;background:#fff;color:var(--ink);border:1px solid var(--line);border-radius:8px;font:inherit"></select>
@@ -206,7 +207,7 @@ footer .wrap{display:flex;flex-wrap:wrap;gap:16px;align-items:center;justify-con
       <code id="wcmd"></code>
       <button class="copy" id="wcopy">Copy</button>
     </div>
-    <p class="hint">Self-healing runtime (<code>sense-state · verify-auth · diagnose-error · assert</code>) ships with every install. <code>--verify</code> checks auth on the spot.</p>
+    <p class="hint">Run it inside your clone. Self-healing runtime (<code>sense-state · verify-auth · diagnose-error · assert</code>) ships with every install.</p>
   </div>
 
   <script>
@@ -227,7 +228,7 @@ footer .wrap{display:flex;flex-wrap:wrap;gap:16px;align-items:center;justify-con
                    ["eventstream","Real-time Eventstream","eventstream-authoring-cli"]],
       foundry:    [["all","Everything (all Foundry skills)","foundry"]]
     };
-    var BASE = "curl -fsSL https://raw.githubusercontent.com/slysik/open-skills/main/install.sh | bash -s --";
+    var PLAT = {snowflake:"just install-snowflake", databricks:"just install-databricks", fabric:"just install-platform fabric", foundry:"just install-foundry"};
     var p = document.getElementById("w-platform"),
         s = document.getElementById("w-solution"),
         h = document.getElementById("w-harness"),
@@ -240,11 +241,9 @@ footer .wrap{display:flex;flex-wrap:wrap;gap:16px;align-items:center;justify-con
       SOL[p.value].forEach(function(t){ var o=document.createElement("option"); o.value=t[0]; o.dataset.token=t[2]; o.dataset.kind=(t[0]==="all"?"platform":"skill"); o.textContent=t[1]; s.appendChild(o); });
     }
     function render(){
-      var opt=s.options[s.selectedIndex]; var cmd=BASE;
-      if(opt.dataset.kind==="platform"){ cmd+=" --platform "+opt.dataset.token; }
-      else { cmd+=" "+opt.dataset.token; }
-      if(h.value!=="claude"){ cmd+=" --harness "+h.value; }
-      cmd+=" --verify";
+      var opt=s.options[s.selectedIndex], cmd;
+      if(opt.dataset.kind==="platform"){ cmd=PLAT[p.value]+" "+h.value; }
+      else { cmd="just install --harness "+h.value+" "+opt.dataset.token; }
       out.textContent=cmd;
     }
     p.addEventListener("change",function(){fillSolutions();render();});
@@ -320,25 +319,25 @@ footer .wrap{display:flex;flex-wrap:wrap;gap:16px;align-items:center;justify-con
 <section id="harness"><div class="wrap">
   <div class="eyebrow">Bring your own agent</div>
   <h2>Works with Claude Code, Codex &amp; pi</h2>
-  <p class="lead">Plain skill folders (<code>SKILL.md</code> + <code>references/</code>) — portable across harnesses. The installer auto-detects yours, or pass <code>--harness</code>.</p>
+  <p class="lead">Plain skill folders (<code>SKILL.md</code> + <code>references/</code>) — portable across harnesses. Name yours as the last argument to the <code>just</code> recipe.</p>
   <div class="hgrid">
     <div class="hcard"><h4>Claude Code</h4><span class="path">~/.claude/skills/</span><p>Auto-detected. Restart Claude Code or run <code>/doctor</code> to load the new skills.</p></div>
     <div class="hcard"><h4>Codex</h4><span class="path">~/.codex/skills/</span><p>Static copies — re-run the installer after upstream updates to refresh.</p></div>
     <div class="hcard"><h4>pi</h4><span class="path">~/.agents/skills/</span><p>Loaded automatically on the next run. Nothing else to configure.</p></div>
   </div>
-  <div class="codeblock"><pre><span class="c"># simple product groups</span>
-just install databricks-ai
-just install snowflake-ai
-just install microsoft-ai
+  <div class="codeblock"><pre><span class="c"># once</span>
+git clone https://github.com/slysik/open-skills &amp;&amp; cd open-skills
 
-<span class="c"># one platform group, remote install</span>
-curl -fsSL .../install.sh | <span class="g2">bash</span> -s -- snowflake-ai
+<span class="c"># one platform</span>
+<span class="g2">just</span> install-snowflake claude
+<span class="g2">just</span> install-databricks claude
+<span class="g2">just</span> install-platform fabric claude
 
 <span class="c"># a single skill, into Codex</span>
-curl -fsSL .../install.sh | <span class="g2">bash</span> -s -- --harness codex databricks-genie
+<span class="g2">just</span> install --harness codex databricks-genie
 
-<span class="c"># mix and match — repeat --platform, name skills, or both</span>
-curl -fsSL .../install.sh | <span class="g2">bash</span> -s -- snowflake-ai databricks-jobs</pre></div>
+<span class="c"># browse everything first</span>
+<span class="g2">just</span> list</pre></div>
 </div></section>
 
 <hr class="divider"/>
@@ -425,7 +424,7 @@ curl -fsSL .../install.sh | <span class="g2">bash</span> -s -- snowflake-ai data
   // copy
   var copyBtn=document.getElementById("copy");
   copyBtn.addEventListener("click",function(){
-    var txt="curl -fsSL https://raw.githubusercontent.com/slysik/open-skills/main/install.sh | bash";
+    var txt="git clone https://github.com/slysik/open-skills && cd open-skills\njust install-snowflake claude";
     navigator.clipboard.writeText(txt).then(function(){
       copyBtn.textContent="Copied ✓"; copyBtn.classList.add("ok");
       setTimeout(function(){copyBtn.textContent="Copy";copyBtn.classList.remove("ok");},1800);
