@@ -476,11 +476,43 @@
         "updated": "2026-06-26"
       },
       {
+        "name": "check-model-availability",
+        "dir": "check-model-availability",
+        "router_lines": 31,
+        "summary": "Use when asked about Snowflake Cortex model availability, checking model status, verifying deployment readiness, or understanding differences between base an...",
+        "version": "1.0.0",
+        "updated": "2026-06-28"
+      },
+      {
         "name": "cortex-code",
         "dir": "cortex-code",
         "router_lines": 57,
         "summary": "Routes Snowflake-related operations to Cortex Code CLI for specialized Snowflake expertise. Use when user asks about Snowflake databases, data warehouses, SQ...",
         "version": "1.0.0"
+      },
+      {
+        "name": "migrate-snowsql",
+        "dir": "migrate-snowsql",
+        "router_lines": 31,
+        "summary": "Use for Snowflake SnowsQL migration tasks: convert SnowsQL scripts, stored procedures, to Snowflake CLI, automate refactoring workflows, validate migrations,...",
+        "version": "1.0.0",
+        "updated": "2026-06-28"
+      },
+      {
+        "name": "rbac",
+        "dir": "rbac",
+        "router_lines": 31,
+        "summary": "Use for Snowflake RBAC architecture, role design, hierarchy planning, and governance. Triggers: role hierarchy, RBAC design, permission architect, data acces...",
+        "version": "1.0.0",
+        "updated": "2026-06-28"
+      },
+      {
+        "name": "semantic-view-patterns",
+        "dir": "semantic-view-patterns",
+        "router_lines": 33,
+        "summary": "Use when learning Snowflake Semantic View patterns, teaching SV concepts, applying patterns to existing SVs, or building new SVs with best practices. Trigger...",
+        "version": "1.0.0",
+        "updated": "2026-06-28"
       },
       {
         "name": "snowflake-cortex",
@@ -489,6 +521,14 @@
         "summary": "Build Snowflake objects (databases, schemas, warehouses, tables, stages, streams, tasks, dynamic tables, RBAC) and design Snowflake Cortex AI workloads (LLM...",
         "version": "0.2.0",
         "updated": "2026-06-23"
+      },
+      {
+        "name": "snowflake-docs",
+        "dir": "snowflake-docs",
+        "router_lines": 27,
+        "summary": "Use for ALL Snowflake documentation lookups: feature questions, SQL syntax, best practices, how-to guides, configuration, and troubleshooting. This is the re...",
+        "version": "1.0.0",
+        "updated": "2026-06-28"
       },
       {
         "name": "snowflake-kafka",
@@ -605,9 +645,9 @@
     ]
   },
   "meta": {
-    "skills": 79,
-    "avg_router_lines": 63.9,
+    "skills": 84,
+    "avg_router_lines": 62.0,
     "routers_over_150": 0,
-    "total_lines": 119989
+    "total_lines": 124045
   }
 }
